@@ -1,5 +1,50 @@
+<style>
+  body {
+    background: #0d1f12;
+    color: #f0f0f0;
+    font-family: Georgia, serif;
+  }
+  h1 {
+    background: #16331c;
+    color: #fff;
+    border: 3px solid #4c9a5a;
+    padding: 12px;
+    text-align: center;
+    border-radius: 6px;
+  }
+  a {
+    color: #7fd88f;
+  }
+  a:hover {
+    color: #a8f0b8;
+    text-decoration: underline;
+  }
+  pre {
+    background: #16331c;
+    border: 1px solid #4c9a5a;
+    padding: 8px;
+    color: #f0f0f0;
+  }
+  input, textarea {
+    background: #16331c;
+    color: #fff;
+    border: 1px solid #4c9a5a;
+    border-radius: 4px;
+  }
+
+  /* New: a reusable class, a third way to apply CSS besides inline and id */
+  .highlightBox {
+    background: #1f3d26;
+    border: 2px dashed #4c9a5a;
+    color: #d9f0d9;
+    padding: 10px;
+    width: 250px;
+    margin-top: 10px;
+  }
+</style>
+
 <body>
-  Version 0.0.1</br>
+  Version 0.0.1<br>
   <h1 align="center">T1A04 CSS by Sara 2026</h1>
 
   Refrence Link
@@ -32,7 +77,7 @@
   <br><br>
 
   <textarea style="
-    background-image: https://wallpapercave.com/wp/wp7917988.jpg('myImgNew.jpg');
+    background-image: url('https://wallpapercave.com/wp/wp7917988.jpg');
     position: relative;
     left: 0;
     top: 0;
@@ -43,5 +88,10 @@ Advanced see if you move this textarea</textarea>
 
   <br><br><br><br><br><br><br><br><br><br><br><br>
 
-  <img src="myImage01.jpg" width="200" style="border-radius:200px">
+ <img src="https://images.unsplash.com/photo-1574086000836-781e5cacc182?fm=jpg&q=60&w=800&auto=format&fit=crop" width="200" style="border-radius:200px">
+<br><br>
+  A third way to do CSS: using a class (reusable on multiple elements) <br>
+  <div class="highlightBox">
+    This box is styled using a CSS class instead of inline or id styling.
+  </div>
 </body>
