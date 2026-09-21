@@ -1,8 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>t1a03-forms-sara.html</title>
 <style>
   body {
     background: #1a0a0d;
     color: #eee;
     font-family: Georgia, serif;
+    padding: 20px;
   }
   h1, h3 {
     background: #6d071a;
@@ -16,49 +22,89 @@
   form {
     border: 2px solid #ff4d6d;
     background: #2a0f14;
-    padding: 20px;
+    padding: 25px;
     border-radius: 8px;
-    max-width: 500px;
+    max-width: 550px;
+  }
+  fieldset {
+    border: 1px solid #ff4d6d;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    padding: 15px;
+  }
+  legend {
+    color: #ff4d6d;
+    font-weight: bold;
+    padding: 0 5px;
   }
   input, select, textarea {
     background: #3d1620;
     color: #fff;
     border: 1px solid #ff4d6d;
     border-radius: 4px;
-    padding: 4px;
+    padding: 6px;
+    margin: 4px 0;
+  }
+  input[type="button"], input[type="submit"], input[type="reset"] {
+    cursor: pointer;
+    background: #6d071a;
+    font-weight: bold;
+  }
+  input[type="button"]:hover, input[type="submit"]:hover {
+    background: #ff4d6d;
+    color: #1a0a0d;
   }
 </style>
+</head>
+<body>
 
-<h6>Version 0.0.1</h6>
+<h6>Version 0.2.0 - Upgraded</h6>
 <h1>t1a03-forms-sara.html</h1>
-<h3>Proving that you can use: Forms 2026</h3><br>
+<h3>Proving that you can use: Advanced HTML5 Forms (2026)</h3><br>
 
-The following are all form elements (add to them): <br>
 <form>
-  Sara:<input type="text" id="myText01" value="sara"> <br>
 
-  Checkbox: <br>
-  Beef: <input type="checkbox" id="myCheck01"><br>
-  Veggy: <input type="checkbox" id="myCheck02"><br>
+  <label for="myText01">Sara:</label>
+  <input type="text" id="myText01" value="sara"><br><br>
 
-  Radio Buttons: <br>
-  95.4 <input type="radio" name="myRad01" value="95.4"><br>
-  101 <input type="radio" name="myRad01" value="101"><br>
+  <fieldset>
+    <legend>Dietary Preferences (Checkboxes)</legend>
+    <label><input type="checkbox" id="myCheck01"> Beef</label><br>
+    <label><input type="checkbox" id="myCheck02"> Veggie</label>
+  </fieldset>
 
-  Hidden: <input type="hidden"><br>
-  File: <input type="file"><br>
-  Reset: <input type="reset"><br>
-  Submit (advanced): <input type="submit"><br>
+  <fieldset>
+    <legend>Radio Stations</legend>
+    <label><input type="radio" name="myRad01" value="95.4"> 95.4 FM</label><br>
+    <label><input type="radio" name="myRad01" value="101"> 101 FM</label>
+  </fieldset>
 
-  Button: <input type="button" value="click" onclick="document.getElementById('myArea01').value='Cool'"><br>
 
-  Textarea: <br>
-  <textarea id="myArea01" cols="60" rows="5">Cool this works</textarea><br>
+  <fieldset>
+    <legend>Modern HTML5 Inputs</legend>
+    <label>Favorite Color: <input type="color" id="myColor" value="#ff4d6d"></label><br>
+    <label>Date: <input type="date" id="myDate"></label><br>
+    <label>Volume/Range: <input type="range" id="myRange" min="1" max="10"></label>
+  </fieldset>
 
-  Select Box: <br>
-  <select id="mySelect01" size="2" onchange="document.getElementById('myArea01').value = document.getElementById('mySelect01').value">
+  <input type="hidden" id="hiddenData" value="secret_value">
+  <label>Upload File: <input type="file"></label><br><br>
+
+  <label for="mySelect01">Select Box:</label><br>
+  <select id="mySelect01" size="3" onchange="document.getElementById('myArea01').value = document.getElementById('mySelect01').value">
     <option value="myDog">Dog</option>
     <option value="myCat">Cat</option>
     <option value="myMouse">Mouse</option>
-  </select>
+  </select><br><br>
+
+  <label for="myArea01">Textarea Output:</label><br>
+  <textarea id="myArea01" cols="50" rows="4">Cool this works</textarea><br><br>
+
+
+  <input type="button" value="Click Me" onclick="document.getElementById('myArea01').value='Cool, upgraded!'">
+  <input type="reset" value="Reset Form">
+  <input type="submit" value="Submit">
 </form>
+
+</body>
+</html>
