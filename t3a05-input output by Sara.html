@@ -1,10 +1,79 @@
-<h2 align=center>t3a05-input output by Sara.html</h2>
-<a href="https://www.w3schools.com/jsref/prop_html_innerhtml.asp"> Good reference to Javascript innerHTML value by Fred </a>
-<h4> Example input output code <h/4> 
-  <pre>
-    <h4> Example working code </h4>
-    <input id="myNum01" type=number value="4" ><br>
-    <input type=button value="myEvent squares" onclick="{let myIn01 = parseFloat (document.getElementbyId ('myNum01'). value) let myAnswer = myIn01* myIn01 document.getElementById ('myDiv01'). innerHTML=myIn01 + 'squared = ' + myAnswer }"> <br>
+<h1>t3a05 Input Output by Sara</h1>
 
-    <div id= "myDiv01"></div>
-    
+<p>
+  <a href="https://www.w3schools.com/jsref/prop_html_innerhtml.asp" target="_blank">
+    Good reference to Javascript innerHTML value by Fred
+  </a>
+</p>
+
+<h2>Warm up - the given example (fixed)</h2>
+
+<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
+  <h3 style="color:#ffffff; margin-top:0;">1. Square a number</h3>
+  <p style="color:#aaaaaa; font-size:14px;">Fixed bugs: getElementbyId was spelled wrong, there was a space inside parseFloat, and semicolons were missing.</p>
+  <input id="myNum01" type="number" value="4">
+  <input type="button" value="Square it" onclick="let myIn01 = parseFloat(document.getElementById('myNum01').value); let myAnswer = myIn01 * myIn01; document.getElementById('myDiv01').innerHTML = myIn01 + ' squared = ' + myAnswer;">
+  <div id="myDiv01" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
+</div>
+
+<h2>Extra tasks</h2>
+
+<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
+  <h3 style="color:#ffffff; margin-top:0;">2. Add two numbers</h3>
+  <input id="addA" type="number" value="12">
+  <input id="addB" type="number" value="30">
+  <input type="button" value="Add" onclick="let a = parseFloat(document.getElementById('addA').value); let b = parseFloat(document.getElementById('addB').value); document.getElementById('addOut').innerHTML = a + ' + ' + b + ' = ' + (a + b);">
+  <div id="addOut" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
+</div>
+
+<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
+  <h3 style="color:#ffffff; margin-top:0;">3. Celsius to Fahrenheit</h3>
+  <input id="tempC" type="number" value="20">
+  <input type="button" value="Convert" onclick="let c = parseFloat(document.getElementById('tempC').value); let f = (c * 9 / 5) + 32; document.getElementById('tempOut').innerHTML = c + ' C = ' + f + ' F';">
+  <div id="tempOut" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
+</div>
+
+<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
+  <h3 style="color:#ffffff; margin-top:0;">4. Even or odd</h3>
+  <input id="evenNum" type="number" value="7">
+  <input type="button" value="Check" onclick="let n = parseFloat(document.getElementById('evenNum').value); let result = 'odd'; if (n % 2 === 0) { result = 'even'; } document.getElementById('evenOut').innerHTML = n + ' is ' + result;">
+  <div id="evenOut" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
+</div>
+
+<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
+  <h3 style="color:#ffffff; margin-top:0;">5. Reverse a string</h3>
+  <input id="revText" type="text" value="Sara">
+  <input type="button" value="Reverse" onclick="let text = document.getElementById('revText').value; let reversed = text.split('').reverse().join(''); document.getElementById('revOut').innerHTML = text + ' reversed = ' + reversed;">
+  <div id="revOut" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
+</div>
+
+<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
+  <h3 style="color:#ffffff; margin-top:0;">6. Count the characters</h3>
+  <input id="lenText" type="text" value="JavaScript">
+  <input type="button" value="Count" onclick="let text = document.getElementById('lenText').value; document.getElementById('lenOut').innerHTML = text + ' has ' + text.length + ' characters';">
+  <div id="lenOut" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
+</div>
+
+<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
+  <h3 style="color:#ffffff; margin-top:0;">7. Upper case and lower case</h3>
+  <input id="caseText" type="text" value="Marvel">
+  <input type="button" value="Convert" onclick="let text = document.getElementById('caseText').value; document.getElementById('caseOut').innerHTML = 'UPPER: ' + text.toUpperCase() + ' | lower: ' + text.toLowerCase();">
+  <div id="caseOut" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
+</div>
+
+<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
+  <h3 style="color:#ffffff; margin-top:0;">8. BMI calculator</h3>
+  <input id="bmiW" type="number" value="65"> weight in kg
+  <br><br>
+  <input id="bmiH" type="number" value="1.7" step="0.01"> height in m
+  <br><br>
+  <input type="button" value="Calculate" onclick="let w = parseFloat(document.getElementById('bmiW').value); let h = parseFloat(document.getElementById('bmiH').value); let bmi = w / (h * h); document.getElementById('bmiOut').innerHTML = 'BMI = ' + bmi.toFixed(1);">
+  <div id="bmiOut" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
+</div>
+
+<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
+  <h3 style="color:#ffffff; margin-top:0;">9. Times table</h3>
+  <input id="tableNum" type="number" value="6">
+  <input type="button" value="Build table" onclick="let n = parseFloat(document.getElementById('tableNum').value); let lines = ''; for (let i = 1; i <= 10; i++) { lines = lines + n + ' x ' + i + ' = ' + (n * i) + '<br>'; } document.getElementById('tableOut').innerHTML = lines;">
+  <div id="tableOut" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
+</div>
