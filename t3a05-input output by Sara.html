@@ -1,280 +1,68 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>t3a05 Input Output by Sara</title>
+<title>Input Output by Sara</title>
 <style>
-body {
-  background-color: #0a0a0a;
-  color: #eeeeee;
-  font-family: Arial, sans-serif;
-  max-width: 650px;
-  margin: 40px auto;
-  padding: 0 20px;
-}
-
-
-.title-frame {
-  position: relative;
-  border: 1px solid #333333;
-  border-radius: 10px;
-  padding: 28px 20px;
-  margin-bottom: 30px;
-  background-color: #0f0f0f;
-}
-
-h1 {
-  margin: 0;
-  text-align: center;
-  letter-spacing: 1px;
-  color: #ffffff;
-}
-
-.led-row {
-  position: absolute;
-  display: flex;
-  gap: 10px;
-}
-.led-row.top    { top: -6px;    left: 16px; right: 16px; justify-content: space-between; }
-.led-row.bottom { bottom: -6px; left: 16px; right: 16px; justify-content: space-between; }
-.led-row.left   { top: 16px; bottom: 16px; left: -6px; flex-direction: column; justify-content: space-between; }
-.led-row.right  { top: 16px; bottom: 16px; right: -6px; flex-direction: column; justify-content: space-between; }
-
-.led-row span {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: #444444;
-  box-shadow: 0 0 4px #222222;
-  animation: blink 2.4s infinite;
-}
-
-
-.led-row span:nth-child(5n+1) { background-color: #ff4d4d; }
-.led-row span:nth-child(5n+2) { background-color: #ffd24d; }
-.led-row span:nth-child(5n+3) { background-color: #4dff88; }
-.led-row span:nth-child(5n+4) { background-color: #4db8ff; }
-.led-row span:nth-child(5n+5) { background-color: #c94dff; }
-
-.led-row span:nth-child(1)  { animation-delay: 0.0s; }
-.led-row span:nth-child(2)  { animation-delay: 0.2s; }
-.led-row span:nth-child(3)  { animation-delay: 0.4s; }
-.led-row span:nth-child(4)  { animation-delay: 0.6s; }
-.led-row span:nth-child(5)  { animation-delay: 0.8s; }
-.led-row span:nth-child(6)  { animation-delay: 1.0s; }
-.led-row span:nth-child(7)  { animation-delay: 1.2s; }
-.led-row span:nth-child(8)  { animation-delay: 1.4s; }
-
-@keyframes blink {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 1; box-shadow: 0 0 10px currentColor; }
-}
-
-.task {
-  position: relative;
-  background-color: #161616;
-  border: 1px solid #333333;
-  border-radius: 8px;
-  padding: 14px 18px;
-  margin-bottom: 16px;
-}
-
-.led {
-  position: absolute;
-  top: 14px;
-  right: 16px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: #333333;
-  box-shadow: 0 0 4px #000000 inset;
-}
-.led.on {
-  background-color: #4dff88;
-  box-shadow: 0 0 8px #4dff88, 0 0 16px #4dff88;
-}
-
-.task h3 {
-  margin-top: 0;
-  color: #ffffff;
-}
-
-input[type=number], input[type=text] {
-  background-color: #000000;
-  color: #ffffff;
-  border: 1px solid #555555;
-  border-radius: 4px;
-  padding: 6px 10px;
-  margin-right: 6px;
-}
-
-input[type=button] {
-  background-color: #262626;
-  color: #ffffff;
-  border: 1px solid #777777;
-  border-radius: 4px;
-  padding: 6px 14px;
-  cursor: pointer;
-}
-input[type=button]:hover {
-  background-color: #383838;
-  border-color: #aaaaaa;
-}
-
-.output {
-  margin-top: 10px;
-  padding: 8px 10px;
-  background-color: #000000;
-  border: 1px dashed #555555;
-  border-radius: 4px;
-  color: #999999;
-}
-.output.filled {
-  color: #4dff88;
-  border: 1px solid #4dff88;
-  box-shadow: 0 0 6px rgba(77, 255, 136, 0.4);
-}
+  body { background: #0a0a0a; color: #eee; font-family: Arial; max-width: 600px; margin: 40px auto; padding: 20px; }
+  .task { background: #141414; border: 1px solid #33; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+  input, button { background: #000; color: #fff; border: 1px solid #55; padding: 6px; margin: 4px; border-radius: 4px; }
+  button { cursor: pointer; background: #222; }
+  button:hover { background: #444; }
+  .output { margin-top: 8px; padding: 6px; background: #000; border: 1px dashed #444; color: #4df; }
 </style>
 </head>
 <body>
 
-<div class="title-frame">
-  <div class="led-row top">
-    <span></span><span></span><span></span><span></span><span></span><span></span>
-  </div>
-  <div class="led-row bottom">
-    <span></span><span></span><span></span><span></span><span></span><span></span>
-  </div>
-  <div class="led-row left">
-    <span></span><span></span><span></span><span></span>
-  </div>
-  <div class="led-row right">
-    <span></span><span></span><span></span><span></span>
-  </div>
-  <h1>t3a05 Input Output by Sara</h1>
-</div>
-
-<p><a href="https://www.w3schools.com/jsref/prop_html_innerhtml.asp">Good reference to Javascript innerHTML value by Sara</a></p>
-
+<h2>Input & Output by Sara</h2>
 
 <div class="task">
-  <span class="led" id="led1"></span>
-  <h3>1. Square a number</h3>
-  <input id="num1" type="number" value="4">
-  <input type="button" value="Square it" onclick="squareIt()">
-  <div class="output" id="out1">waiting for input</div>
+  <h3>1. Square</h3>
+  <input id="n1" type="number" value="4">
+  <button onclick="out1.innerHTML = n1.value * n1.value">Go</button>
+  <div id="out1" class="output">Result here</div>
 </div>
 
 <div class="task">
-  <span class="led" id="led2"></span>
-  <h3>2. Add two numbers</h3>
-  <input id="numA" type="number" value="10">
-  <input id="numB" type="number" value="5">
-  <input type="button" value="Add" onclick="addThem()">
-  <div class="output" id="out2">waiting for input</div>
+  <h3>2. Add</h3>
+  <input id="a" type="number" value="10"> + <input id="b" type="number" value="5">
+  <button onclick="out2.innerHTML = Number(a.value) + Number(b.value)">Go</button>
+  <div id="out2" class="output">Result here</div>
 </div>
 
 <div class="task">
-  <span class="led" id="led3"></span>
-  <h3>3. Celsius to Fahrenheit</h3>
-  <input id="celsius" type="number" value="20">
-  <input type="button" value="Convert" onclick="convertTemp()">
-  <div class="output" id="out3">waiting for input</div>
+  <h3>3. Temperature (°C to °F)</h3>
+  <input id="c" type="number" value="20">
+  <button onclick="out3.innerHTML = (c.value * 9/5) + 32 + ' °F'">Go</button>
+  <div id="out3" class="output">Result here</div>
 </div>
 
 <div class="task">
-  <span class="led" id="led4"></span>
-  <h3>4. Even or odd</h3>
-  <input id="numEven" type="number" value="7">
-  <input type="button" value="Check" onclick="checkEven()">
-  <div class="output" id="out4">waiting for input</div>
+  <h3>4. Even or Odd</h3>
+  <input id="e" type="number" value="7">
+  <button onclick="out4.innerHTML = e.value % 2 === 0 ? 'Even' : 'Odd'">Go</button>
+  <div id="out4" class="output">Result here</div>
 </div>
-
 
 <div class="task">
-  <span class="led" id="led5"></span>
-  <h3>5. Reverse a word</h3>
-  <input id="word" type="text" value="Sara">
-  <input type="button" value="Reverse" onclick="reverseWord()">
-  <div class="output" id="out5">waiting for input</div>
+  <h3>5. Reverse Word</h3>
+  <input id="w" type="text" value="Sara">
+  <button onclick="out5.innerHTML = w.value.split('').reverse().join('')">Go</button>
+  <div id="out5" class="output">Result here</div>
 </div>
-
 
 <div class="task">
-  <span class="led" id="led6"></span>
-  <h3>6. Count letters</h3>
-  <input id="phrase" type="text" value="JavaScript">
-  <input type="button" value="Count" onclick="countLetters()">
-  <div class="output" id="out6">waiting for input</div>
+  <h3>6. Letter Count</h3>
+  <input id="p" type="text" value="JavaScript">
+  <button onclick="out6.innerHTML = p.value.length">Go</button>
+  <div id="out6" class="output">Result here</div>
 </div>
 
-<!-- TASK 7 -->
 <div class="task">
-  <span class="led" id="led7"></span>
-  <h3>7. Multiply two numbers</h3>
-  <input id="mulA" type="number" value="6">
-  <input id="mulB" type="number" value="7">
-  <input type="button" value="Multiply" onclick="multiplyThem()">
-  <div class="output" id="out7">waiting for input</div>
+  <h3>7. Multiply</h3>
+  <input id="m1" type="number" value="6"> * <input id="m2" type="number" value="7">
+  <button onclick="out7.innerHTML = m1.value * m2.value">Go</button>
+  <div id="out7" class="output">Result here</div>
 </div>
-
-<script>
-
-function lightUp(ledId, outId) {
-  document.getElementById(ledId).className = "led on";
-  document.getElementById(outId).className = "output filled";
-}
-
-function squareIt() {
-  var n = parseFloat(document.getElementById("num1").value);
-  var answer = n * n;
-  document.getElementById("out1").innerHTML = n + " squared = " + answer;
-  lightUp("led1", "out1");
-}
-
-function addThem() {
-  var a = parseFloat(document.getElementById("numA").value);
-  var b = parseFloat(document.getElementById("numB").value);
-  document.getElementById("out2").innerHTML = a + " + " + b + " = " + (a + b);
-  lightUp("led2", "out2");
-}
-
-function convertTemp() {
-  var c = parseFloat(document.getElementById("celsius").value);
-  var f = (c * 9 / 5) + 32;
-  document.getElementById("out3").innerHTML = c + " C = " + f + " F";
-  lightUp("led3", "out3");
-}
-
-function checkEven() {
-  var n = parseFloat(document.getElementById("numEven").value);
-  var result = "odd";
-  if (n % 2 == 0) {
-    result = "even";
-  }
-  document.getElementById("out4").innerHTML = n + " is " + result;
-  lightUp("led4", "out4");
-}
-
-function reverseWord() {
-  var word = document.getElementById("word").value;
-  var reversed = word.split("").reverse().join("");
-  document.getElementById("out5").innerHTML = word + " reversed is " + reversed;
-  lightUp("led5", "out5");
-}
-
-function countLetters() {
-  var phrase = document.getElementById("phrase").value;
-  document.getElementById("out6").innerHTML = phrase + " has " + phrase.length + " letters";
-  lightUp("led6", "out6");
-}
-
-function multiplyThem() {
-  var a = parseFloat(document.getElementById("mulA").value);
-  var b = parseFloat(document.getElementById("mulB").value);
-  document.getElementById("out7").innerHTML = a + " x " + b + " = " + (a * b);
-  lightUp("led7", "out7");
-}
-</script>
 
 </body>
 </html>
