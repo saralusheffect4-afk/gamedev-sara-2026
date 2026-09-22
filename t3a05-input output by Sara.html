@@ -1,79 +1,280 @@
-<h1>t3a05 Input Output by Sara</h1>
+<!DOCTYPE html>
+<html>
+<head>
+<title>t3a05 Input Output by Sara</title>
+<style>
+body {
+  background-color: #0a0a0a;
+  color: #eeeeee;
+  font-family: Arial, sans-serif;
+  max-width: 650px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
 
-<p>
-  <a href="https://www.w3schools.com/jsref/prop_html_innerhtml.asp" target="_blank">
-    Good reference to Javascript innerHTML value by Fred
-  </a>
-</p>
 
-<h2>Warm up - the given example (fixed)</h2>
+.title-frame {
+  position: relative;
+  border: 1px solid #333333;
+  border-radius: 10px;
+  padding: 28px 20px;
+  margin-bottom: 30px;
+  background-color: #0f0f0f;
+}
 
-<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
-  <h3 style="color:#ffffff; margin-top:0;">1. Square a number</h3>
-  <p style="color:#aaaaaa; font-size:14px;">Fixed bugs: getElementbyId was spelled wrong, there was a space inside parseFloat, and semicolons were missing.</p>
-  <input id="myNum01" type="number" value="4">
-  <input type="button" value="Square it" onclick="let myIn01 = parseFloat(document.getElementById('myNum01').value); let myAnswer = myIn01 * myIn01; document.getElementById('myDiv01').innerHTML = myIn01 + ' squared = ' + myAnswer;">
-  <div id="myDiv01" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
+h1 {
+  margin: 0;
+  text-align: center;
+  letter-spacing: 1px;
+  color: #ffffff;
+}
+
+.led-row {
+  position: absolute;
+  display: flex;
+  gap: 10px;
+}
+.led-row.top    { top: -6px;    left: 16px; right: 16px; justify-content: space-between; }
+.led-row.bottom { bottom: -6px; left: 16px; right: 16px; justify-content: space-between; }
+.led-row.left   { top: 16px; bottom: 16px; left: -6px; flex-direction: column; justify-content: space-between; }
+.led-row.right  { top: 16px; bottom: 16px; right: -6px; flex-direction: column; justify-content: space-between; }
+
+.led-row span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #444444;
+  box-shadow: 0 0 4px #222222;
+  animation: blink 2.4s infinite;
+}
+
+
+.led-row span:nth-child(5n+1) { background-color: #ff4d4d; }
+.led-row span:nth-child(5n+2) { background-color: #ffd24d; }
+.led-row span:nth-child(5n+3) { background-color: #4dff88; }
+.led-row span:nth-child(5n+4) { background-color: #4db8ff; }
+.led-row span:nth-child(5n+5) { background-color: #c94dff; }
+
+.led-row span:nth-child(1)  { animation-delay: 0.0s; }
+.led-row span:nth-child(2)  { animation-delay: 0.2s; }
+.led-row span:nth-child(3)  { animation-delay: 0.4s; }
+.led-row span:nth-child(4)  { animation-delay: 0.6s; }
+.led-row span:nth-child(5)  { animation-delay: 0.8s; }
+.led-row span:nth-child(6)  { animation-delay: 1.0s; }
+.led-row span:nth-child(7)  { animation-delay: 1.2s; }
+.led-row span:nth-child(8)  { animation-delay: 1.4s; }
+
+@keyframes blink {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; box-shadow: 0 0 10px currentColor; }
+}
+
+.task {
+  position: relative;
+  background-color: #161616;
+  border: 1px solid #333333;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+}
+
+.led {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #333333;
+  box-shadow: 0 0 4px #000000 inset;
+}
+.led.on {
+  background-color: #4dff88;
+  box-shadow: 0 0 8px #4dff88, 0 0 16px #4dff88;
+}
+
+.task h3 {
+  margin-top: 0;
+  color: #ffffff;
+}
+
+input[type=number], input[type=text] {
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid #555555;
+  border-radius: 4px;
+  padding: 6px 10px;
+  margin-right: 6px;
+}
+
+input[type=button] {
+  background-color: #262626;
+  color: #ffffff;
+  border: 1px solid #777777;
+  border-radius: 4px;
+  padding: 6px 14px;
+  cursor: pointer;
+}
+input[type=button]:hover {
+  background-color: #383838;
+  border-color: #aaaaaa;
+}
+
+.output {
+  margin-top: 10px;
+  padding: 8px 10px;
+  background-color: #000000;
+  border: 1px dashed #555555;
+  border-radius: 4px;
+  color: #999999;
+}
+.output.filled {
+  color: #4dff88;
+  border: 1px solid #4dff88;
+  box-shadow: 0 0 6px rgba(77, 255, 136, 0.4);
+}
+</style>
+</head>
+<body>
+
+<div class="title-frame">
+  <div class="led-row top">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="led-row bottom">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="led-row left">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <div class="led-row right">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <h1>t3a05 Input Output by Sara</h1>
 </div>
 
-<h2>Extra tasks</h2>
+<p><a href="https://www.w3schools.com/jsref/prop_html_innerhtml.asp">Good reference to Javascript innerHTML value by Fred</a></p>
 
-<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
-  <h3 style="color:#ffffff; margin-top:0;">2. Add two numbers</h3>
-  <input id="addA" type="number" value="12">
-  <input id="addB" type="number" value="30">
-  <input type="button" value="Add" onclick="let a = parseFloat(document.getElementById('addA').value); let b = parseFloat(document.getElementById('addB').value); document.getElementById('addOut').innerHTML = a + ' + ' + b + ' = ' + (a + b);">
-  <div id="addOut" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
+
+<div class="task">
+  <span class="led" id="led1"></span>
+  <h3>1. Square a number</h3>
+  <input id="num1" type="number" value="4">
+  <input type="button" value="Square it" onclick="squareIt()">
+  <div class="output" id="out1">waiting for input</div>
 </div>
 
-<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
-  <h3 style="color:#ffffff; margin-top:0;">3. Celsius to Fahrenheit</h3>
-  <input id="tempC" type="number" value="20">
-  <input type="button" value="Convert" onclick="let c = parseFloat(document.getElementById('tempC').value); let f = (c * 9 / 5) + 32; document.getElementById('tempOut').innerHTML = c + ' C = ' + f + ' F';">
-  <div id="tempOut" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
+<div class="task">
+  <span class="led" id="led2"></span>
+  <h3>2. Add two numbers</h3>
+  <input id="numA" type="number" value="10">
+  <input id="numB" type="number" value="5">
+  <input type="button" value="Add" onclick="addThem()">
+  <div class="output" id="out2">waiting for input</div>
 </div>
 
-<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
-  <h3 style="color:#ffffff; margin-top:0;">4. Even or odd</h3>
-  <input id="evenNum" type="number" value="7">
-  <input type="button" value="Check" onclick="let n = parseFloat(document.getElementById('evenNum').value); let result = 'odd'; if (n % 2 === 0) { result = 'even'; } document.getElementById('evenOut').innerHTML = n + ' is ' + result;">
-  <div id="evenOut" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
+<div class="task">
+  <span class="led" id="led3"></span>
+  <h3>3. Celsius to Fahrenheit</h3>
+  <input id="celsius" type="number" value="20">
+  <input type="button" value="Convert" onclick="convertTemp()">
+  <div class="output" id="out3">waiting for input</div>
 </div>
 
-<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
-  <h3 style="color:#ffffff; margin-top:0;">5. Reverse a string</h3>
-  <input id="revText" type="text" value="Sara">
-  <input type="button" value="Reverse" onclick="let text = document.getElementById('revText').value; let reversed = text.split('').reverse().join(''); document.getElementById('revOut').innerHTML = text + ' reversed = ' + reversed;">
-  <div id="revOut" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
+<div class="task">
+  <span class="led" id="led4"></span>
+  <h3>4. Even or odd</h3>
+  <input id="numEven" type="number" value="7">
+  <input type="button" value="Check" onclick="checkEven()">
+  <div class="output" id="out4">waiting for input</div>
 </div>
 
-<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
-  <h3 style="color:#ffffff; margin-top:0;">6. Count the characters</h3>
-  <input id="lenText" type="text" value="JavaScript">
-  <input type="button" value="Count" onclick="let text = document.getElementById('lenText').value; document.getElementById('lenOut').innerHTML = text + ' has ' + text.length + ' characters';">
-  <div id="lenOut" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
+
+<div class="task">
+  <span class="led" id="led5"></span>
+  <h3>5. Reverse a word</h3>
+  <input id="word" type="text" value="Sara">
+  <input type="button" value="Reverse" onclick="reverseWord()">
+  <div class="output" id="out5">waiting for input</div>
 </div>
 
-<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
-  <h3 style="color:#ffffff; margin-top:0;">7. Upper case and lower case</h3>
-  <input id="caseText" type="text" value="Marvel">
-  <input type="button" value="Convert" onclick="let text = document.getElementById('caseText').value; document.getElementById('caseOut').innerHTML = 'UPPER: ' + text.toUpperCase() + ' | lower: ' + text.toLowerCase();">
-  <div id="caseOut" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
+
+<div class="task">
+  <span class="led" id="led6"></span>
+  <h3>6. Count letters</h3>
+  <input id="phrase" type="text" value="JavaScript">
+  <input type="button" value="Count" onclick="countLetters()">
+  <div class="output" id="out6">waiting for input</div>
 </div>
 
-<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
-  <h3 style="color:#ffffff; margin-top:0;">8. BMI calculator</h3>
-  <input id="bmiW" type="number" value="65"> weight in kg
-  <br><br>
-  <input id="bmiH" type="number" value="1.7" step="0.01"> height in m
-  <br><br>
-  <input type="button" value="Calculate" onclick="let w = parseFloat(document.getElementById('bmiW').value); let h = parseFloat(document.getElementById('bmiH').value); let bmi = w / (h * h); document.getElementById('bmiOut').innerHTML = 'BMI = ' + bmi.toFixed(1);">
-  <div id="bmiOut" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
+<!-- TASK 7 -->
+<div class="task">
+  <span class="led" id="led7"></span>
+  <h3>7. Multiply two numbers</h3>
+  <input id="mulA" type="number" value="6">
+  <input id="mulB" type="number" value="7">
+  <input type="button" value="Multiply" onclick="multiplyThem()">
+  <div class="output" id="out7">waiting for input</div>
 </div>
 
-<div style="background-color:#1e1e1e; border:1px solid #444444; border-radius:8px; padding:15px 20px; margin-bottom:15px; color:#e0e0e0;">
-  <h3 style="color:#ffffff; margin-top:0;">9. Times table</h3>
-  <input id="tableNum" type="number" value="6">
-  <input type="button" value="Build table" onclick="let n = parseFloat(document.getElementById('tableNum').value); let lines = ''; for (let i = 1; i <= 10; i++) { lines = lines + n + ' x ' + i + ' = ' + (n * i) + '<br>'; } document.getElementById('tableOut').innerHTML = lines;">
-  <div id="tableOut" style="margin-top:10px; padding:10px; background-color:#000000; border:1px dashed #555555; border-radius:4px; min-height:20px; color:#e0e0e0;">waiting for input</div>
-</div>
+<script>
+
+function lightUp(ledId, outId) {
+  document.getElementById(ledId).className = "led on";
+  document.getElementById(outId).className = "output filled";
+}
+
+function squareIt() {
+  var n = parseFloat(document.getElementById("num1").value);
+  var answer = n * n;
+  document.getElementById("out1").innerHTML = n + " squared = " + answer;
+  lightUp("led1", "out1");
+}
+
+function addThem() {
+  var a = parseFloat(document.getElementById("numA").value);
+  var b = parseFloat(document.getElementById("numB").value);
+  document.getElementById("out2").innerHTML = a + " + " + b + " = " + (a + b);
+  lightUp("led2", "out2");
+}
+
+function convertTemp() {
+  var c = parseFloat(document.getElementById("celsius").value);
+  var f = (c * 9 / 5) + 32;
+  document.getElementById("out3").innerHTML = c + " C = " + f + " F";
+  lightUp("led3", "out3");
+}
+
+function checkEven() {
+  var n = parseFloat(document.getElementById("numEven").value);
+  var result = "odd";
+  if (n % 2 == 0) {
+    result = "even";
+  }
+  document.getElementById("out4").innerHTML = n + " is " + result;
+  lightUp("led4", "out4");
+}
+
+function reverseWord() {
+  var word = document.getElementById("word").value;
+  var reversed = word.split("").reverse().join("");
+  document.getElementById("out5").innerHTML = word + " reversed is " + reversed;
+  lightUp("led5", "out5");
+}
+
+function countLetters() {
+  var phrase = document.getElementById("phrase").value;
+  document.getElementById("out6").innerHTML = phrase + " has " + phrase.length + " letters";
+  lightUp("led6", "out6");
+}
+
+function multiplyThem() {
+  var a = parseFloat(document.getElementById("mulA").value);
+  var b = parseFloat(document.getElementById("mulB").value);
+  document.getElementById("out7").innerHTML = a + " x " + b + " = " + (a * b);
+  lightUp("led7", "out7");
+}
+</script>
+
+</body>
+</html>
