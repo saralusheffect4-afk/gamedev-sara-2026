@@ -1,68 +1,228 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Input Output by Sara</title>
+<meta charset="UTF-8">
+<title>t3a05-input output by Sara</title>
+
 <style>
-  body { background: #0a0a0a; color: #eee; font-family: Arial; max-width: 600px; margin: 40px auto; padding: 20px; }
-  .task { background: #141414; border: 1px solid #33; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
-  input, button { background: #000; color: #fff; border: 1px solid #55; padding: 6px; margin: 4px; border-radius: 4px; }
-  button { cursor: pointer; background: #222; }
-  button:hover { background: #444; }
-  .output { margin-top: 8px; padding: 6px; background: #000; border: 1px dashed #444; color: #4df; }
+  
+  body {
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    background-size: 400% 400%;
+    animation: bgShift 12s ease infinite;
+    color: #f0f0f0;
+    font-family: "Courier New", monospace;
+    text-align: center;
+    padding: 30px;
+  }
+
+  @keyframes bgShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  h2 {
+    color: #39ff14;
+    text-shadow: 0 0 5px #39ff14, 0 0 15px #39ff14, 0 0 30px #39ff14;
+  }
+
+  h4 {
+    color: #00e0ff;
+    text-shadow: 0 0 5px #00e0ff, 0 0 10px #00e0ff;
+  }
+
+  a {
+    color: #ff00ff;
+    text-shadow: 0 0 5px #ff00ff;
+  }
+
+  pre {
+    background: #111;
+    border: 2px solid #39ff14;
+    border-radius: 8px;
+    padding: 12px;
+    display: inline-block;
+    text-align: left;
+    box-shadow: 0 0 15px #39ff14;
+  }
+
+  input[type=number] {
+    background: #111;
+    color: #39ff14;
+    border: 2px solid #39ff14;
+    border-radius: 6px;
+    padding: 6px;
+    font-size: 16px;
+    text-align: center;
+    box-shadow: 0 0 8px #39ff14;
+  }
+
+  input[type=button] {
+    background: #111;
+    color: #00e0ff;
+    border: 2px solid #00e0ff;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 0 8px #00e0ff;
+    transition: all 0.2s ease-in-out;
+  }
+
+  input[type=button]:hover {
+    background: #00e0ff;
+    color: #111;
+    box-shadow: 0 0 20px #00e0ff, 0 0 40px #00e0ff;
+    transform: scale(1.05);
+  }
+
+  #myDiv01, #myDiv02 {
+    margin-top: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+  }
+
+
+  #ledStrip {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .led {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #222;
+    box-shadow: inset 0 0 4px #000;
+    transition: all 0.15s ease-in-out;
+  }
+
+  .led.on {
+    box-shadow: 0 0 10px var(--led-color), 0 0 20px var(--led-color), 0 0 30px var(--led-color);
+    background: var(--led-color);
+  }
 </style>
 </head>
+
 <body>
 
-<h2>Input & Output by Sara</h2>
+<h2 align=center>t3a05-input output by Fred.html</h2>
 
-<div class="task">
-  <h3>1. Square</h3>
-  <input id="n1" type="number" value="4">
-  <button onclick="out1.innerHTML = n1.value * n1.value">Go</button>
-  <div id="out1" class="output">Result here</div>
+<a href="https://www.w3schools.com/jsref/prop_html_innerhtml.asp">Good reference to
+input putput
+Javascript innerHTML value by Fred</a>
+
+<h4> Example input output code</h4>
+<pre>
+
+    myIn01 = document.getElementById('myNum01').value
+    document.getElementById('myDiv01').innerHTML = 'Hi'
+
+</pre>
+
+<h4> Example working code</h4>
+
+<input id="myNum01" type=number value="4" ><br><br>
+
+<input type=button value="myEvent squares" onclick="{
+    let myIn01 = parseFloat(document.getElementById('myNum01').value)
+    let myAnswer = myIn01 * myIn01
+    document.getElementById('myDiv01').innerHTML = myIn01 + ' squared = ' + myAnswer
+
+    lightUpLeds(myAnswer)
+}"><br>
+
+
+<div id="myDiv01">...</div>
+
+<hr style="border-color:#00e0ff; margin-top:30px; box-shadow:0 0 8px #00e0ff;">
+
+
+<h4>More number examples (added)</h4>
+
+<input type=button value="myEvent cube" onclick="{
+    let myIn02 = parseFloat(document.getElementById('myNum01').value)
+    let myAnswer2 = myIn02 * myIn02 * myIn02
+    document.getElementById('myDiv02').innerHTML = myIn02 + ' cubed = ' + myAnswer2
+    lightUpLeds(myAnswer2, 'myDiv02')
+}">
+
+<input type=button value="myEvent square root" onclick="{
+    let myIn03 = parseFloat(document.getElementById('myNum01').value)
+    let myAnswer3 = Math.sqrt(myIn03)
+    document.getElementById('myDiv02').innerHTML = 'square root of ' + myIn03 + ' = ' + myAnswer3.toFixed(3)
+    lightUpLeds(myAnswer3, 'myDiv02')
+}">
+
+<input type=button value="myEvent factorial" onclick="{
+    let myIn04 = parseFloat(document.getElementById('myNum01').value)
+    let myAnswer4 = 1
+    for (let i = 2; i <= myIn04; i++) { myAnswer4 = myAnswer4 * i }
+    document.getElementById('myDiv02').innerHTML = myIn04 + ' factorial = ' + myAnswer4
+    lightUpLeds(myAnswer4, 'myDiv02')
+}">
+
+<input type=button value="myEvent is prime?" onclick="{
+    let myIn05 = parseFloat(document.getElementById('myNum01').value)
+    let isPrime = myIn05 > 1
+    for (let i = 2; i < myIn05; i++) {
+        if (myIn05 % i === 0) { isPrime = false }
+    }
+    document.getElementById('myDiv02').innerHTML = myIn05 + (isPrime ? ' is prime!' : ' is not prime')
+    lightUpLeds(isPrime ? 1 : 2, 'myDiv02')
+}"><br><br>
+
+<div id="myDiv02">...</div>
+
+<div id="ledStrip">
+  <div class="led" id="led0"></div>
+  <div class="led" id="led1"></div>
+  <div class="led" id="led2"></div>
+  <div class="led" id="led3"></div>
+  <div class="led" id="led4"></div>
+  <div class="led" id="led5"></div>
+  <div class="led" id="led6"></div>
+  <div class="led" id="led7"></div>
 </div>
 
-<div class="task">
-  <h3>2. Add</h3>
-  <input id="a" type="number" value="10"> + <input id="b" type="number" value="5">
-  <button onclick="out2.innerHTML = Number(a.value) + Number(b.value)">Go</button>
-  <div id="out2" class="output">Result here</div>
-</div>
+<script>
+  
+  function lightUpLeds(answer, targetId) {
+    const leds = document.querySelectorAll('.led');
+    const resultBox = document.getElementById(targetId || 'myDiv01');
 
-<div class="task">
-  <h3>3. Temperature (°C to °F)</h3>
-  <input id="c" type="number" value="20">
-  <button onclick="out3.innerHTML = (c.value * 9/5) + 32 + ' °F'">Go</button>
-  <div id="out3" class="output">Result here</div>
-</div>
+  
+    const color = (answer % 2 === 0) ? '#39ff14' : '#ff00ff';
 
-<div class="task">
-  <h3>4. Even or Odd</h3>
-  <input id="e" type="number" value="7">
-  <button onclick="out4.innerHTML = e.value % 2 === 0 ? 'Even' : 'Odd'">Go</button>
-  <div id="out4" class="output">Result here</div>
-</div>
 
-<div class="task">
-  <h3>5. Reverse Word</h3>
-  <input id="w" type="text" value="Sara">
-  <button onclick="out5.innerHTML = w.value.split('').reverse().join('')">Go</button>
-  <div id="out5" class="output">Result here</div>
-</div>
+    leds.forEach(led => {
+      led.classList.remove('on');
+      led.style.setProperty('--led-color', color);
+    });
 
-<div class="task">
-  <h3>6. Letter Count</h3>
-  <input id="p" type="text" value="JavaScript">
-  <button onclick="out6.innerHTML = p.value.length">Go</button>
-  <div id="out6" class="output">Result here</div>
-</div>
 
-<div class="task">
-  <h3>7. Multiply</h3>
-  <input id="m1" type="number" value="6"> * <input id="m2" type="number" value="7">
-  <button onclick="out7.innerHTML = m1.value * m2.value">Go</button>
-  <div id="out7" class="output">Result here</div>
-</div>
+    resultBox.style.color = color;
+    resultBox.style.boxShadow = '0 0 10px ' + color + ', 0 0 25px ' + color;
+    resultBox.style.border = '2px solid ' + color;
+
+
+    let count = Math.min(8, Math.max(1, Math.round(Math.abs(answer) % 8) || 8));
+
+  
+    leds.forEach((led, i) => {
+      setTimeout(() => {
+        if (i < count) led.classList.add('on');
+      }, i * 120);
+    });
+  }
+</script>
 
 </body>
 </html>
