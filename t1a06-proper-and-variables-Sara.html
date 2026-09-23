@@ -1,228 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>t3a05-input output by Fred</title>
+    <meta charset="UTF-8">
+    <title>t1a06-proper-and-variables-sara.html</title>
+    <style>
+        b { color: blue; }
 
-<style>
-  
-  body {
-    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-    background-size: 400% 400%;
-    animation: bgShift 12s ease infinite;
-    color: #f0f0f0;
-    font-family: "Courier New", monospace;
-    text-align: center;
-    padding: 30px;
-  }
+      
+        body {
+            background: #0d1117;
+            color: #c9d1d9;
+            font-family: "Courier New", monospace;
+            padding: 30px;
+        }
 
-  @keyframes bgShift {
-    0%   { background-position: 0% 50%; }
-    50%  { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
+        h4 {
+            color: #58a6ff;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 6px;
+        }
 
-  h2 {
-    color: #39ff14;
-    text-shadow: 0 0 5px #39ff14, 0 0 15px #39ff14, 0 0 30px #39ff14;
-  }
+        button, select, input[type=text] {
+            background: #161b22;
+            color: #58a6ff;
+            border: 1px solid #30363d;
+            border-radius: 4px;
+            padding: 6px 12px;
+            font-family: "Courier New", monospace;
+            font-size: 15px;
+        }
 
-  h4 {
-    color: #00e0ff;
-    text-shadow: 0 0 5px #00e0ff, 0 0 10px #00e0ff;
-  }
+        button {
+            cursor: pointer;
+        }
 
-  a {
-    color: #ff00ff;
-    text-shadow: 0 0 5px #ff00ff;
-  }
+        button:hover {
+            background: #58a6ff;
+            color: #0d1117;
+        }
 
-  pre {
-    background: #111;
-    border: 2px solid #39ff14;
-    border-radius: 8px;
-    padding: 12px;
-    display: inline-block;
-    text-align: left;
-    box-shadow: 0 0 15px #39ff14;
-  }
+        #myDiv01, #myDiv02 {
+            background: #010409;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 14px 18px;
+            margin-top: 14px;
+            font-size: 16px;
+            min-height: 24px;
+            white-space: pre-wrap;
+        }
 
-  input[type=number] {
-    background: #111;
-    color: #39ff14;
-    border: 2px solid #39ff14;
-    border-radius: 6px;
-    padding: 6px;
-    font-size: 16px;
-    text-align: center;
-    box-shadow: 0 0 8px #39ff14;
-  }
+        #myDiv01::before, #myDiv02::before {
+            content: "";
+        }
 
-  input[type=button] {
-    background: #111;
-    color: #00e0ff;
-    border: 2px solid #00e0ff;
-    border-radius: 6px;
-    padding: 8px 16px;
-    font-size: 16px;
-    cursor: pointer;
-    box-shadow: 0 0 8px #00e0ff;
-    transition: all 0.2s ease-in-out;
-  }
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            background: #39ff14;
+            animation: blink 0.8s steps(2) infinite;
+        }
 
-  input[type=button]:hover {
-    background: #00e0ff;
-    color: #111;
-    box-shadow: 0 0 20px #00e0ff, 0 0 40px #00e0ff;
-    transform: scale(1.05);
-  }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
 
-  #myDiv01, #myDiv02 {
-    margin-top: 20px;
-    font-size: 24px;
-    font-weight: bold;
-    display: inline-block;
-    padding: 12px 24px;
-    border-radius: 10px;
-    transition: all 0.3s ease-in-out;
-  }
+       
+        #playground {
+            margin-top: 16px;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 16px;
+        }
 
+        #playground input, #playground select {
+            margin: 4px 6px;
+        }
 
-  #ledStrip {
-    margin-top: 25px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-  }
+        #coercionResult {
+            margin-top: 10px;
+            font-size: 17px;
+        }
 
-  .led {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: #222;
-    box-shadow: inset 0 0 4px #000;
-    transition: all 0.15s ease-in-out;
-  }
+        .type-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-left: 8px;
+        }
 
-  .led.on {
-    box-shadow: 0 0 10px var(--led-color), 0 0 20px var(--led-color), 0 0 30px var(--led-color);
-    background: var(--led-color);
-  }
-</style>
+        .type-number   { background: #1f6feb; color: white; }
+        .type-string   { background: #d29922; color: black; }
+        .type-boolean  { background: #238636; color: white; }
+        .type-object   { background: #8957e5; color: white; }
+        .type-undefined{ background: #6e7681; color: white; }
+    </style>
+    <script>
+        function sayHello() {
+            myNum = 3;
+            myString = ' Hello ';
+            myFloat = 17.5;
+            myBool = true;
+            myOut = document.getElementById('myDiv01');
+            myOut.innerHTML = myNum + myString + myFloat + ', ' + myBool;
+            if (myBool) {myOut.innerHTML += ', WOW';}
+
+ 
+            typeOutResult('myDiv01');
+        }
+
+     
+        function sayMoreTypes() {
+            myArray = ['red', 'green', 'blue'];
+            myObject = { name: 'Sara', level: 9 };
+            myNull = null;
+            myUndefined = undefined;
+            myTemplate = `Array has ${myArray.length} items`;
+
+            myOut2 = document.getElementById('myDiv02');
+            myOut2.innerHTML =
+                'myArray = ' + myArray + ' (' + typeof myArray + ')\n' +
+                'myObject = ' + JSON.stringify(myObject) + ' (' + typeof myObject + ')\n' +
+                'myNull = ' + myNull + ' (' + typeof myNull + ')\n' +
+                'myUndefined = ' + myUndefined + ' (' + typeof myUndefined + ')\n' +
+                'myTemplate = ' + myTemplate;
+
+            typeOutResult('myDiv02');
+        }
+
+      
+        function typeOutResult(divId) {
+            const el = document.getElementById(divId);
+            const fullText = el.innerText;
+            el.innerHTML = '';
+            let i = 0;
+
+            function typeChar() {
+                if (i < fullText.length) {
+                    el.innerHTML = fullText.slice(0, i + 1).replace(/\n/g, '<br>')
+                        + '<span class="terminal-cursor">&nbsp;</span>';
+                    i++;
+                    setTimeout(typeChar, 15);
+                } else {
+                    el.innerHTML = fullText.replace(/\n/g, '<br>')
+                        + '<span class="terminal-cursor">&nbsp;</span>';
+                }
+            }
+            typeChar();
+        }
+
+    
+        function runCoercion() {
+            const aVal = document.getElementById('valA').value;
+            const bVal = document.getElementById('valB').value;
+            const aType = document.getElementById('typeA').value;
+            const bType = document.getElementById('typeB').value;
+            const op = document.getElementById('opSelect').value;
+
+            const castValue = (val, type) => {
+                if (type === 'number')  return parseFloat(val) || 0;
+                if (type === 'boolean') return val === 'true';
+                return val; 
+            };
+
+            const a = castValue(aVal, aType);
+            const b = castValue(bVal, bType);
+
+            let result;
+            if (op === '+') result = a + b;
+            else if (op === '-') result = a - b;
+            else if (op === '==') result = a == b;
+            else if (op === '===') result = a === b;
+
+            const resultType = typeof result;
+            const badge = '<span class="type-badge type-' + resultType + '">' + resultType + '</span>';
+
+            document.getElementById('coercionResult').innerHTML =
+                '(' + JSON.stringify(a) + ') ' + op + ' (' + JSON.stringify(b) + ')  →  '
+                + JSON.stringify(result) + badge;
+        }
+    </script>
 </head>
-
 <body>
+    <p>This is <b>bold</b> text.</p>
+    <button onclick="sayHello()">Click Me</button>
+    <div id="myDiv01">...</div>
 
-<h2 align=center>t3a05-input output by Fred.html</h2>
+    <hr style="border-color:#30363d; margin-top:30px;">
 
-<a href="https://www.w3schools.com/jsref/prop_html_innerhtml.asp">Good reference to
-input putput
-Javascript innerHTML value by Fred</a>
+ 
+    <h4>More variable types</h4>
+    <button onclick="sayMoreTypes()">Show More Types</button>
+    <div id="myDiv02">...</div>
 
-<h4> Example input output code</h4>
-<pre>
-
-    myIn01 = document.getElementById('myNum01').value
-    document.getElementById('myDiv01').innerHTML = 'Hi'
-
-</pre>
-
-<h4> Example working code</h4>
-
-<input id="myNum01" type=number value="4" ><br><br>
-
-<input type=button value="myEvent squares" onclick="{
-    let myIn01 = parseFloat(document.getElementById('myNum01').value)
-    let myAnswer = myIn01 * myIn01
-    document.getElementById('myDiv01').innerHTML = myIn01 + ' squared = ' + myAnswer
-
-    lightUpLeds(myAnswer)
-}"><br>
-
-
-<div id="myDiv01">...</div>
-
-<hr style="border-color:#00e0ff; margin-top:30px; box-shadow:0 0 8px #00e0ff;">
-
-
-<h4>More number examples (added)</h4>
-
-<input type=button value="myEvent cube" onclick="{
-    let myIn02 = parseFloat(document.getElementById('myNum01').value)
-    let myAnswer2 = myIn02 * myIn02 * myIn02
-    document.getElementById('myDiv02').innerHTML = myIn02 + ' cubed = ' + myAnswer2
-    lightUpLeds(myAnswer2, 'myDiv02')
-}">
-
-<input type=button value="myEvent square root" onclick="{
-    let myIn03 = parseFloat(document.getElementById('myNum01').value)
-    let myAnswer3 = Math.sqrt(myIn03)
-    document.getElementById('myDiv02').innerHTML = 'square root of ' + myIn03 + ' = ' + myAnswer3.toFixed(3)
-    lightUpLeds(myAnswer3, 'myDiv02')
-}">
-
-<input type=button value="myEvent factorial" onclick="{
-    let myIn04 = parseFloat(document.getElementById('myNum01').value)
-    let myAnswer4 = 1
-    for (let i = 2; i <= myIn04; i++) { myAnswer4 = myAnswer4 * i }
-    document.getElementById('myDiv02').innerHTML = myIn04 + ' factorial = ' + myAnswer4
-    lightUpLeds(myAnswer4, 'myDiv02')
-}">
-
-<input type=button value="myEvent is prime?" onclick="{
-    let myIn05 = parseFloat(document.getElementById('myNum01').value)
-    let isPrime = myIn05 > 1
-    for (let i = 2; i < myIn05; i++) {
-        if (myIn05 % i === 0) { isPrime = false }
-    }
-    document.getElementById('myDiv02').innerHTML = myIn05 + (isPrime ? ' is prime!' : ' is not prime')
-    lightUpLeds(isPrime ? 1 : 2, 'myDiv02')
-}"><br><br>
-
-<div id="myDiv02">...</div>
-
-<div id="ledStrip">
-  <div class="led" id="led0"></div>
-  <div class="led" id="led1"></div>
-  <div class="led" id="led2"></div>
-  <div class="led" id="led3"></div>
-  <div class="led" id="led4"></div>
-  <div class="led" id="led5"></div>
-  <div class="led" id="led6"></div>
-  <div class="led" id="led7"></div>
-</div>
-
-<script>
-  
-  function lightUpLeds(answer, targetId) {
-    const leds = document.querySelectorAll('.led');
-    const resultBox = document.getElementById(targetId || 'myDiv01');
+    <hr style="border-color:#30363d; margin-top:30px;">
 
   
-    const color = (answer % 2 === 0) ? '#39ff14' : '#ff00ff';
+    <h4>Type Coercion Playground</h4>
+    <div id="playground">
+        Value A: <input type="text" id="valA" value="5" onchange="runCoercion()" oninput="runCoercion()">
+        as
+        <select id="typeA" onchange="runCoercion()">
+            <option value="number">number</option>
+            <option value="string">string</option>
+            <option value="boolean">boolean</option>
+        </select>
 
+        <select id="opSelect" onchange="runCoercion()">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="==">==</option>
+            <option value="===">===</option>
+        </select>
 
-    leds.forEach(led => {
-      led.classList.remove('on');
-      led.style.setProperty('--led-color', color);
-    });
+        Value B: <input type="text" id="valB" value="2" onchange="runCoercion()" oninput="runCoercion()">
+        as
+        <select id="typeB" onchange="runCoercion()">
+            <option value="number">number</option>
+            <option value="string">string</option>
+            <option value="boolean">boolean</option>
+        </select>
 
+        <div id="coercionResult">...</div>
+    </div>
 
-    resultBox.style.color = color;
-    resultBox.style.boxShadow = '0 0 10px ' + color + ', 0 0 25px ' + color;
-    resultBox.style.border = '2px solid ' + color;
-
-
-    let count = Math.min(8, Math.max(1, Math.round(Math.abs(answer) % 8) || 8));
-
-  
-    leds.forEach((led, i) => {
-      setTimeout(() => {
-        if (i < count) led.classList.add('on');
-      }, i * 120);
-    });
-  }
-</script>
-
+    <script>
+     
+        window.onload = runCoercion;
+    </script>
 </body>
 </html>
