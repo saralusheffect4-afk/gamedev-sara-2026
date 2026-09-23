@@ -2,25 +2,227 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>t1a06-proper-and-variables-Sara.html</title>
+<title>t3a05-input output by Fred</title>
+
 <style>
-b{color: blue; }
+  
+  body {
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    background-size: 400% 400%;
+    animation: bgShift 12s ease infinite;
+    color: #f0f0f0;
+    font-family: "Courier New", monospace;
+    text-align: center;
+    padding: 30px;
+  }
+
+  @keyframes bgShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  h2 {
+    color: #39ff14;
+    text-shadow: 0 0 5px #39ff14, 0 0 15px #39ff14, 0 0 30px #39ff14;
+  }
+
+  h4 {
+    color: #00e0ff;
+    text-shadow: 0 0 5px #00e0ff, 0 0 10px #00e0ff;
+  }
+
+  a {
+    color: #ff00ff;
+    text-shadow: 0 0 5px #ff00ff;
+  }
+
+  pre {
+    background: #111;
+    border: 2px solid #39ff14;
+    border-radius: 8px;
+    padding: 12px;
+    display: inline-block;
+    text-align: left;
+    box-shadow: 0 0 15px #39ff14;
+  }
+
+  input[type=number] {
+    background: #111;
+    color: #39ff14;
+    border: 2px solid #39ff14;
+    border-radius: 6px;
+    padding: 6px;
+    font-size: 16px;
+    text-align: center;
+    box-shadow: 0 0 8px #39ff14;
+  }
+
+  input[type=button] {
+    background: #111;
+    color: #00e0ff;
+    border: 2px solid #00e0ff;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 0 8px #00e0ff;
+    transition: all 0.2s ease-in-out;
+  }
+
+  input[type=button]:hover {
+    background: #00e0ff;
+    color: #111;
+    box-shadow: 0 0 20px #00e0ff, 0 0 40px #00e0ff;
+    transform: scale(1.05);
+  }
+
+  #myDiv01, #myDiv02 {
+    margin-top: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+  }
+
+
+  #ledStrip {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .led {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #222;
+    box-shadow: inset 0 0 4px #000;
+    transition: all 0.15s ease-in-out;
+  }
+
+  .led.on {
+    box-shadow: 0 0 10px var(--led-color), 0 0 20px var(--led-color), 0 0 30px var(--led-color);
+    background: var(--led-color);
+  }
 </style>
-<script>
-function sayHello() {
-  myNum= 3; 
-  myString= ' Hello '; 
-  myFloat= 17.5 ; 
-  MyBool= true;
-  myOut= document.getElementById('myDiv01');
-  myOut.innerHTML= myNum + myString + myFloat + ', ' + myBool; 
-  if (myBool) {myOut.innerHTML += ', WOW'; }
-  } 
-  </script> 
-<head>
+</head>
+
 <body>
-  <p> This is <b> bold</b> text. </p>
-  <button onclick="sayhello()">Click Me</button>
-  <div id= "myDiv01">...</div>
+
+<h2 align=center>t3a05-input output by Fred.html</h2>
+
+<a href="https://www.w3schools.com/jsref/prop_html_innerhtml.asp">Good reference to
+input putput
+Javascript innerHTML value by Fred</a>
+
+<h4> Example input output code</h4>
+<pre>
+
+    myIn01 = document.getElementById('myNum01').value
+    document.getElementById('myDiv01').innerHTML = 'Hi'
+
+</pre>
+
+<h4> Example working code</h4>
+
+<input id="myNum01" type=number value="4" ><br><br>
+
+<input type=button value="myEvent squares" onclick="{
+    let myIn01 = parseFloat(document.getElementById('myNum01').value)
+    let myAnswer = myIn01 * myIn01
+    document.getElementById('myDiv01').innerHTML = myIn01 + ' squared = ' + myAnswer
+
+    lightUpLeds(myAnswer)
+}"><br>
+
+
+<div id="myDiv01">...</div>
+
+<hr style="border-color:#00e0ff; margin-top:30px; box-shadow:0 0 8px #00e0ff;">
+
+
+<h4>More number examples (added)</h4>
+
+<input type=button value="myEvent cube" onclick="{
+    let myIn02 = parseFloat(document.getElementById('myNum01').value)
+    let myAnswer2 = myIn02 * myIn02 * myIn02
+    document.getElementById('myDiv02').innerHTML = myIn02 + ' cubed = ' + myAnswer2
+    lightUpLeds(myAnswer2, 'myDiv02')
+}">
+
+<input type=button value="myEvent square root" onclick="{
+    let myIn03 = parseFloat(document.getElementById('myNum01').value)
+    let myAnswer3 = Math.sqrt(myIn03)
+    document.getElementById('myDiv02').innerHTML = 'square root of ' + myIn03 + ' = ' + myAnswer3.toFixed(3)
+    lightUpLeds(myAnswer3, 'myDiv02')
+}">
+
+<input type=button value="myEvent factorial" onclick="{
+    let myIn04 = parseFloat(document.getElementById('myNum01').value)
+    let myAnswer4 = 1
+    for (let i = 2; i <= myIn04; i++) { myAnswer4 = myAnswer4 * i }
+    document.getElementById('myDiv02').innerHTML = myIn04 + ' factorial = ' + myAnswer4
+    lightUpLeds(myAnswer4, 'myDiv02')
+}">
+
+<input type=button value="myEvent is prime?" onclick="{
+    let myIn05 = parseFloat(document.getElementById('myNum01').value)
+    let isPrime = myIn05 > 1
+    for (let i = 2; i < myIn05; i++) {
+        if (myIn05 % i === 0) { isPrime = false }
+    }
+    document.getElementById('myDiv02').innerHTML = myIn05 + (isPrime ? ' is prime!' : ' is not prime')
+    lightUpLeds(isPrime ? 1 : 2, 'myDiv02')
+}"><br><br>
+
+<div id="myDiv02">...</div>
+
+<div id="ledStrip">
+  <div class="led" id="led0"></div>
+  <div class="led" id="led1"></div>
+  <div class="led" id="led2"></div>
+  <div class="led" id="led3"></div>
+  <div class="led" id="led4"></div>
+  <div class="led" id="led5"></div>
+  <div class="led" id="led6"></div>
+  <div class="led" id="led7"></div>
+</div>
+
+<script>
+  
+  function lightUpLeds(answer, targetId) {
+    const leds = document.querySelectorAll('.led');
+    const resultBox = document.getElementById(targetId || 'myDiv01');
+
+  
+    const color = (answer % 2 === 0) ? '#39ff14' : '#ff00ff';
+
+
+    leds.forEach(led => {
+      led.classList.remove('on');
+      led.style.setProperty('--led-color', color);
+    });
+
+
+    resultBox.style.color = color;
+    resultBox.style.boxShadow = '0 0 10px ' + color + ', 0 0 25px ' + color;
+    resultBox.style.border = '2px solid ' + color;
+
+
+    let count = Math.min(8, Math.max(1, Math.round(Math.abs(answer) % 8) || 8));
+
+  
+    leds.forEach((led, i) => {
+      setTimeout(() => {
+        if (i < count) led.classList.add('on');
+      }, i * 120);
+    });
+  }
+</script>
+
 </body>
 </html>
