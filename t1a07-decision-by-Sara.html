@@ -5,7 +5,6 @@
 <title>t1a07-decision-by-Sara.html</title>
 
 <style>
-   
     body {
         margin: 0;
         background: #05070f;
@@ -167,7 +166,7 @@ if (myHour < 18) {
 
 <hr style="border-color:#1f3a5f; margin-top:30px;">
 
-<h4>Mission Status Check (added — uses switch)</h4>
+<h4>Mission Status Check</h4>
 
 <input type=button value="Check Mission Status" onclick="{
     let myIn01 = parseFloat(document.getElementById('myNum01').value)
@@ -191,14 +190,12 @@ if (myHour < 18) {
 
 <div id="myDiv02">...</div>
 
-
 <div id="missionPanel">
     <div id="rocket">🚀</div>
     <div id="statusLabel">Awaiting decision input...</div>
 </div>
 
 <script>
-/
     const canvas = document.getElementById('starfield');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
@@ -241,8 +238,6 @@ if (myHour < 18) {
         canvas.height = window.innerHeight;
     });
 
-    
-       by watching myDiv01 for changes, without touching the original onclick code ===== */
     function updateMission(resultText) {
         const rocket = document.getElementById('rocket');
         const label = document.getElementById('statusLabel');
@@ -263,8 +258,6 @@ if (myHour < 18) {
         }
     }
 
-    // Watches myDiv01 (used by the three original buttons) and updates
-    // the rocket automatically whenever their innerHTML changes.
     const observer = new MutationObserver(() => {
         updateMission(document.getElementById('myDiv01').innerText);
     });
