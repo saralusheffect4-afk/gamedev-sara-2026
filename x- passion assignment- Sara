@@ -1,1 +1,307 @@
-hello
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cozy Grandma's Christmas House by Sara</title>
+
+<style>
+    body {
+        margin: 0;
+        background: radial-gradient(circle at center, #2c0b0e 0%, #100305 100%);
+        color: #ffebd6;
+        font-family: "Courier New", monospace;
+        padding: 30px;
+        position: relative;
+        overflow-x: hidden;
+        text-align: center;
+    }
+
+    #snowfall {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    h2 { 
+        color: #ff6b6b; 
+        text-shadow: 0 0 10px #ff3b3b, 0 0 20px #ff0000; 
+        font-size: 28px;
+    }
+    
+    h4 { 
+        color: #ffd700; 
+        border-bottom: 1px solid #5a181b; 
+        padding-bottom: 6px; 
+        display: inline-block;
+    }
+
+    a { color: #50c878; }
+
+    pre {
+        background: #1b070a;
+        border: 1px solid #5a181b;
+        border-radius: 8px;
+        padding: 14px;
+        display: inline-block;
+        text-align: left;
+        color: #ffd700;
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+    }
+
+    input[type=number], input[type=text], select {
+        background: #1b070a;
+        color: #ffd700;
+        border: 1px solid #5a181b;
+        border-radius: 6px;
+        padding: 6px;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    input[type=button], button {
+        background: #1b070a;
+        color: #ff6b6b;
+        border: 1px solid #ff3b3b;
+        border-radius: 6px;
+        padding: 8px 14px;
+        font-size: 15px;
+        cursor: pointer;
+        margin: 4px;
+        transition: all 0.2s ease-in-out;
+        box-shadow: 0 0 5px rgba(255, 59, 59, 0.3);
+    }
+
+    input[type=button]:hover, button:hover {
+        background: #ff3b3b;
+        color: #fff;
+        box-shadow: 0 0 15px #ff3b3b;
+    }
+
+    #myDiv01, #myDiv02 {
+        margin-top: 16px;
+        font-size: 18px;
+        display: inline-block;
+        padding: 10px 18px;
+        border-radius: 8px;
+        background: #1b070a;
+        border: 1px solid #5a181b;
+        min-height: 22px;
+        color: #50c878;
+        box-shadow: inset 0 0 8px rgba(0,0,0,0.8);
+    }
+
+    #cabinPanel {
+        margin: 30px auto;
+        border: 2px dashed #ffd700;
+        border-radius: 15px;
+        padding: 20px;
+        background: rgba(44, 11, 14, 0.85);
+        max-width: 480px;
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.2);
+    }
+
+    #treeAndFire {
+        font-size: 55px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        align-items: center;
+        margin-bottom: 10px;
+        animation: glowPulse 2s infinite alternate;
+    }
+
+    @keyframes glowPulse {
+        0% { filter: drop-shadow(0 0 5px #ffd700); }
+        100% { filter: drop-shadow(0 0 20px #ff3b3b); }
+    }
+
+    #statusLabel {
+        margin-top: 10px;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .status-warm   { color: #ffd700; text-shadow: 0 0 8px #ffd700; }
+    .status-cold   { color: #00e0ff; text-shadow: 0 0 8px #00e0ff; }
+
+    /* Christmas LED Strip */
+    #ledStrip {
+        margin-top: 25px;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    .led {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #222;
+        box-shadow: inset 0 0 4px #000;
+        transition: all 0.15s ease-in-out;
+    }
+
+    .led.on {
+        box-shadow: 0 0 12px var(--led-color), 0 0 24px var(--led-color);
+        background: var(--led-color);
+    }
+
+    #playground {
+        margin: 20px auto;
+        background: #1b070a;
+        border: 1px solid #5a181b;
+        border-radius: 8px;
+        padding: 16px;
+        max-width: 600px;
+    }
+</style>
+</head>
+<body>
+
+<canvas id="snowfall"></canvas>
+
+<h2>🎄 Grandma’s Cozy Christmas House 🍪</h2>
+
+<a href="https://www.w3schools.com/js/js_if_else.asp">Good reference to Decisions if... else statements (by Sara)</a><br>
+<span>Note: ! = Not, && = AND, || = OR</span>
+
+<h4>Number Decision & Math Workshop</h4>
+<br>
+<input id="myNum01" type=number value="4"><br><br>
+
+<input type=button value="Simple if Statement" onclick="{
+    let myIn01 = parseFloat(document.getElementById('myNum01').value)
+    if (myIn01 >= 3){
+        document.getElementById('myDiv01').innerHTML = myIn01 + ' is greater than or equal to 3 (Cozy Fire!)'
+    }
+}">
+
+<input type=button value="if...else" onclick="{
+    let myIn01 = parseFloat(document.getElementById('myNum01').value)
+    if (myIn01 >= 3){
+        document.getElementById('myDiv01').innerHTML = myIn01 + ' is comfy and warm &gt;= 3'
+    } else {
+        document.getElementById('myDiv01').innerHTML = myIn01 + ' is too cold (&lt; 3)!'}
+}">
+
+<input type=button value="Complex if" onclick="{
+    let myIn01 = parseFloat(document.getElementById('myNum01').value)
+    if ((myIn01 != 3 || myIn01 > -3) && myIn01 <= 100 ){
+        document.getElementById('myDiv01').innerHTML = myIn01 + ' fits Grandma\'s holiday rule!'
+    } else {
+        document.getElementById('myDiv01').innerHTML = myIn01 + ' breaks the holiday rule!'}
+}">
+
+<br>
+<div id="myDiv01">...</div>
+
+<hr style="border-color:#5a181b; margin:30px auto; max-width:600px;">
+
+<h4>Festive Math & LED Lights</h4>
+<div>
+    <input type=button value="Square Number" onclick="{
+        let myIn02 = parseFloat(document.getElementById('myNum01').value)
+        let myAnswer2 = myIn02 * myIn02
+        document.getElementById('myDiv02').innerHTML = myIn02 + ' squared = ' + myAnswer2
+        lightUpLeds(myAnswer2)
+    }">
+
+    <input type=button value="Square Root" onclick="{
+        let myIn03 = parseFloat(document.getElementById('myNum01').value)
+        let myAnswer3 = Math.sqrt(myIn03)
+        document.getElementById('myDiv02').innerHTML = 'Square root = ' + myAnswer3.toFixed(3)
+        lightUpLeds(myAnswer3)
+    }">
+</div>
+<br>
+<div id="myDiv02">...</div>
+
+<!-- Christmas Tree Lights Strip -->
+<div id="ledStrip">
+  <div class="led" id="led0"></div>
+  <div class="led" id="led1"></div>
+  <div class="led" id="led2"></div>
+  <div class="led" id="led3"></div>
+  <div class="led" id="led4"></div>
+  <div class="led" id="led5"></div>
+  <div class="led" id="led6"></div>
+  <div class="led" id="led7"></div>
+</div>
+
+<div id="cabinPanel">
+    <div id="treeAndFire">
+        <span id="treeIcon">🎄</span>
+        <span id="fireIcon">🔥</span>
+    </div>
+    <div id="statusLabel">Status: <span class="status-warm">Grandma's fireplace is burning bright!</span></div>
+</div>
+
+<script>
+    // Falling snow animation
+    const canvas = document.getElementById('snowfall');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const snowflakes = [];
+    for (let i = 0; i < 100; i++) {
+        snowflakes.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            r: Math.random() * 2 + 1,
+            speed: Math.random() * 0.8 + 0.2,
+            d: Math.random() * Math.PI * 2
+        });
+    }
+
+    function drawSnow() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.beginPath();
+        snowflakes.forEach(flake => {
+            ctx.moveTo(flake.x, flake.y);
+            ctx.arc(flake.x, flake.y, flake.r, 0, Math.PI * 2);
+        });
+        ctx.fill();
+
+        snowflakes.forEach(flake => {
+            flake.y += flake.speed;
+            if (flake.y > canvas.height) {
+                flake.y = 0;
+                flake.x = Math.random() * canvas.width;
+            }
+        });
+        requestAnimationFrame(drawSnow);
+    }
+    drawSnow();
+
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+
+    // Festive LED lighting function
+    function lightUpLeds(answer) {
+        const leds = document.querySelectorAll('.led');
+        // Pick holiday colors (Red or Green or Gold) based on value
+        const colors = ['#ff3b3b', '#50c878', '#ffd700', '#00e0ff'];
+        const chosenColor = colors[Math.abs(Math.floor(answer)) % colors.length];
+
+        let count = Math.min(8, Math.max(1, Math.round(Math.abs(answer) % 8) || 8));
+
+        leds.forEach((led, i) => {
+            led.classList.remove('on');
+            led.style.setProperty('--led-color', chosenColor);
+            setTimeout(() => {
+                if (i < count) led.classList.add('on');
+            }, i * 100);
+        });
+    }
+</script>
+
+</body>
+</html>
