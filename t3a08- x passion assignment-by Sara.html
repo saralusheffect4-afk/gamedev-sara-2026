@@ -1,307 +1,660 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Cozy Grandma's Christmas House by Sara</title>
-
-<style>
-    body {
-        margin: 0;
-        background: radial-gradient(circle at center, #2c0b0e 0%, #100305 100%);
-        color: #ffebd6;
-        font-family: "Courier New", monospace;
-        padding: 30px;
-        position: relative;
-        overflow-x: hidden;
-        text-align: center;
-    }
-
-    #snowfall {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        pointer-events: none;
-    }
-
-    h2 { 
-        color: #ff6b6b; 
-        text-shadow: 0 0 10px #ff3b3b, 0 0 20px #ff0000; 
-        font-size: 28px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grandma's Cozy Christmas House by Sara</title>
     
-    h4 { 
-        color: #ffd700; 
-        border-bottom: 1px solid #5a181b; 
-        padding-bottom: 6px; 
-        display: inline-block;
-    }
-
-    a { color: #50c878; }
-
-    pre {
-        background: #1b070a;
-        border: 1px solid #5a181b;
-        border-radius: 8px;
-        padding: 14px;
-        display: inline-block;
-        text-align: left;
-        color: #ffd700;
-        box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
-    }
-
-    input[type=number], input[type=text], select {
-        background: #1b070a;
-        color: #ffd700;
-        border: 1px solid #5a181b;
-        border-radius: 6px;
-        padding: 6px;
-        font-size: 16px;
-        text-align: center;
-    }
-
-    input[type=button], button {
-        background: #1b070a;
-        color: #ff6b6b;
-        border: 1px solid #ff3b3b;
-        border-radius: 6px;
-        padding: 8px 14px;
-        font-size: 15px;
-        cursor: pointer;
-        margin: 4px;
-        transition: all 0.2s ease-in-out;
-        box-shadow: 0 0 5px rgba(255, 59, 59, 0.3);
-    }
-
-    input[type=button]:hover, button:hover {
-        background: #ff3b3b;
-        color: #fff;
-        box-shadow: 0 0 15px #ff3b3b;
-    }
-
-    #myDiv01, #myDiv02 {
-        margin-top: 16px;
-        font-size: 18px;
-        display: inline-block;
-        padding: 10px 18px;
-        border-radius: 8px;
-        background: #1b070a;
-        border: 1px solid #5a181b;
-        min-height: 22px;
-        color: #50c878;
-        box-shadow: inset 0 0 8px rgba(0,0,0,0.8);
-    }
-
-    #cabinPanel {
-        margin: 30px auto;
-        border: 2px dashed #ffd700;
-        border-radius: 15px;
-        padding: 20px;
-        background: rgba(44, 11, 14, 0.85);
-        max-width: 480px;
-        box-shadow: 0 0 25px rgba(255, 215, 0, 0.2);
-    }
-
-    #treeAndFire {
-        font-size: 55px;
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        align-items: center;
-        margin-bottom: 10px;
-        animation: glowPulse 2s infinite alternate;
-    }
-
-    @keyframes glowPulse {
-        0% { filter: drop-shadow(0 0 5px #ffd700); }
-        100% { filter: drop-shadow(0 0 20px #ff3b3b); }
-    }
-
-    #statusLabel {
-        margin-top: 10px;
-        font-size: 16px;
-        font-weight: bold;
-    }
-
-    .status-warm   { color: #ffd700; text-shadow: 0 0 8px #ffd700; }
-    .status-cold   { color: #00e0ff; text-shadow: 0 0 8px #00e0ff; }
-
-    /* Christmas LED Strip */
-    #ledStrip {
-        margin-top: 25px;
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-    }
-
-    .led {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: #222;
-        box-shadow: inset 0 0 4px #000;
-        transition: all 0.15s ease-in-out;
-    }
-
-    .led.on {
-        box-shadow: 0 0 12px var(--led-color), 0 0 24px var(--led-color);
-        background: var(--led-color);
-    }
-
-    #playground {
-        margin: 20px auto;
-        background: #1b070a;
-        border: 1px solid #5a181b;
-        border-radius: 8px;
-        padding: 16px;
-        max-width: 600px;
-    }
-</style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   
+    <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Nunito:wght@400;600;700&family=Courier+Prime&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: radial-gradient(circle at center, #1f0508 0%, #0a0102 100%);
+            color: #ffebd6;
+            overflow-x: hidden;
+        }
+        .christmas-title {
+            font-family: 'Mountains of Christmas', cursive;
+        }
+        .code-font {
+            font-family: 'Courier Prime', monospace;
+        }
+       
+        #snowfall {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 50;
+            pointer-events: none;
+        }
+       
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1b070a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #5a181b;
+            border-radius: 4px;
+        }
+        @keyframes flicker {
+            0%, 100% { opacity: 0.9; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); filter: drop-shadow(0 0 15px #ffaa00); }
+        }
+        .fire-glow {
+            animation: flicker 3s infinite ease-in-out;
+        }
+    </style>
 </head>
-<body>
+<body class="min-h-screen relative flex flex-col items-center justify-start pb-20">
 
-<canvas id="snowfall"></canvas>
+    <canvas id="snowfall"></canvas>
 
-<h2>🎄 Grandma’s Cozy Christmas House 🍪</h2>
+    <header class="w-full max-w-6xl mx-auto px-4 py-6 z-10 flex flex-col md:flex-row items-center justify-between gap-4 border-b border-red-900/50 bg-black/40 backdrop-blur-md sticky top-0 rounded-b-2xl shadow-2xl">
+        <div class="text-center md:text-left">
+            <h1 class="christmas-title text-3xl md:text-4xl text-red-400 drop-shadow-[0_2px_8px_rgba(255,50,50,0.6)]">
+                🎄 Grandma’s Cozy Christmas House 🍪
+            </h1>
+            <p class="text-xs text-amber-300/80 code-font">Crafted with love by Sara &bull; Step inside the cabin!</p>
+        </div>
 
-<a href="https://www.w3schools.com/js/js_if_else.asp">Good reference to Decisions if... else statements (by Sara)</a><br>
-<span>Note: ! = Not, && = AND, || = OR</span>
+       
+        <nav class="flex flex-wrap justify-center gap-2" id="roomNav">
+            <button onclick="switchRoom('livingroom')" class="room-tab px-4 py-2 rounded-xl bg-red-950/80 border border-red-600 text-amber-200 font-bold hover:bg-red-700 hover:text-white transition-all shadow-md active-tab" data-target="livingroom">
+                <i class="fa-solid fa-fire mr-1"></i> Living Room
+            </button>
+            <button onclick="switchRoom('kitchen')" class="room-tab px-4 py-2 rounded-xl bg-red-950/80 border border-red-900 text-amber-200 font-bold hover:bg-red-700 hover:text-white transition-all shadow-md" data-target="kitchen">
+                <i class="fa-solid fa-cookie-bite mr-1"></i> Kitchen & Cocoa
+            </button>
+            <button onclick="switchRoom('tree')" class="room-tab px-4 py-2 rounded-xl bg-red-950/80 border border-red-900 text-amber-200 font-bold hover:bg-red-700 hover:text-white transition-all shadow-md" data-target="tree">
+                <i class="fa-solid fa-tree mr-1"></i> Tree Decorator
+            </button>
+            <button onclick="switchRoom('workshop')" class="room-tab px-4 py-2 rounded-xl bg-red-950/80 border border-red-900 text-amber-200 font-bold hover:bg-red-700 hover:text-white transition-all shadow-md" data-target="workshop">
+                <i class="fa-solid fa-laptop-code mr-1"></i> Code Workshop
+            </button>
+            <button onclick="switchRoom('story')" class="room-tab px-4 py-2 rounded-xl bg-red-950/80 border border-red-900 text-amber-200 font-bold hover:bg-red-700 hover:text-white transition-all shadow-md" data-target="story">
+                <i class="fa-solid fa-book-open mr-1"></i> Grandma's Wisdom
+            </button>
+        </nav>
+    </header>
 
-<h4>Number Decision & Math Workshop</h4>
-<br>
-<input id="myNum01" type=number value="4"><br><br>
+    <main class="w-full max-w-5xl mx-auto px-4 mt-8 z-10 flex-grow">
 
-<input type=button value="Simple if Statement" onclick="{
-    let myIn01 = parseFloat(document.getElementById('myNum01').value)
-    if (myIn01 >= 3){
-        document.getElementById('myDiv01').innerHTML = myIn01 + ' is greater than or equal to 3 (Cozy Fire!)'
-    }
-}">
+    
+        <section id="room-livingroom" class="room-section space-y-6">
+            <div class="bg-[#1b070a]/90 border-2 border-[#5a181b] rounded-3xl p-6 md:p-10 shadow-[0_0_40px_rgba(0,0,0,0.8)] text-center relative overflow-hidden">
+               
+                <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
-<input type=button value="if...else" onclick="{
-    let myIn01 = parseFloat(document.getElementById('myNum01').value)
-    if (myIn01 >= 3){
-        document.getElementById('myDiv01').innerHTML = myIn01 + ' is comfy and warm &gt;= 3'
-    } else {
-        document.getElementById('myDiv01').innerHTML = myIn01 + ' is too cold (&lt; 3)!'}
-}">
+                <div class="inline-block px-4 py-1 rounded-full bg-red-950 border border-red-800 text-amber-300 text-sm font-semibold mb-3">
+                    <i class="fa-solid fa-house-chimney text-red-400 mr-2"></i> Grandma’s Hearth & Living Room
+                </div>
 
-<input type=button value="Complex if" onclick="{
-    let myIn01 = parseFloat(document.getElementById('myNum01').value)
-    if ((myIn01 != 3 || myIn01 > -3) && myIn01 <= 100 ){
-        document.getElementById('myDiv01').innerHTML = myIn01 + ' fits Grandma\'s holiday rule!'
-    } else {
-        document.getElementById('myDiv01').innerHTML = myIn01 + ' breaks the holiday rule!'}
-}">
+                <h2 class="christmas-title text-3xl md:text-5xl text-amber-200 mb-4">By the Crackling Fireplace</h2>
+                <p class="text-amber-100/90 max-w-xl mx-auto text-sm md:text-base mb-6">
+                    You step onto the braided rug in front of the stone fireplace. Stockings are hung with care, the fire glows warm orange, and Christmas carols echo softly from the vintage radio in the corner.
+                </p>
 
-<br>
-<div id="myDiv01">...</div>
+                
+                <div class="bg-gradient-to-b from-stone-900 to-[#120305] border-4 border-amber-900/60 rounded-2xl p-6 max-w-2xl mx-auto shadow-2xl relative">
+                   
+                    <div class="flex justify-center gap-6 mb-4 text-3xl">
+                        <div class="cursor-pointer hover:scale-125 transition-transform" onclick="openStocking('Sara')" title="Sara's Stocking">🧦<span class="block text-[10px] text-amber-300">Sara</span></div>
+                        <div class="cursor-pointer hover:scale-125 transition-transform" onclick="openStocking('Grandma')" title="Grandma's Stocking">🧦<span class="block text-[10px] text-amber-300">Grandma</span></div>
+                        <div class="cursor-pointer hover:scale-125 transition-transform" onclick="openStocking('Guest')" title="Your Stocking">🧦<span class="block text-[10px] text-amber-300">You</span></div>
+                    </div>
 
-<hr style="border-color:#5a181b; margin:30px auto; max-width:600px;">
+                  
+                    <div id="treeAndFire" class="text-6xl md:text-7xl flex justify-center gap-6 items-center my-4 fire-glow">
+                        <span id="treeIcon" class="cursor-pointer hover:rotate-6 transition-transform" onclick="shakeTree()">🎄</span>
+                        <span id="fireIcon" class="cursor-pointer hover:scale-110 transition-transform" onclick="stokeFire()">🔥</span>
+                    </div>
 
-<h4>Festive Math & LED Lights</h4>
-<div>
-    <input type=button value="Square Number" onclick="{
-        let myIn02 = parseFloat(document.getElementById('myNum01').value)
-        let myAnswer2 = myIn02 * myIn02
-        document.getElementById('myDiv02').innerHTML = myIn02 + ' squared = ' + myAnswer2
-        lightUpLeds(myAnswer2)
-    }">
+                    <div id="statusLabel" class="mt-4 text-sm md:text-base font-bold">
+                        Status: <span class="status-warm text-amber-300 drop-shadow">Grandma's fireplace is burning bright and cozy!</span>
+                    </div>
 
-    <input type=button value="Square Root" onclick="{
-        let myIn03 = parseFloat(document.getElementById('myNum01').value)
-        let myAnswer3 = Math.sqrt(myIn03)
-        document.getElementById('myDiv02').innerHTML = 'Square root = ' + myAnswer3.toFixed(3)
-        lightUpLeds(myAnswer3)
-    }">
-</div>
-<br>
-<div id="myDiv02">...</div>
+                
+                    <div class="mt-6 flex flex-wrap justify-center gap-3">
+                        <button onclick="stokeFire()" class="bg-red-900 hover:bg-red-700 text-amber-200 px-4 py-2 rounded-xl border border-red-600 font-semibold shadow transition text-sm">
+                            <i class="fa-solid fa-hand-holding-heart mr-1"></i> Add Yule Log
+                        </button>
+                        <button onclick="toggleAudio()" id="audioToggleBtn" class="bg-amber-900/80 hover:bg-amber-800 text-amber-200 px-4 py-2 rounded-xl border border-amber-600 font-semibold shadow transition text-sm">
+                            <i class="fa-solid fa-volume-high mr-1"></i> Toggle Hearth Sound
+                        </button>
+                    </div>
+                </div>
 
-<!-- Christmas Tree Lights Strip -->
-<div id="ledStrip">
-  <div class="led" id="led0"></div>
-  <div class="led" id="led1"></div>
-  <div class="led" id="led2"></div>
-  <div class="led" id="led3"></div>
-  <div class="led" id="led4"></div>
-  <div class="led" id="led5"></div>
-  <div class="led" id="led6"></div>
-  <div class="led" id="led7"></div>
-</div>
+               
+                <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
+                    <div onclick="inspectObject('piano')" class="bg-red-950/50 hover:bg-red-900/80 border border-red-800/60 rounded-xl p-4 cursor-pointer transition text-left">
+                        <div class="text-amber-400 font-bold mb-1"><i class="fa-solid fa-music mr-2"></i> Vintage Piano</div>
+                        <p class="text-xs text-amber-100/70">Play a quick holiday jingle and listen to carols.</p>
+                    </div>
+                    <div onclick="inspectObject('window')" class="bg-red-950/50 hover:bg-red-900/80 border border-red-800/60 rounded-xl p-4 cursor-pointer transition text-left">
+                        <div class="text-amber-400 font-bold mb-1"><i class="fa-solid fa-snowflake mr-2"></i> Frosted Window</div>
+                        <p class="text-xs text-amber-100/70">Look outside at the gentle snowfall over the pines.</p>
+                    </div>
+                    <div onclick="inspectObject('bookshelf')" class="bg-red-950/50 hover:bg-red-900/80 border border-red-800/60 rounded-xl p-4 cursor-pointer transition text-left">
+                        <div class="text-amber-400 font-bold mb-1"><i class="fa-solid fa-book mr-2"></i> Recipe Drawer</div>
+                        <p class="text-xs text-amber-100/70">Check Grandma's secret spiced ginger drop recipe.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<div id="cabinPanel">
-    <div id="treeAndFire">
-        <span id="treeIcon">🎄</span>
-        <span id="fireIcon">🔥</span>
+      
+        <section id="room-kitchen" class="room-section hidden space-y-6">
+            <div class="bg-[#1b070a]/90 border-2 border-[#5a181b] rounded-3xl p-6 md:p-10 shadow-[0_0_40px_rgba(0,0,0,0.8)] text-center">
+                <div class="inline-block px-4 py-1 rounded-full bg-red-950 border border-red-800 text-amber-300 text-sm font-semibold mb-3">
+                    <i class="fa-solid fa-cookie text-amber-400 mr-2"></i> Grandma’s Holiday Kitchen
+                </div>
+
+                <h2 class="christmas-title text-3xl md:text-5xl text-amber-200 mb-4">Cookie Baking & Cocoa Station</h2>
+                <p class="text-amber-100/90 max-w-xl mx-auto text-sm md:text-base mb-6">
+                    The kitchen smells deliciously of cinnamon, vanilla, and roasted pecans. Choose your cookie dough, bake them in the brick oven, and mix up a customized mug of gourmet hot cocoa!
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                   
+                    <div class="bg-stone-900/80 border border-red-900/80 rounded-2xl p-5 shadow-lg flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-amber-300 mb-2"><i class="fa-solid fa-cookie-bite text-amber-500 mr-2"></i> Cookie Baking Studio</h3>
+                            <p class="text-xs text-amber-100/70 mb-4">Select cookie shape and frosting style, then slide into Grandma's oven!</p>
+                            
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="text-xs text-amber-300 block mb-1">Choose Cookie Shape:</label>
+                                    <select id="cookieShape" class="w-full bg-[#1b070a] text-amber-200 border border-red-800 rounded-lg p-2 text-sm">
+                                        <option value="Gingerbread Man 🫚">Gingerbread Man 🫚</option>
+                                        <option value="Christmas Tree 🎄">Christmas Tree 🎄</option>
+                                        <option value="Snowflake Crystal ❄️">Snowflake Crystal ❄️</option>
+                                        <option value="Star of Bethlehem 🌟">Star of Bethlehem 🌟</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="text-xs text-amber-300 block mb-1">Choose Frosting & Topping:</label>
+                                    <select id="cookieFrosting" class="w-full bg-[#1b070a] text-amber-200 border border-red-800 rounded-lg p-2 text-sm">
+                                        <option value="Vanilla Glaze & Sprinkles ✨">Vanilla Glaze & Sprinkles ✨</option>
+                                        <option value="Cinnamon Sugar Crust 🤎">Cinnamon Sugar Crust 🤎</option>
+                                        <option value="Peppermint Crush & Choco 🍫">Peppermint Crush & Choco 🍫</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <button onclick="bakeCookie()" class="w-full bg-amber-600 hover:bg-amber-500 text-stone-950 font-bold py-2 px-4 rounded-xl shadow transition text-sm">
+                                <i class="fa-solid fa-fire-burner mr-1"></i> Bake Fresh Batch!
+                            </button>
+                            <div id="cookieResult" class="mt-3 p-3 bg-[#1b070a] border border-red-900 rounded-lg text-xs text-green-300 min-h-[40px] flex items-center justify-center text-center">
+                                Ready to bake warm holiday treats...
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-stone-900/80 border border-red-900/80 rounded-2xl p-5 shadow-lg flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-amber-300 mb-2"><i class="fa-solid fa-mug-hot text-amber-500 mr-2"></i> Gourmet Cocoa Bar</h3>
+                            <p class="text-xs text-amber-100/70 mb-4">Pour steamed milk, add rich dark chocolate, and top with marshmallows!</p>
+                            
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="text-xs text-amber-300 block mb-1">Cocoa Base:</label>
+                                    <select id="cocoaBase" class="w-full bg-[#1b070a] text-amber-200 border border-red-800 rounded-lg p-2 text-sm">
+                                        <option value="Rich Belgian Dark Chocolate 🍫">Rich Belgian Dark Chocolate 🍫</option>
+                                        <option value="Creamy White Chocolate Vanilla 🤍">Creamy White Chocolate Vanilla 🤍</option>
+                                        <option value="Peppermint Mocha Swirl 🌿">Peppermint Mocha Swirl 🌿</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="text-xs text-amber-300 block mb-1">Toppings:</label>
+                                    <select id="cocoaTopping" class="w-full bg-[#1b070a] text-amber-200 border border-red-800 rounded-lg p-2 text-sm">
+                                        <option value="Toasted Marshmallows & Whipped Cream ☁️">Toasted Marshmallows & Whipped Cream ☁️</option>
+                                        <option value="Caramel Drizzle & Crushed Candy Cane 🍬">Caramel Drizzle & Crushed Candy Cane 🍬</option>
+                                        <option value="Cinnamon Dust & Chocolate Shavings 🪵">Cinnamon Dust & Chocolate Shavings 🪵</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <button onclick="brewCocoa()" class="w-full bg-red-800 hover:bg-red-700 text-amber-200 font-bold py-2 px-4 rounded-xl shadow transition text-sm">
+                                <i class="fa-solid fa-mug-hot mr-1"></i> Brew Hot Cocoa!
+                            </button>
+                            <div id="cocoaResult" class="mt-3 p-3 bg-[#1b070a] border border-red-900 rounded-lg text-xs text-green-300 min-h-[40px] flex items-center justify-center text-center">
+                                Kettle is simmering on the stove...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+      
+        <section id="room-tree" class="room-section hidden space-y-6">
+            <div class="bg-[#1b070a]/90 border-2 border-[#5a181b] rounded-3xl p-6 md:p-10 shadow-[0_0_40px_rgba(0,0,0,0.8)] text-center">
+                <div class="inline-block px-4 py-1 rounded-full bg-red-950 border border-red-800 text-amber-300 text-sm font-semibold mb-3">
+                    <i class="fa-solid fa-tree text-green-400 mr-2"></i> Holiday Parlor Tree
+                </div>
+
+                <h2 class="christmas-title text-3xl md:text-5xl text-amber-200 mb-2">Grandma's Majestic Christmas Tree</h2>
+                <p class="text-amber-100/90 max-w-xl mx-auto text-sm md:text-base mb-6">
+                    Adorn the grand balsam fir with glowing multi-colored ornaments, tinsel, candy canes, and a magnificent golden star topper!
+                </p>
+
+                <div class="bg-stone-900/90 border-4 border-amber-900/60 rounded-3xl p-6 max-w-xl mx-auto shadow-2xl relative">
+                    <div id="treeTopStar" class="text-4xl transition-all duration-300 mb-[-10px] filter drop-shadow-[0_0_10px_gold]">⭐</div>
+                    <div class="christmas-title text-7xl md:text-8xl tracking-widest text-green-600 drop-shadow-[0_4px_10px_rgba(0,0,0,0.9)] select-none">
+                        🌲
+                    </div>
+
+                 
+                    <div id="treeOrnaments" class="flex flex-wrap justify-center gap-2 my-4 min-h-[50px] p-2 bg-black/40 rounded-xl border border-stone-800">
+                        <span class="text-xs text-stone-400 self-center">Click buttons below to hang decorations!</span>
+                    </div>
+
+                    
+                    <div id="ledStrip" class="flex justify-center gap-3 my-4">
+                        <div class="led w-6 h-6 rounded-full bg-stone-800 transition-all shadow-inner" id="led0"></div>
+                        <div class="led w-6 h-6 rounded-full bg-stone-800 transition-all shadow-inner" id="led1"></div>
+                        <div class="led w-6 h-6 rounded-full bg-stone-800 transition-all shadow-inner" id="led2"></div>
+                        <div class="led w-6 h-6 rounded-full bg-stone-800 transition-all shadow-inner" id="led3"></div>
+                        <div class="led w-6 h-6 rounded-full bg-stone-800 transition-all shadow-inner" id="led4"></div>
+                        <div class="led w-6 h-6 rounded-full bg-stone-800 transition-all shadow-inner" id="led5"></div>
+                        <div class="led w-6 h-6 rounded-full bg-stone-800 transition-all shadow-inner" id="led6"></div>
+                        <div class="led w-6 h-6 rounded-full bg-stone-800 transition-all shadow-inner" id="led7"></div>
+                    </div>
+
+                    <div class="flex flex-wrap justify-center gap-2 mt-4">
+                        <button onclick="hangOrnament('🔴')" class="bg-red-900 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold border border-red-600 shadow">🔴 Red Ball</button>
+                        <button onclick="hangOrnament('🔵')" class="bg-blue-900 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold border border-blue-600 shadow">🔵 Blue Globe</button>
+                        <button onclick="hangOrnament('🟡')" class="bg-amber-700 hover:bg-amber-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold border border-amber-500 shadow">🟡 Gold Bell</button>
+                        <button onclick="hangOrnament('🍬')" class="bg-pink-900 hover:bg-pink-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold border border-pink-500 shadow">🍬 Candy Cane</button>
+                        <button onclick="clearTree()" class="bg-stone-800 hover:bg-stone-700 text-stone-300 px-3 py-1.5 rounded-lg text-xs font-bold border border-stone-600 shadow">🧹 Clear Tree</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="room-workshop" class="room-section hidden space-y-6">
+            <div class="bg-[#1b070a]/90 border-2 border-[#5a181b] rounded-3xl p-6 md:p-10 shadow-[0_0_40px_rgba(0,0,0,0.8)] text-center">
+                <div class="inline-block px-4 py-1 rounded-full bg-red-950 border border-red-800 text-amber-300 text-sm font-semibold mb-3">
+                    <i class="fa-solid fa-code text-green-400 mr-2"></i> Sara's Logic & Math Workshop
+                </div>
+
+                <h2 class="christmas-title text-3xl md:text-5xl text-amber-200 mb-2">Holiday Decision & Math Lab</h2>
+                <div class="mb-4">
+                    <a href="https://www.w3schools.com/js/js_if_else.asp" target="_blank" class="text-emerald-400 hover:underline text-xs code-font">
+                        <i class="fa-solid fa-link mr-1"></i> Good reference to Decisions if... else statements (by Sara)
+                    </a>
+                    <p class="text-[11px] text-amber-200/80 code-font mt-1">Note: ! = Not, && = AND, || = OR</p>
+                </div>
+
+                <div id="cabinPanel" class="border-2 border-dashed border-amber-400/60 rounded-2xl p-6 bg-red-950/60 max-w-xl mx-auto shadow-xl">
+                    <h4 class="text-amber-300 font-bold border-b border-red-900 pb-2 mb-4 text-sm uppercase tracking-wider">Number Decision & Math Workshop</h4>
+                    
+                    <div class="mb-4">
+                        <label class="text-xs text-amber-200 block mb-1">Enter Test Number (`myNum01`):</label>
+                        <input id="myNum01" type="number" value="4" class="w-32 bg-[#1b070a] text-amber-300 border border-amber-700/60 rounded-xl p-2 text-center text-lg font-bold code-font">
+                    </div>
+
+                
+                    <div class="flex flex-wrap justify-center gap-2 mb-4">
+                        <button onclick="{
+                            let myIn01 = parseFloat(document.getElementById('myNum01').value);
+                            if (myIn01 >= 3){
+                                document.getElementById('myDiv01').innerHTML = myIn01 + ' is greater than or equal to 3 (Cozy Fire!)';
+                            }
+                        }">Simple if Statement</button>
+
+                        <button onclick="{
+                            let myIn01 = parseFloat(document.getElementById('myNum01').value);
+                            if (myIn01 >= 3){
+                                document.getElementById('myDiv01').innerHTML = myIn01 + ' is comfy and warm &gt;= 3';
+                            } else {
+                                document.getElementById('myDiv01').innerHTML = myIn01 + ' is too cold (&lt; 3)!';
+                            }
+                        }">if...else</button>
+
+                        <button onclick="{
+                            let myIn01 = parseFloat(document.getElementById('myNum01').value);
+                            if ((myIn01 != 3 || myIn01 > -3) && myIn01 <= 100 ){
+                                document.getElementById('myDiv01').innerHTML = myIn01 + ' fits Grandma\'s holiday rule!';
+                            } else {
+                                document.getElementById('myDiv01').innerHTML = myIn01 + ' breaks the holiday rule!';
+                            }
+                        }">Complex if</button>
+                    </div>
+
+                    <div id="myDiv01" class="my-3 text-sm text-emerald-400 font-semibold bg-[#1b070a] border border-red-900 rounded-xl p-3 code-font min-h-[44px] flex items-center justify-center">
+                        ...
+                    </div>
+
+                    <hr class="border-red-900 my-6">
+
+                    <h4 class="text-amber-300 font-bold border-b border-red-900 pb-2 mb-4 text-sm uppercase tracking-wider">Festive Math & LED Lights</h4>
+                    
+                    <div class="flex flex-wrap justify-center gap-2 mb-4">
+                        <button onclick="{
+                            let myIn02 = parseFloat(document.getElementById('myNum01').value);
+                            let myAnswer2 = myIn02 * myIn02;
+                            document.getElementById('myDiv02').innerHTML = myIn02 + ' squared = ' + myAnswer2;
+                            lightUpLeds(myAnswer2);
+                        }">Square Number</button>
+
+                        <button onclick="{
+                            let myIn03 = parseFloat(document.getElementById('myNum01').value);
+                            let myAnswer3 = Math.sqrt(myIn03);
+                            document.getElementById('myDiv02').innerHTML = 'Square root = ' + myAnswer3.toFixed(3);
+                            lightUpLeds(myAnswer3);
+                        }">Square Root</button>
+                    </div>
+
+                    <div id="myDiv02" class="my-3 text-sm text-emerald-400 font-semibold bg-[#1b070a] border border-red-900 rounded-xl p-3 code-font min-h-[44px] flex items-center justify-center">
+                        ...
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="room-story" class="room-section hidden space-y-6">
+            <div class="bg-[#1b070a]/90 border-2 border-[#5a181b] rounded-3xl p-6 md:p-10 shadow-[0_0_40px_rgba(0,0,0,0.8)] text-center">
+                <div class="inline-block px-4 py-1 rounded-full bg-red-950 border border-red-800 text-amber-300 text-sm font-semibold mb-3">
+                    <i class="fa-solid fa-book-bookmark text-amber-400 mr-2"></i> Grandma's Rocking Chair
+                </div>
+
+                <h2 class="christmas-title text-3xl md:text-5xl text-amber-200 mb-4">Fireside Wisdom & Holiday Stories</h2>
+                <p class="text-amber-100/90 max-w-xl mx-auto text-sm md:text-base mb-6">
+                    Grandma sits by the fire with her knitting needles, ready to share a comforting holiday story or piece of timeless advice.
+                </p>
+
+            
+                <div class="bg-stone-900/90 border-2 border-amber-900/60 rounded-2xl p-6 max-w-xl mx-auto shadow-xl text-left relative">
+                    <div class="text-amber-400 text-sm font-bold mb-2 flex items-center justify-between">
+                        <span><i class="fa-solid fa-quote-left text-red-500 mr-2 text-lg"></i> Grandma says:</span>
+                        <span id="storyIndex" class="text-xs text-stone-400">Story 1 of 4</span>
+                    </div>
+                    <p id="grandmaStoryText" class="text-amber-100 text-sm md:text-base italic leading-relaxed font-serif pl-6 border-l-2 border-amber-600 my-4">
+                        "The best of all gifts around any Christmas tree is the presence of happy family all wrapped up in each other. Remember, dear, every little loop in your code—and in life—gets simpler when handled with patience and a cup of warm tea."
+                    </p>
+                    <div class="text-right">
+                        <button onclick="nextGrandmaStory()" class="bg-amber-700 hover:bg-amber-600 text-stone-950 font-bold px-4 py-2 rounded-xl text-xs shadow transition">
+                            <i class="fa-solid fa-arrow-right mr-1"></i> Another Story & Advice
+                        </button>
+                    </div>
+                </div>
+
+                
+                <div class="mt-8 bg-stone-900/90 border-2 border-red-900/60 rounded-2xl p-6 max-w-xl mx-auto shadow-xl text-left">
+                    <h3 class="text-amber-300 font-bold text-base mb-2"><i class="fa-solid fa-feather mr-2"></i> Cabin Visitor Journal</h3>
+                    <p class="text-xs text-amber-100/70 mb-4">Leave a note in Grandma's guestbook for everyone visiting the cabin this winter!</p>
+                    
+                    <div class="space-y-3">
+                        <input type="text" id="visitorName" placeholder="Your Name / Signature" class="w-full bg-[#1b070a] text-amber-300 border border-red-900 rounded-lg p-2 text-sm">
+                        <textarea id="visitorNote" placeholder="Write your holiday wish or cozy greeting here..." class="w-full bg-[#1b070a] text-amber-300 border border-red-900 rounded-lg p-2 text-sm h-20 resize-none"></textarea>
+                        <button onclick="signGuestbook()" class="bg-red-900 hover:bg-red-700 text-amber-200 font-bold px-4 py-2 rounded-xl text-xs shadow transition w-full">
+                            <i class="fa-solid fa-signature mr-1"></i> Sign Guestbook
+                        </button>
+                    </div>
+
+                    <div id="guestbookEntries" class="mt-4 space-y-2 max-h-40 overflow-y-auto">
+                        <div class="p-2.5 bg-[#1b070a] rounded-lg border border-red-950 text-xs">
+                            <span class="text-amber-400 font-bold">Sara (Creator):</span> <span class="text-amber-100">Welcome to Grandma's Cozy House! Enjoy the warmth, cookies, and math workshop! 🎄</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <div id="customModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-stone-900 border-2 border-amber-600 rounded-2xl p-6 max-w-md w-full text-center shadow-2xl relative animate-bounce-in">
+            <div id="modalIcon" class="text-4xl mb-3 text-amber-400">🎁</div>
+            <h3 id="modalTitle" class="christmas-title text-2xl text-amber-200 mb-2">Holiday Surprise!</h3>
+            <p id="modalBody" class="text-sm text-amber-100 mb-6">You found a cozy treasure in Grandma's house!</p>
+            <button onclick="closeModal()" class="bg-red-800 hover:bg-red-700 text-amber-200 font-bold px-6 py-2 rounded-xl text-sm shadow border border-red-500">
+                Wonderful!
+            </button>
+        </div>
     </div>
-    <div id="statusLabel">Status: <span class="status-warm">Grandma's fireplace is burning bright!</span></div>
-</div>
 
-<script>
-    // Falling snow animation
-    const canvas = document.getElementById('snowfall');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    <script>
+       
+        function switchRoom(roomId) {
+            document.querySelectorAll('.room-section').forEach(sec => sec.classList.add('hidden'));
+            document.getElementById('room-' + roomId).classList.remove('hidden');
 
-    const snowflakes = [];
-    for (let i = 0; i < 100; i++) {
-        snowflakes.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            r: Math.random() * 2 + 1,
-            speed: Math.random() * 0.8 + 0.2,
-            d: Math.random() * Math.PI * 2
-        });
-    }
+            document.querySelectorAll('.room-tab').forEach(btn => {
+                btn.classList.remove('bg-red-700', 'text-white', 'border-red-500');
+                btn.classList.add('bg-red-950/80', 'text-amber-200', 'border-red-900');
+                if (btn.dataset.target === roomId) {
+                    btn.classList.remove('bg-red-950/80', 'border-red-900');
+                    btn.classList.add('bg-red-700', 'text-white', 'border-red-500');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-    function drawSnow() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-        ctx.beginPath();
-        snowflakes.forEach(flake => {
-            ctx.moveTo(flake.x, flake.y);
-            ctx.arc(flake.x, flake.y, flake.r, 0, Math.PI * 2);
-        });
-        ctx.fill();
-
-        snowflakes.forEach(flake => {
-            flake.y += flake.speed;
-            if (flake.y > canvas.height) {
-                flake.y = 0;
-                flake.x = Math.random() * canvas.width;
-            }
-        });
-        requestAnimationFrame(drawSnow);
-    }
-    drawSnow();
-
-    window.addEventListener('resize', () => {
+        
+        const canvas = document.getElementById('snowfall');
+        const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-    });
 
-    // Festive LED lighting function
-    function lightUpLeds(answer) {
-        const leds = document.querySelectorAll('.led');
-        // Pick holiday colors (Red or Green or Gold) based on value
-        const colors = ['#ff3b3b', '#50c878', '#ffd700', '#00e0ff'];
-        const chosenColor = colors[Math.abs(Math.floor(answer)) % colors.length];
+        const snowflakes = [];
+        for (let i = 0; i < 120; i++) {
+            snowflakes.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 2.5 + 1,
+                speed: Math.random() * 0.9 + 0.3,
+                d: Math.random() * Math.PI * 2
+            });
+        }
 
-        let count = Math.min(8, Math.max(1, Math.round(Math.abs(answer) % 8) || 8));
+        function drawSnow() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+            ctx.beginPath();
+            snowflakes.forEach(flake => {
+                ctx.moveTo(flake.x, flake.y);
+                ctx.arc(flake.x, flake.y, flake.r, 0, Math.PI * 2);
+            });
+            ctx.fill();
 
-        leds.forEach((led, i) => {
-            led.classList.remove('on');
-            led.style.setProperty('--led-color', chosenColor);
-            setTimeout(() => {
-                if (i < count) led.classList.add('on');
-            }, i * 100);
+            snowflakes.forEach(flake => {
+                flake.y += flake.speed;
+                if (flake.y > canvas.height) {
+                    flake.y = 0;
+                    flake.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(drawSnow);
+        }
+        drawSnow();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         });
-    }
-</script>
+
+        
+        function lightUpLeds(answer) {
+            const leds = document.querySelectorAll('.led');
+            const colors = ['#ff3b3b', '#50c878', '#ffd700', '#00e0ff', '#ff80bf'];
+            const chosenColor = colors[Math.abs(Math.floor(answer)) % colors.length];
+
+            let count = Math.min(8, Math.max(1, Math.round(Math.abs(answer) % 8) || 8));
+
+            leds.forEach((led, i) => {
+                led.classList.remove('on');
+                led.style.backgroundColor = '#222';
+                led.style.boxShadow = 'inset 0 0 4px #000';
+                setTimeout(() => {
+                    if (i < count) {
+                        led.classList.add('on');
+                        led.style.backgroundColor = chosenColor;
+                        led.style.boxShadow = `0 0 12px ${chosenColor}, 0 0 24px ${chosenColor}`;
+                    }
+                }, i * 100);
+            });
+        }
+
+        
+        function stokeFire() {
+            const fire = document.getElementById('fireIcon');
+            fire.style.transform = 'scale(1.3) rotate(10deg)';
+            setTimeout(() => fire.style.transform = 'scale(1) rotate(0deg)', 400);
+            showModal("🔥 Cozy Fire Stoked!", "You added dry pine logs to Grandma's fireplace. Sparks dance up the chimney and the room fills with a wonderful warmth.");
+        }
+
+        function shakeTree() {
+            const tree = document.getElementById('treeIcon');
+            tree.style.transform = 'rotate(-10deg) scale(1.2)';
+            setTimeout(() => tree.style.transform = 'rotate(0deg) scale(1)', 400);
+            showModal("🎄 Pine Needle Rustle!", "A gentle shower of pine needles and glitter falls from the branches. Smells like deep winter woods!");
+        }
+
+        function openStocking(name) {
+            const gifts = {
+                'Sara': "A golden code editor key, a bag of spiced drops, and a warm hug!",
+                'Grandma': "A pair of hand-knitted woolen mittens and a vintage music box.",
+                'Guest': "A special invitation to stay by the fire as long as you wish!"
+            };
+            showModal(`🧦 ${name}'s Stocking`, `Inside ${name}'s stocking you found: ${gifts[name] || "A sweet holiday treat!"}`);
+        }
+
+        function inspectObject(obj) {
+            const details = {
+                'piano': { title: "Grand Old Upright Piano", text: "Sheet music for 'Silent Night' rests on the wooden stand. Pressing a key plays a soft, nostalgic chime." },
+                'window': { title: "Frosted Window Pane", text: "Ice crystals form intricate fern patterns on the glass while fat snowflakes drift silently down onto the garden." },
+                'bookshelf': { title: "Grandma's Recipe Drawer", text: "A leather-bound notebook filled with handwritten notes for ginger snaps, pecan pie, and hot spiced cider." }
+            };
+            showModal(details[obj].title, details[obj].text);
+        }
+
+        
+        function bakeCookie() {
+            const shape = document.getElementById('cookieShape').value;
+            const frosting = document.getElementById('cookieFrosting').value;
+            const res = document.getElementById('cookieResult');
+            res.innerHTML = `🍪 Baking in progress... Fresh <b>${shape}</b> with <b>${frosting}</b> is ready! Warm and delicious!`;
+            showModal("🍪 Fresh Cookies Baked!", `Grandma pulled a warm batch of ${shape} with ${frosting} straight out of the brick oven!`);
+        }
+
+        function brewCocoa() {
+            const base = document.getElementById('cocoaBase').value;
+            const topping = document.getElementById('cocoaTopping').value;
+            const res = document.getElementById('cocoaResult');
+            res.innerHTML = `☕ Steaming mug of <b>${base}</b> topped with <b>${topping}</b> prepared! Enjoy!`;
+            showModal("☕ Gourmet Cocoa Ready!", `You crafted a wonderful mug of ${base} with ${topping}. Take a sip by the fire!`);
+        }
+
+     
+        const hungOrnaments = [];
+        function hangOrnament(orn) {
+            hungOrnaments.push(orn);
+            updateTreeDisplay();
+        }
+
+        function clearTree() {
+            hungOrnaments.length = 0;
+            updateTreeDisplay();
+        }
+
+        function updateTreeDisplay() {
+            const container = document.getElementById('treeOrnaments');
+            if (hungOrnaments.length === 0) {
+                container.innerHTML = '<span class="text-xs text-stone-400 self-center">Click buttons below to hang decorations!</span>';
+                return;
+            }
+            container.innerHTML = hungOrnaments.map(o => `<span class="text-2xl animate-bounce">${o}</span>`).join(' ');
+        }
+
+       
+        const stories = [
+            {
+                title: "Story 1: The Magic of Loops",
+                text: "\"The best of all gifts around any Christmas tree is the presence of happy family all wrapped up in each other. Remember, dear, every little loop in your code—and in life—gets simpler when handled with patience and a cup of warm tea.\""
+            },
+            {
+                title: "Story 2: Winter Starlight",
+                text: "\"When the snow falls deepest outside, the hearth burns brightest inside. Never forget that dark winter nights are just nature's way of reminding us to light our candles and cherish our loved ones.\""
+            },
+            {
+                title: "Story 3: Grandma's Secret Recipe",
+                text: "\"People often ask me what makes my holiday cookies so sweet. The secret isn't extra sugar, darling—it's sharing them with someone who brings a smile to your face.\""
+            },
+            {
+                title: "Story 4: The Holiday Algorithm",
+                text: "\"Life is much like a conditional `if...else` statement: if challenges arise, else we find a way together with courage, kindness, and festive cheer!\""
+            }
+        ];
+        let currentStoryIdx = 0;
+
+        function nextGrandmaStory() {
+            currentStoryIdx = (currentStoryIdx + 1) % stories.length;
+            document.getElementById('grandmaStoryText').innerHTML = `"${stories[currentStoryIdx].text}"`;
+            document.getElementById('storyIndex').innerText = `Story ${currentStoryIdx + 1} of ${stories.length}`;
+        }
+
+     
+        function signGuestbook() {
+            const name = document.getElementById('visitorName').value.trim() || "Anonymous Guest";
+            const note = document.getElementById('visitorNote').value.trim();
+            if (!note) {
+                showModal("📝 Note Required", "Please type a small holiday wish or note before signing the guestbook!");
+                return;
+            }
+            const container = document.getElementById('guestbookEntries');
+            const entry = document.createElement('div');
+            entry.className = "p-2.5 bg-[#1b070a] rounded-lg border border-red-950 text-xs animate-fade-in";
+            entry.innerHTML = `<span class="text-amber-400 font-bold">${escapeHtml(name)}:</span> <span class="text-amber-100">${escapeHtml(note)}</span>`;
+            container.prepend(entry);
+            document.getElementById('visitorNote').value = '';
+            document.getElementById('visitorName').value = '';
+            showModal("✨ Note Added!", "Your message has been inscribed into Grandma's cozy cabin journal!");
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        
+        let audioActive = false;
+        function toggleAudio() {
+            audioActive = !audioActive;
+            const btn = document.getElementById('audioToggleBtn');
+            if (audioActive) {
+                btn.innerHTML = '<i class="fa-solid fa-volume-high mr-1 text-green-400"></i> Hearth Sound: ON';
+                showModal("🎶 Hearth Sound Active", "Soft crackling fireplace sounds and gentle Christmas melodies fill the room (ambient simulation active).");
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-volume-xmark mr-1"></i> Toggle Hearth Sound';
+                showModal("🔇 Hearth Sound Muted", "The room returns to quiet winter peace.");
+            }
+        }
+
+      
+        function showModal(title, body) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalBody').innerText = body;
+            document.getElementById('customModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('customModal').classList.add('hidden');
+        }
+    </script>
 
 </body>
 </html>
