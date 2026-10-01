@@ -166,7 +166,7 @@
   }
   input[type=button]:active { transform: translateY(1px) scale(0.98); }
 
- 
+  
   #myDiv01 {
     min-height: 90px;
     margin-top: 8px;
@@ -309,6 +309,22 @@ weird number: <input id="myWeird" type=number value="2"><br>
   document.getElementById('myDiv01').innerHTML = myTemp;
 ">
 
+<input type=button value="Weird Multiples Checker" onclick="
+  document.getElementById('myDiv01').innerHTML = '';
+  let myTemp = '';
+  let myMax = parseInt(document.getElementById('myNum01').value);
+  let myW = parseInt(document.getElementById('myWeird').value);
+
+  for (let myLoop = 0; myLoop < myMax; myLoop++){
+    if (myLoop % myW == 0){
+      myTemp += 'Multiple of ' + myW + ': ' + myLoop + '<br>';
+    } else {
+      myTemp += 'Loop number: ' + myLoop + '<br>';
+    }
+  }
+  document.getElementById('myDiv01').innerHTML = myTemp;
+">
+
 <div id="myDiv01"><font color=red>...</font></div>
 
 <div class="st-footer">
@@ -363,7 +379,7 @@ weird number: <input id="myWeird" type=number value="2"><br>
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     for (var k = 0; k < spores.length; k++) {
       var p = spores[k];
-      p.y -= p.speed;           // spores float UP (it's the Upside Down)
+      p.y -= p.speed;           
       p.x += p.drift;
       if (p.y < -5) { p.y = canvas.height + 5; p.x = Math.random() * canvas.width; }
       ctx.beginPath();
