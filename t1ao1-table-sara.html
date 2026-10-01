@@ -1,20 +1,57 @@
-<h3 style="text-align:center; padding:10px; color:#fff; background:#000; border:2px solid #a855f7; border-right:2px solid #ec4899; width:250px; margin:0 auto;">The demonstration of the table</h3>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ski Resort Grid</title>
+<style>
+  body {
+    background: linear-gradient(135deg, #0b1329, #1c2d59, #38bdf8);
+    color: #fff;
+    font-family: system-ui, -apple-system, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  table td {
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  table td:hover {
+    background: #a855f7 !important;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px #ec4899;
+  }
+</style>
+</head>
+<body>
+
+<h2 style="text-align:center; color:#38bdf8; text-shadow: 0 0 10px #38bdf8; margin: 0 0 10px 0; font-size: 18px;">HEY ITS AN INTERACTIVE TABLE CLICK TO CONTINUE</h2>
+
+<h3 style="text-align:center; padding:10px; color:#fff; background:#000; border:2px solid #a855f7; border-right:2px solid #ec4899; width:250px; margin:0 auto;" onclick="alert('❄️ Fresh Powder Mode Active!')">The demonstration of the table</h3>
 
 <table style="border-collapse:collapse; width:250px; margin:10px auto;">
   <tr>
-    <td style="padding:10px; text-align:center; color:#fff; background:#000; border:2px solid #a855f7;">A</td>
-    <td style="padding:10px; text-align:center; color:#fff; background:#000; border:2px solid #ec4899;">1</td>
-    <td style="padding:10px; text-align:center; color:#fff; background:#000; border:2px solid #a855f7;">B</td>
-    <td style="padding:10px; text-align:center; color:#fff; background:#000; border:2px solid #ec4899;">2</td>
+    <td style="padding:10px; text-align:center; color:#fff; background:#000; border:2px solid #a855f7;" onclick="alert('Carve: A')">A</td>
+    <td style="padding:10px; text-align:center; color:#fff; background:#000; border:2px solid #ec4899;" onclick="alert('Carve: 1')">1</td>
+    <td style="padding:10px; text-align:center; color:#fff; background:#000; border:2px solid #a855f7;" onclick="alert('Carve: B')">B</td>
+    <td style="padding:10px; text-align:center; color:#fff; background:#000; border:2px solid #ec4899;" onclick="alert('Carve: 2')">2</td>
   </tr>
   <tr>
-    <td style="padding:10px; text-align:center; color:#fff; background:#000; border:2px solid #ec4899;">C</td>
-    <td style="padding:10px; text-align:center; color:#fff; background:#000; border:2px solid #a855f7;">3</td>
-    <td style="padding:10px; text-align:center; color:#fff; background:#000; border:2px solid #ec4899;">D</td>
-    <td style="padding:10px; text-align:center; color:#fff; background:#000; border:2px solid #a855f7;">4</td>
+    <td style="padding:10px; text-align:center; color:#fff; background:#000; border:2px solid #ec4899;" onclick="alert('Carve: C')">C</td>
+    <td style="padding:10px; text-align:center; color:#fff; background:#000; border:2px solid #a855f7;" onclick="alert('Carve: 3')">3</td>
+    <td style="padding:10px; text-align:center; color:#fff; background:#000; border:2px solid #ec4899;" onclick="alert('Carve: D')">D</td>
+    <td style="padding:10px; text-align:center; color:#fff; background:#000; border:2px solid #a855f7;" onclick="alert('Carve: 4')">4</td>
   </tr>
 </table>
 
-<h3 style="text-align:center; padding:10px; color:#fff; background:#000; border:2px solid #a855f7; border-right:2px solid #ec4899; width:250px; margin:10px auto 0;">This is a picture of a shore</h3>
+<h3 style="text-align:center; padding:10px; color:#fff; background:#000; border:2px solid #a855f7; border-right:2px solid #ec4899; width:250px; margin:10px auto 0;" onclick="alert('🏔️ Mountain Peak View')">This is a picture of a shore</h3>
 
-<img src="https://images.unsplash.com/photo-1788721739736-a020d90b6bdf?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Shore view" width="300" style="display:block; margin:0 auto;">
+<img src="https://images.unsplash.com/photo-1788721739736-a020d90b6bdf?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Shore view" width="300" style="display:block; margin:0 auto; border:2px solid #38bdf8; border-radius:8px;">
+
+</body>
+</html>
