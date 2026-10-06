@@ -1,13 +1,122 @@
-<script> 
-function myExampleFunction(){ 
-letmyIn01= parseInt (document.getElementById ( 'myText01'). value)
-letmySum= myIn01 + ' + ' + myIn01+ ' = ' + mySum 
-}
-</script>
-<h2 align=center> t1a09-functions-by-Sara.html </h2> 
-<a href="https://www.w3schools.com/js/js_functions.asp"> Good reference to Javascript functions</a> <br> 
-<h4> Example working code</h4>
-<input type=text id="myText01" value="3"><br> 
-  <input type= text id"myText01" value "3"> <br> 
-  <input type=button value= "Function Example" onClick="{ document.getElementById ( 'myDiv01').innerHTML = myExampleFunction ()}"> 
-  <div id="myDiv01">...</div>
+ html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>t1a09-functions-by-Sara - Haunted Estate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Creepster&family=Special+Elite&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #050204;
+            color: #d1d5db;
+            font-family: 'Special Elite', monospace;
+            overflow-x: hidden;
+        }
+        .gothic-title {
+            font-family: 'Creepster', cursive;
+            letter-spacing: 2px;
+        }
+        .cinzel-font {
+            font-family: 'Cinzel', serif;
+        }
+       
+        .blood-drip {
+            background: linear-gradient(to bottom, #8B0000, #400000);
+            box-shadow: 0 0 15px rgba(139, 0, 0, 0.7);
+        }
+        .blood-text {
+            color: #ff1a1a;
+            text-shadow: 0 0 12px rgba(255, 0, 0, 0.8), 0 0 25px rgba(139, 0, 0, 0.5);
+        }
+        .pumpkin-glow {
+            text-shadow: 0 0 15px #ff7700, 0 0 30px #ff3300;
+        }
+        .haunted-card {
+            background: rgba(15, 8, 12, 0.85);
+            border: 1px solid rgba(139, 0, 0, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9), inset 0 0 15px rgba(139, 0, 0, 0.15);
+        }
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .float-anim {
+            animation: floatSlow 4s ease-in-out infinite;
+        }
+    </style>
+    <script>
+        
+        function myExampleFunction() {
+            let myIn01 = parseInt(document.getElementById('myText01').value);
+            let mySum = myIn01 + myIn01;
+            return myIn01 + ' + ' + myIn01 + ' = ' + mySum;
+        }
+
+        function vampireSpellFunction() {
+            let covenCount = parseInt(document.getElementById('vampireInput').value);
+            if (isNaN(covenCount)) covenCount = 1;
+            let bloodVials = covenCount * 7;
+            let shadowBats = covenCount * 13;
+            return `Coven strength ${covenCount}: Summoned ${bloodVials} blood chalices and awakened ${shadowBats} shadows from the catacombs.`;
+        }
+    </script>
+</head>
+<body class="min-h-screen py-10 px-4 relative flex flex-col items-center justify-between">
+
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-red-900/10 blur-[120px] pointer-events-none rounded-full"></div>
+    <div class="absolute bottom-0 right-10 w-[400px] h-[400px] bg-orange-600/10 blur-[150px] pointer-events-none rounded-full"></div>
+
+    <header class="w-full max-w-3xl text-center z-10 mb-8">
+        <div class="flex justify-center items-center gap-4 mb-2">
+            <span class="text-3xl pumpkin-glow">🎃</span>
+            <h1 class="gothic-title text-4xl sm:text-5xl blood-text float-anim">t1a09-functions-by-Sara.html</h1>
+            <span class="text-3xl pumpkin-glow">🎃</span>
+        </div>
+        <p class="cinzel-font text-sm sm:text-base text-gray-400 tracking-widest mb-4">HAUNTED MANOR ARCHIVES</p>
+        <a href="https://www.w3schools.com/js/js_functions.asp" target="_blank" class="cinzel-font text-xs sm:text-sm text-red-400 hover:text-red-300 underline underline-offset-4 transition duration-300">
+            Reference to JavaScript Functions
+        </a>
+    </header>
+
+    <main class="w-full max-w-2xl space-y-8 z-10">
+        
+        <!-- ORIGINAL CODE CARD -->
+        <div class="haunted-card rounded-2xl p-6 sm:p-8 relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1 blood-drip"></div>
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="cinzel-font text-lg sm:text-xl font-bold text-gray-200">Cryptic Calculation</h2>
+                <span class="text-xs cinzel-font px-3 py-1 rounded bg-red-950/60 text-red-300 border border-red-900/50">Original Code</span>
+            </div>
+            <p class="text-xs text-gray-400 mb-6 font-mono">Enter a numeric value to invoke the ritual transformation below.</p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+                <input type="text" id="myText01" value="3" class="w-full sm:w-32 bg-black/60 border border-red-900/60 text-red-400 text-center font-bold py-2.5 px-4 rounded-lg focus:outline-none focus:border-red-500 shadow-inner">
+                <input type="button" value="Execute Function" onClick="{ document.getElementById('myDiv01').innerHTML = myExampleFunction() }" class="w-full sm:w-auto cursor-pointer blood-drip text-white cinzel-font text-sm font-bold tracking-wider py-3 px-6 rounded-lg transition-all duration-300 hover:brightness-125 shadow-lg">
+            </div>
+            
+            <div class="bg-black/80 border border-red-950 rounded-xl p-4 text-center">
+                <span class="text-xs text-gray-500 block mb-1 uppercase cinzel-font">Ritual Output:</span>
+                <div id="myDiv01" class="text-red-400 font-mono text-lg tracking-wider">...</div>
+            </div>
+        </div>
+        <div class="haunted-card rounded-2xl p-6 sm:p-8 relative overflow-hidden">
+            <div class="absolute top-0 left-0 right-0 h-1 blood-drip"></div>
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="cinzel-font text-lg sm:text-xl font-bold text-gray-200">Vampire Coven Ritual</h2>
+                <span class="text-xs cinzel-font px-3 py-1 rounded bg-red-950/60 text-red-300 border border-red-900/50">Advanced Logic</span>
+            </div>
+            <p class="text-xs text-gray-400 mb-6 font-mono">Channel dark energy through the hanted coven .</p> 
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+                <input type="text" id="vampireInput" value="5" class="w-full sm:w-32 bg-black/60 border border-red-900/60 text-red-400 text-center font-bold py-2.5 px-4 rounded-lg focus:outline-none focus:border-red-500 shadow-inner">
+                <input type="button" value="Cast Vampire Spell" onClick="{ document.getElementById('vampireDiv02').innerHTML = vampireSpellFunction() }" class="w-full sm:w-auto cursor-pointer blood-drip text-white cinzel-font text-sm font-bold tracking-wider py-3 px-6 rounded-lg transition-all duration-300 hover:brightness-125 shadow-lg">
+            </div>    
+            <div class="bg-black/80 border border-red-950 rounded-xl p-4 text-center">
+                <span class="text-xs text-gray-500 block mb-1 uppercase cinzel-font">Ritual Output:</span>
+                <div id="vampireDiv02" class="text-red-400 font-mono text-sm tracking-wide">The catacombs are silent...</div>
+ </div>
+ </div>
+</main>
+ <footer class="mt-12 text-center text-xs text-gray-500 cinzel-font z-10">   
+</body>
+</html>
