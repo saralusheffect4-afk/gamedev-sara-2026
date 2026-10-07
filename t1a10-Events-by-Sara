@@ -1,17 +1,176 @@
-<h2 style="text-align: center;">t1a10-Events-by-Sara</h2>
-<a href="https://way2tutorial.com/html/html15_events_handler_list.php">Good reference to HTML Events</a> <br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>t1a10-Events-by-Sara</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --border-color: #30363d;
+            --accent-primary: #58a6ff;
+            --accent-secondary: #bc8cff;
+            --text-color: #c9d1d9;
+            --text-muted: #8b949e;
+        }
 
-<input type="text" id="myText01" value="3"><br><br>
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
+        }
 
-<input type="button" value="Example" onclick="document.getElementById('myDiv01').innerHTML = document.getElementById('myText01').value;"><br><br>  
+        h2 {
+            color: var(--accent-primary);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
 
-<div id="myDiv01">...</div><br>
+        a {
+            color: var(--accent-secondary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
 
-<b id="myB02" 
-   onmouseout="document.getElementById('myB02').innerHTML = 'This is nice.';" 
-   onmouseover="document.getElementById('myB02').innerHTML = 'This is so cool.';">
-   This is Bold
-</b> <br><br>  
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
 
-Other valid events: <br>
-onclick, ondblclick, onchange, onblur, onfocus, onmousemove, ontouchstart, onkeydown, onkeypress, ondragstart, ontouchend, ontouchmove
+        input[type="text"], select {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        input[type="button"] {
+            background: linear-gradient(135deg, #238636, #2ea043);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        input[type="button"]:hover {
+            opacity: 0.9;
+        }
+
+        #myDiv01 {
+            background-color: var(--bg-color);
+            border: 1px dashed var(--accent-primary);
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-family: monospace;
+            color: var(--accent-primary);
+        }
+
+        #myB02 {
+            display: inline-block;
+            padding: 8px 14px;
+            background-color: rgba(188, 140, 255, 0.1);
+            border-radius: 4px;
+            border: 1px solid var(--accent-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .event-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .event-box {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .log-output {
+            color: var(--accent-secondary);
+            font-weight: bold;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2 align="center">t1a10-Events-by-Sara</h2>
+    <a href="https://way2tutorial.com/html/html15_events_handler_list.php">Good reference to HTML Events</a> <br><br> 
+    
+    <div class="card">
+        <input type="text" id="myText01" value="3"><br><br>
+
+        <input type="button" value="Example" onclick="{
+        document.getElementById ('myDiv01').innerHTML= document.getElementById('myText01').value}"> <br><br>
+
+        <div id="myDiv01">...</div><br>
+
+        <b id="myB02" onMouseOut="{ 
+            document.getElementById ('myB02').innerHTML= 'This is nice.'}" 
+            onMouseOver="{ document.getElementById ('myB02').innerHTML = 'This is so cool.'}"> This is Bold</b> <br> <br> 
+    </div>
+
+    <div class="card">
+        <h3>Interactive Event Playground (Assignment Tasks)</h3>
+        <p>Testing out the requested event handlers with live status logs:</p>
+        
+        <div class="event-grid">
+        
+            <div class="event-box" ondblclick="this.style.borderColor='#2ea043'; document.getElementById('log-dbl').innerText='Double-Clicked Success!';">
+                <b>ondblclick</b>: Double-click this box.
+                <div id="log-dbl" class="log-output">Waiting...</div>
+            </div>
+
+            <div class="event-box">
+                <b>onfocus / onblur / onchange</b>:<br>
+                <input type="text" placeholder="Click me..." 
+                       onfocus="this.style.borderColor='#58a6ff'; document.getElementById('log-focus').innerText='Focused!';" 
+                       onblur="this.style.borderColor='#30363d'; document.getElementById('log-focus').innerText='Blurred!';"
+                       onchange="document.getElementById('log-focus').innerText='Changed to: ' + this.value;">
+                <div id="log-focus" class="log-output">Idle</div>
+            </div>
+            <div class="event-box" onmousemove="document.getElementById('log-move').innerText = 'X: ' + event.clientX + ' Y: ' + event.clientY;">
+                <b>onmousemove</b>: Hover over this box.
+                <div id="log-move" class="log-output">Coordinates: (0, 0)</div>
+            </div>
+            <div class="event-box">
+                <b>onkeydown</b>: Type a key here.<br>
+                <input type="text" placeholder="Press key..." onkeydown="document.getElementById('log-key').innerText='Key pressed: ' + event.key;">
+                <div id="log-key" class="log-output">No key pressed</div>
+            </div>
+
+            <div class="event-box" draggable="true" ondragstart="document.getElementById('log-drag').innerText='Dragging started!';">
+                <b>ondragstart</b>: Drag this text box!
+                <div id="log-drag" class="log-output">Ready to drag</div>
+            </div>
+
+  
+            <div class="event-box" ontouchstart="document.getElementById('log-touch').innerText='Touch Started!';" ontouchend="document.getElementById('log-touch').innerText='Touch Ended!';">
+                <b>ontouchstart / ontouchend</b>: Tap/Touch here (Mobile).
+                <div id="log-touch" class="log-output">No touch detected</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
