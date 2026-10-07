@@ -1,0 +1,17 @@
+<h2 style="text-align: center;">t1a10-Events-by-Sara</h2>
+<a href="https://way2tutorial.com/html/html15_events_handler_list.php">Good reference to HTML Events</a> <br><br>
+
+<input type="text" id="myText01" value="3"><br><br>
+
+<input type="button" value="Example" onclick="document.getElementById('myDiv01').innerHTML = document.getElementById('myText01').value;"><br><br>  
+
+<div id="myDiv01">...</div><br>
+
+<b id="myB02" 
+   onmouseout="document.getElementById('myB02').innerHTML = 'This is nice.';" 
+   onmouseover="document.getElementById('myB02').innerHTML = 'This is so cool.';">
+   This is Bold
+</b> <br><br>  
+
+Other valid events: <br>
+onclick, ondblclick, onchange, onblur, onfocus, onmousemove, ontouchstart, onkeydown, onkeypress, ondragstart, ontouchend, ontouchmove
