@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oceanic Mandelbrot Fractal Explorer In to The Flowing Currents</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #020617;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            cursor: crosshair;
+        }
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="myFractalCanvas"></canvas>
+
+    <div id="myHintBox" class="absolute top-4 left-4 z-10 glass-panel text-sky-200 px-4 py-3 rounded-2xl shadow-2xl cursor-pointer hover:border-cyan-400 transition-all duration-300 flex items-center gap-3 group">
+        <div class="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-300 font-bold group-hover:scale-110 transition-transform">
+            🌊
+        </div>
+        <div>
+            <h1 class="text-sm font-semibold tracking-wide text-sky-100">Flowing Oceanic Mandelbrot</h1>
+            <p class="text-xs text-sky-400">Click for Formula & Guide</p>
+        </div>
+    </div>
+
+   
+    <div class="absolute bottom-4 left-4 z-10 glass-panel text-sky-200 px-4 py-2.5 rounded-xl text-xs flex items-center gap-4 shadow-lg pointer-events-none">
+        <div>Zoom: <span id="myZoomDisplay" class="font-mono text-cyan-300 font-bold">1.00x</span></div>
+        <div class="w-px h-3 bg-sky-500/30"></div>
+        <div>Wheel: <span class="text-sky-300">Resize Preview Box</span></div>
+        <div class="w-px h-3 bg-sky-500/30"></div>
+        <div>Currents: <span class="text-cyan-300 animate-pulse">Active</span></div>
+    </div>
+
+  
+    <button id="myResetButton" class="absolute top-4 right-4 z-10 glass-panel text-sky-200 px-4 py-2.5 rounded-xl text-xs font-semibold hover:bg-cyan-500/20 hover:text-white border border-cyan-500/30 shadow-xl transition-all active:scale-95 flex items-center gap-2">
+        <span>🔄 Reset Depth</span>
+    </button>
+
+    <!-- Info Modal -->
+    <div id="myInfoModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="glass-panel max-w-lg mx-4 p-6 rounded-3xl text-sky-100 shadow-2xl border border-cyan-500/40 transform scale-95 transition-transform duration-300" id="myModalContent">
+            <div class="flex justify-between items-center mb-4">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">🐚</span>
+                    <h2 class="text-lg font-bold text-cyan-300">The Abyss of $Z_{n+1} = Z_n^2 + C$</h2>
+                </div>
+                <button id="myCloseModal" class="text-sky-400 hover:text-white text-xl font-bold px-2 py-1 rounded-lg hover:bg-white/10 transition-colors">&times;</button>
+            </div>
+            <div class="space-y-3 text-xs leading-relaxed text-sky-200/90">
+                <p>
+                    Welcome to the animated ocean This visualization maps the complex pixels coordinate corresponds to constant <strong class="text-cyan-300">$C$</strong>.
+                </p>
+                <div class="bg-slate-900/80 p-3 rounded-xl border border-cyan-500/20 font-mono text-cyan-400 text-center text-sm">
+                    $Z_{n+1} = Z_n^2 + C$
+                </div>
+                <p>
+                    The vibrant ocean currents swirl continuously because the color shifts over time, making waves of turquoise, bioluminescent cyan, seafoam, and pearl white ripple through the abyss.
+                </p>
+                <div class="border-t border-sky-500/20 pt-3 flex justify-between items-center text-[11px] text-sky-400">
+                    <span>Scroll to resize preview viewport</span>
+                    <span class="font-semibold text-cyan-300">Click anywhere to dive</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let myCanvas = document.getElementById("myFractalCanvas");
+        let myCtx = myCanvas.getContext("2d");
+        
+        let myHintBox = document.getElementById("myHintBox");
+        let myInfoModal = document.getElementById("myInfoModal");
+        let myModalContent = document.getElementById("myModalContent");
+        let myCloseModal = document.getElementById("myCloseModal");
+        let myResetButton = document.getElementById("myResetButton");
+        let myZoomDisplay = document.getElementById("myZoomDisplay");
+
+      
+        let myCenterX = -0.75;
+        let myCenterY = 0.0;
+        let myBaseScale = 3.0;
+        let myCurrentZoom = 1.0;
+        let myMaxIterations = 120;
+        
+       
+        let myColorOffset = 0.0;
+        let myIsAnimating = true;
+
+        let myPreviewSizeNorm = 0.35;
+        let myMouseX = window.innerWidth / 2;
+        let myMouseY = window.innerHeight / 2;
+        let myIsHovering = false;
+        let myIsRendering = false;
+
+       
+        let myCachedBuffer = null;
+        let myCachedWidth = 0;
+        let myCachedHeight = 0;
+        let myCachedXMin = 0;
+        let myCachedYMin = 0;
+        let myCachedPlaneWidth = 0;
+        let myCachedPlaneHeight = 0;
+        let myCachedMaxIter = 0;
+
+        function myResizeCanvas() {
+            let myDevicePixelRatio = window.devicePixelRatio || 1;
+            myCanvas.width = window.innerWidth * myDevicePixelRatio;
+            myCanvas.height = window.innerHeight * myDevicePixelRatio;
+            myCtx.scale(myDevicePixelRatio, myDevicePixelRatio);
+            myTriggerRecomputation();
+        }
+        window.onresize = myResizeCanvas;
+
+        async function myComputeFractalBuffer() {
+            if (myIsRendering) return;
+            myIsRendering = true;
+
+            let myDisplayWidth = window.innerWidth;
+            let myDisplayHeight = window.innerHeight;
+            
+            myCachedWidth = myDisplayWidth;
+            myCachedHeight = myDisplayHeight;
+            let myRawBuffer = new Float32Array(myDisplayWidth * myDisplayHeight);
+
+            let myScale = myBaseScale / myCurrentZoom;
+            let myAspectRatio = myDisplayWidth / myDisplayHeight;
+            myCachedPlaneWidth = myScale;
+            myCachedPlaneHeight = myScale / myAspectRatio;
+            myCachedXMin = myCenterX - myCachedPlaneWidth / 2;
+            myCachedYMin = myCenterY - myCachedPlaneHeight / 2;
+
+            
+            let myCalculatedIterations = Math.floor(120 + Math.log(Math.max(myCurrentZoom, 1)) * 35);
+            myCachedMaxIter = Math.min(myCalculatedIterations, 1500);
+            myMaxIterations = myCachedMaxIter;
+
+            let myChunkSize = 35; 
+            for (let myYStart = 0; myYStart < myDisplayHeight; myYStart += myChunkSize) {
+                let myYEnd = Math.min(myYStart + myChunkSize, myDisplayHeight);
+                
+                for (let y = myYStart; y < myYEnd; y++) {
+                    let c_im = myCachedYMin + (y / myDisplayHeight) * myCachedPlaneHeight;
+                    let myRowOffset = y * myDisplayWidth;
+                    for (let x = 0; x < myDisplayWidth; x++) {
+                        let c_re = myCachedXMin + (x / myDisplayWidth) * myCachedPlaneWidth;
+
+                        let z_re = 0.0;
+                        let z_im = 0.0;
+                        let n = 0;
+                        let z_re2 = 0.0;
+                        let z_im2 = 0.0;
+
+                        while (n < myCachedMaxIter && (z_re2 + z_im2) <= 4.0) {
+                            z_im = 2.0 * z_re * z_im + c_im;
+                            z_re = z_re2 - z_im2 + c_re;
+                            z_re2 = z_re * z_re;
+                            z_im2 = z_im * z_im;
+                            n++;
+                        }
+
+                        if (n >= myCachedMaxIter) {
+                            myRawBuffer[myRowOffset + x] = -1.0; 
+                        } else {
+                            let myLogNu = Math.log(Math.max(1, z_re2 + z_im2)) / 2;
+                            let mySmoothIter = n + 1 - Math.log(Math.max(1, myLogNu / Math.LN2)) / Math.LN2;
+                            myRawBuffer[myRowOffset + x] = mySmoothIter;
+                        }
+                    }
+                }
+                await new Promise(myResolve => setTimeout(myResolve, 0));
+            }
+
+            myCachedBuffer = myRawBuffer;
+            myIsRendering = false;
+        }
+
+        function myTriggerRecomputation() {
+            myComputeFractalBuffer();
+        }
+
+        function myRenderFrame() {
+            let myDisplayWidth = window.innerWidth;
+            let myDisplayHeight = window.innerHeight;
+
+            if (myCachedBuffer && myCachedWidth === myDisplayWidth && myCachedHeight === myDisplayHeight) {
+                let myImageBuffer = myCtx.createImageData(myDisplayWidth, myDisplayHeight);
+                let myData = myImageBuffer.data;
+
+               
+                myColorOffset += 0.003;
+
+                for (let y = 0; y < myDisplayHeight; y++) {
+                    let myRowOffset = y * myDisplayWidth;
+                    for (let x = 0; x < myDisplayWidth; x++) {
+                        let myIndex = myRowOffset + x;
+                        let mySmoothIter = myCachedBuffer[myIndex];
+                        let myPixelDataIdx = myIndex * 4;
+
+                        if (mySmoothIter < 0) {
+                        
+                            let myPulse = Math.sin(myColorOffset * 2 + x * 0.01) * 3;
+                            myData[myPixelDataIdx] = Math.max(0, 2 + myPulse);   
+                            myData[myPixelDataIdx + 1] = Math.max(0, 6 + myPulse * 1.5); 
+                            myData[myPixelDataIdx + 3] = 255;
+                        } else {
+                       
+                            let myColorCycle = ((mySmoothIter * 0.08) + myColorOffset) % 1.0;
+
+                            let myR, myG, myB;
+                            if (myColorCycle < 0.25) {
+                                let t = myColorCycle / 0.25;
+                                myR = Math.floor(8 + t * (14 - 8));
+                                myG = Math.floor(47 + t * (165 - 47));
+                                myB = Math.floor(102 + t * (233 - 102));
+                            } else if (myColorCycle < 0.5) {
+                                let t = (myColorCycle - 0.25) / 0.25;
+                                myR = Math.floor(14 + t * (6 - 14));
+                                myG = Math.floor(165 + t * (182 - 165));
+                                myB = Math.floor(233 + t * (212 - 233));
+                            } else if (myColorCycle < 0.75) {
+                                let t = (myColorCycle - 0.5) / 0.25;
+                                myR = Math.floor(6 + t * (45 - 6));
+                                myG = Math.floor(182 + t * (212 - 182));
+                                myB = Math.floor(212 + t * (191 - 212));
+                            } else {
+                                let t = (myColorCycle - 0.75) / 0.25;
+                                myR = Math.floor(45 + t * (2 - 45));
+                                myG = Math.floor(212 + t * (6 - 212));
+                                myB = Math.floor(191 + t * (23 - 191));
+                            }
+
+                            myData[myPixelDataIdx] = myR;
+                            myData[myPixelDataIdx + 1] = myG;
+                            myData[myPixelDataIdx + 2] = myB;
+                            myData[myPixelDataIdx + 3] = 255;
+                        }
+                    }
+                }
+
+                myCtx.putImageData(myImageBuffer, 0, 0);
+            } else {
+                myCtx.fillStyle = "#020617";
+                myCtx.fillRect(0, 0, myDisplayWidth, myDisplayHeight);
+                myCtx.fillStyle = "#38bdf8";
+                myCtx.font = "14px Inter, sans-serif";
+                myCtx.textAlign = "center";
+                myCtx.fillText("Summoning oceanic fractal depth...", myDisplayWidth / 2, myDisplayHeight / 2);
+            }
+
+            if (myIsHovering) {
+                myDrawPreviewOverlay();
+            }
+
+            if (myIsAnimating) {
+                requestAnimationFrame(myRenderFrame);
+            }
+        }
+
+        function myDrawPreviewOverlay() {
+            let myDisplayWidth = window.innerWidth;
+            let myDisplayHeight = window.innerHeight;
+
+            let myPrevPixelW = myDisplayWidth * myPreviewSizeNorm;
+            let myPrevPixelH = myDisplayHeight * myPreviewSizeNorm;
+
+            let myBoxX = myMouseX - myPrevPixelW / 2;
+            let myBoxY = myMouseY - myPrevPixelH / 2;
+
+            myCtx.save();
+          
+            myCtx.strokeStyle = "rgba(56, 189, 248, 0.95)";
+            myCtx.lineWidth = 2;
+            myCtx.setLineDash([8, 6]);
+            myCtx.strokeRect(myBoxX, myBoxY, myPrevPixelW, myPrevPixelH);
+
+            myCtx.fillStyle = "rgba(56, 189, 248, 0.08)";
+            myCtx.fillRect(myBoxX, myBoxY, myPrevPixelW, myPrevPixelH);
+
+            myCtx.fillStyle = "rgba(255, 255, 255, 0.9)";
+            myCtx.beginPath();
+            myCtx.arc(myMouseX, myMouseY, 3, 0, Math.PI * 2);
+            myCtx.fill();
+            myCtx.restore();
+        }
+
+        window.onmousemove = function(myEvent) {
+            myMouseX = myEvent.clientX;
+            myMouseY = myEvent.clientY;
+            myIsHovering = true;
+        };
+
+        window.onmouseout = function() {
+            myIsHovering = false;
+        };
+
+        window.onwheel = function(myEvent) {
+            myEvent.preventDefault();
+            myPreviewSizeNorm = Math.max(0.1, Math.min(0.8, myPreviewSizeNorm * (myEvent.deltaY < 0 ? 0.92 : 1.08)));
+        };
+
+        myCanvas.onclick = function(myEvent) {
+            let myDisplayWidth = window.innerWidth;
+            let myDisplayHeight = window.innerHeight;
+
+            let myScale = myBaseScale / myCurrentZoom;
+            let myAspectRatio = myDisplayWidth / myDisplayHeight;
+            let myPlaneWidth = myScale;
+            let myPlaneHeight = myScale / myAspectRatio;
+            let myXMin = myCenterX - myPlaneWidth / 2;
+            let myYMin = myCenterY - myPlaneHeight / 2;
+
+            myCenterX = myXMin + (myEvent.clientX / myDisplayWidth) * myPlaneWidth;
+            myCenterY = myYMin + (myEvent.clientY / myDisplayHeight) * myPlaneHeight;
+
+            let myZoomFactor = 1.0 / myPreviewSizeNorm;
+            myCurrentZoom *= myZoomFactor;
+
+            myZoomDisplay.innerText = myCurrentZoom >= 1000 ? myCurrentZoom.toExponential(2) + "x" : myCurrentZoom.toFixed(2) + "x";
+
+            
+            myTriggerRecomputation();
+        };
+
+        myResetButton.onclick = function(myEvent) {
+            myEvent.stopPropagation();
+            myCenterX = -0.75;
+            myCenterY = 0.0;
+            myCurrentZoom = 1.0;
+            myPreviewSizeNorm = 0.35;
+            myZoomDisplay.innerText = "1.00x";
+            myTriggerRecomputation();
+        };
+ myHintBox.onclick = function() {
+            myInfoModal.classList.remove("opacity-0", "pointer-events-none");
+            myModalContent.classList.remove("scale-95");
+            myModalContent.classList.add("scale-100");
+        };
+
+        myCloseModal.onclick = function() {
+            myInfoModal.classList.add("opacity-0", "pointer-events-none");
+            myModalContent.classList.remove("scale-100");
+            myModalContent.classList.add("scale-95");
+        };
+
+        myInfoModal.onclick = function(myEvent) {
+            if (myEvent.target === myInfoModal) {
+                myCloseModal.onclick();
+            }
+        };
+
+        window.onload = function() {
+            myResizeCanvas();
+            requestAnimationFrame(myRenderFrame);
+        };
+    </script>
+</body>
+</html>
