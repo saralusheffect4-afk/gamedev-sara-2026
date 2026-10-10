@@ -1,399 +1,177 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>t1a10-Events-by-Sara.html</title>
-    <style>
-
-        :root {
-            --dark: #3e2723;
-            --brown: #6d4c41;
-            --gold: #d4a017;
-            --light-gold: #f3d36b;
-            --cream: #fbf1d6;
-        }
-        * {
-            box-sizing: border-box;
-        }
+<style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: var(--dark);
+            color: #3e2723;
             margin: 0;
             padding: 25px 15px;
-            line-height: 1.6;
-
-            background-color: var(--brown);
+            line-height: 1.8;
+            background-color: #6d4c41;
             background-image:
-                linear-gradient(45deg, var(--dark) 25%, transparent 25%, transparent 75%, var(--dark) 75%),
-                linear-gradient(45deg, var(--dark) 25%, transparent 25%, transparent 75%, var(--dark) 75%);
+                linear-gradient(45deg, #3e2723 25%, transparent 25%, transparent 75%, #3e2723 75%),
+                linear-gradient(45deg, #3e2723 25%, transparent 25%, transparent 75%, #3e2723 75%);
             background-size: 60px 60px;
             background-position: 0 0, 30px 30px;
         }
         .page {
-            max-width: 850px;
+            max-width: 800px;
             margin: 0 auto;
-            background-color: var(--cream);
-            border: 8px solid var(--gold);
+            background-color: #fbf1d6;
+            border: 8px solid #d4a017;
             border-radius: 14px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             overflow: hidden;
         }
-
         .header {
-            background-color: var(--dark);
-            color: var(--light-gold);
-            text-align: center;
-            padding: 25px 15px 20px 15px;
+            background-color: #3e2723;
+            padding: 15px;
         }
-        .header h2 {
+        h2 {
+            color: #f3d36b;
             margin: 0;
             font-size: 1.9em;
-            letter-spacing: 1px;
-        }
-        .header p {
-            margin: 5px 0 0 0;
-            color: var(--cream);
-            font-size: 0.95em;
         }
         .strip {
             height: 24px;
-            background-color: var(--gold);
+            background-color: #d4a017;
             background-image:
-                linear-gradient(45deg, var(--dark) 25%, transparent 25%, transparent 75%, var(--dark) 75%),
-                linear-gradient(45deg, var(--dark) 25%, transparent 25%, transparent 75%, var(--dark) 75%);
+                linear-gradient(45deg, #3e2723 25%, transparent 25%, transparent 75%, #3e2723 75%),
+                linear-gradient(45deg, #3e2723 25%, transparent 25%, transparent 75%, #3e2723 75%);
             background-size: 24px 24px;
             background-position: 0 0, 12px 12px;
         }
         .content {
-            padding: 25px 30px 30px 30px;
-        }
-        h3 {
-            color: var(--dark);
-            margin: 0 0 8px 0;
-            font-size: 1.05em;
-        }
-        .section-title {
-            color: var(--dark);
-            border-bottom: 3px solid var(--gold);
-            padding-bottom: 6px;
-            margin: 30px 0 15px 0;
-            font-size: 1.4em;
+            padding: 25px 35px 35px 35px;
         }
         a {
-            color: var(--brown);
+            color: #6d4c41;
             font-weight: bold;
             text-decoration: none;
-            border-bottom: 2px solid var(--gold);
+            border-bottom: 2px solid #d4a017;
         }
         a:hover {
-            color: var(--dark);
-            background-color: var(--light-gold);
+            background-color: #f3d36b;
         }
-        input[type="text"], select {
+        input[type=text] {
             padding: 9px;
-            border: 2px solid var(--brown);
+            border: 2px solid #6d4c41;
             border-radius: 8px;
             font-size: 1em;
             background-color: #fffaf0;
-            color: var(--dark);
-            outline: none;
+            color: #3e2723;
         }
-        input[type="text"]:focus, select:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px var(--light-gold);
-        }
-        input[type="text"] {
-            width: 60px;
-            text-align: center;
-            font-weight: bold;
-        }
-        input.wide {
-            width: 100%;
-            text-align: left;
-            font-weight: normal;
-            margin-bottom: 6px;
-        }
-        input[type="button"] {
+        input[type=button] {
             padding: 10px 20px;
-            background-color: var(--dark);
-            color: var(--light-gold);
-            border: 2px solid var(--gold);
+            background-color: #3e2723;
+            color: #f3d36b;
+            border: 2px solid #d4a017;
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
             font-size: 1em;
-            transition: all 0.25s;
         }
-        input[type="button"]:hover {
-            background-color: var(--gold);
-            color: var(--dark);
-            transform: translateY(-2px);
+        input[type=button]:hover {
+            background-color: #d4a017;
+            color: #3e2723;
         }
-        #myDiv01 {
-            margin: 15px 0;
-            padding: 12px 15px;
-            background-color: var(--light-gold);
-            border-left: 6px solid var(--dark);
+        .content div {
+            margin: 12px 0;
+            padding: 10px 15px;
+            background-color: #f3d36b;
+            border-left: 6px solid #3e2723;
             border-radius: 6px;
             font-weight: bold;
         }
-        #myB02 {
+        b {
             display: inline-block;
             cursor: pointer;
-            font-size: 1.2em;
-            padding: 8px 16px;
-            border: 3px double var(--brown);
-            border-radius: 8px;
-            background-color: #fffaf0;
-            transition: all 0.2s;
-        }
-        #myB02:hover {
-            background-color: var(--dark);
-            color: var(--light-gold);
-        }
-        #myDblClick {
-            border: 2px solid var(--brown);
-            padding: 6px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: inline-block;
-            font-weight: bold;
-            background-color: #fffaf0;
-            user-select: none;
-        }
-        .out {
-            color: var(--brown);
-            font-weight: bold;
-            display: block;
-            margin-top: 6px;
-            min-height: 1.4em;
-        }
-        .out-inline {
-            color: var(--brown);
-            font-weight: bold;
-        }
-        .list {
-            background-color: var(--dark);
-            color: var(--cream);
-            padding: 14px 18px;
-            border-radius: 8px;
-            font-size: 0.95em;
-            border-left: 6px solid var(--gold);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 15px;
-        }
-        .card {
-            background-color: #fffaf0;
-            border: 2px solid var(--brown);
-            border-top: 6px solid var(--gold);
-            border-radius: 10px;
-            padding: 14px 16px;
-        }
-       
-        .box {
-            display: inline-block;
-            padding: 12px 22px;
+            padding: 8px 18px;
+            border: 3px double #6d4c41;
             border-radius: 50px;
-            background-color: var(--dark);
-            color: var(--light-gold);
-            border: 3px solid var(--gold);
-            font-weight: bold;
-            cursor: pointer;
-            user-select: none;
-            transition: all 0.2s;
+            background-color: #fffaf0;
         }
-        .box:hover {
-            background-color: var(--gold);
-            color: var(--dark);
+        b:hover {
+            background-color: #3e2723;
+            color: #f3d36b;
         }
-    </style>
-</head>
-<body>
+</style>
 
-    <div class="page">
+<div class="page">
 
-        <div class="header">
-            <h2>&#9812; t1a10-Events-by-Fred.html &#9818;</h2>
-            <p>HTML Events and Javascript</p>
-        </div>
-        <div class="strip"></div>
+<div class="header">
+<h2 align=center>t1a10-Events-by-Sara.html</h2>
+</div>
+<div class="strip"></div>
 
-        <div class="content">
+<div class="content">
 
-            <a href="https://way2tutorial.com/html/html5_events_handler_list.php" target="_blank">
-                Good reference to HTML Events
-            </a> <br><br>
+<a href="https://way2tutorial.com/html/html5_events_handler_list.php">
+ Good reference to HTML Events</a> <br><br>
 
-            Events are HTML code that activates Javascript code <br><br>
+Events are HTML code that activates Javascript code <br><br>
 
-            <h2 class="section-title">The Original Events</h2>
+<input type=text id="myText01" value="3"><br><br>
 
-            <input type="text" id="myText01" value="3"><br><br>
+<input type=button value="Example onClick" onClick="{
+   document.getElementById('myDiv01').innerHTML =
+document.getElementById('myText01').value
+}"><br><br>
 
-            <input type="button" value="Example onClick" onClick="{
-                document.getElementById('myDiv01').innerHTML =
-                document.getElementById('myText01').value
-            }"> <br><br>
+<div id="myDiv01">...</div>
 
-            <div id="myDiv01">...</div>
+<b id="myB02" onMouseOut="{
+   document.getElementById('myB02').innerHTML = 'This is nice.'
+}"   onMouseOver = "{
+   document.getElementById('myB02').innerHTML = 'This is cool.'
+}"> This is bold</b> <br><br>
 
-            <b id="myB02" onMouseOut="{
-                document.getElementById('myB02').innerHTML = 'This is nice.'
-            }" onMouseOver = "{
-                document.getElementById('myB02').innerHTML = 'This is cool.'
-            }"> This is bold</b> <br><br>
+<b id="myB03" onDblClick="{
+   document.getElementById('myB03').innerHTML = 'You double clicked.'
+}"> onDblClick: double click me</b> <br><br>
 
-            
-            <p>Type here to see <b>onKeyUp</b>: 
-                <input type="text" id="myKeyInput" placeholder="Type..." style="width:140px;" onKeyUp="{
-                    document.getElementById('keyOutput').innerHTML = document.getElementById('myKeyInput').value
-                }">
-                <span id="keyOutput" class="out-inline"></span>
-            </p>
+<b id="myB04" onMouseMove="{
+   document.getElementById('myB04').innerHTML = 'The mouse is moving.'
+}"> onMouseMove: move over me</b> <br><br>
 
-            <p>Double click the box to see <b>onDblClick</b>: 
-                <span id="myDblClick" onDblClick="{
-                    document.getElementById('myDblClick').innerHTML = 'Double clicked!'
-                }">Double Click Me</span>
-            </p>
+<b id="myB05" onTouchStart="{
+   document.getElementById('myB05').innerHTML = 'Touch started.'
+}"   onTouchMove="{
+   document.getElementById('myB05').innerHTML = 'Touch moving.'
+}"   onTouchEnd="{
+   document.getElementById('myB05').innerHTML = 'Touch ended.'
+}"> onTouchStart, onTouchMove, onTouchEnd: touch me</b> <br><br>
 
-            <p>Change the dropdown to see <b>onChange</b>: 
-                <select id="mySelect" onChange="{
-                    document.getElementById('selectOutput').innerHTML = 'You picked: ' + document.getElementById('mySelect').value
-                }">
-                    <option value="Option 1">Option 1</option>
-                    <option value="Option 2">Option 2</option>
-                    <option value="Option 3">Option 3</option>
-                </select>
-                <span id="selectOutput" class="out-inline"></span>
-            </p>
-            <br>
+onChange: type something then click away<br>
+<input type=text id="myText02" value="Type here" onChange="{
+   document.getElementById('myDiv02').innerHTML = 'onChange: the text was changed.'
+}"><br>
+<div id="myDiv02">...</div>
 
-            <div class="list">
-                You do at least 8 other events:<br>
-                onClick, onDBClick, onChange, onBlur, onFocus, onMouseMove, onTouch, onKeyDown,
-                onKeyPress, onDragStart, onTouchStart, onTouchEnd, onTouchMove
-            </div>
+onFocus: click in the box<br>
+<input type=text id="myText03" value="Click here" onFocus="{
+   document.getElementById('myDiv03').innerHTML = 'onFocus: you clicked inside the box.'
+}"><br>
+<div id="myDiv03">...</div>
 
-        
-            <h2 class="section-title">More Events</h2>
+onBlur: click in the box then click away<br>
+<input type=text id="myText04" value="Click here then leave" onBlur="{
+   document.getElementById('myDiv04').innerHTML = 'onBlur: you left the box.'
+}"><br>
+<div id="myDiv04">...</div>
 
-            <div class="grid">
+onKeyDown: press a key in the box<br>
+<input type=text id="myText05" value="Press a key" onKeyDown="{
+   document.getElementById('myDiv05').innerHTML = 'onKeyDown: a key was pushed down.'
+}"><br>
+<div id="myDiv05">...</div>
 
-         
-                <div class="card">
-                    <h3>onFocus</h3>
-                    Click inside the box:
-                    <input type="text" class="wide" id="myFocusInput" placeholder="Click me" onFocus="{
-                        document.getElementById('focusOutput').innerHTML = 'The box has focus!'
-                    }">
-                    <span id="focusOutput" class="out"></span>
-                </div>
+onKeyPress: type a letter in the box<br>
+<input type=text id="myText06" value="Type a letter" onKeyPress="{
+   document.getElementById('myDiv06').innerHTML = 'onKeyPress: a letter was typed.'
+}"><br>
+<div id="myDiv06">...</div>
 
-    
-                <div class="card">
-                    <h3>onBlur</h3>
-                    Click in the box, then click somewhere else:
-                    <input type="text" class="wide" id="myBlurInput" placeholder="Click then leave" onBlur="{
-                        document.getElementById('blurOutput').innerHTML = 'You left the box!'
-                    }">
-                    <span id="blurOutput" class="out"></span>
-                </div>
+You do at least 8 other events:<br>
+onClick, onDBClick, onChange, onBlur, onFocus, onMouseMove, onTouch, onKeyDown,
+onKeyPress, onDragStart, onTouchStart, onTouchEnd, onTouchMove
 
-               
-                <div class="card">
-                    <h3>onKeyDown</h3>
-                    Press any key in the box:
-                    <input type="text" class="wide" id="myKeyDownInput" placeholder="Press a key" onKeyDown="{
-                        document.getElementById('keyDownOutput').innerHTML = 'Key went DOWN'
-                    }">
-                    <span id="keyDownOutput" class="out"></span>
-                </div>
-
-            
-                <div class="card">
-                    <h3>onKeyPress</h3>
-                    Type a letter in the box:
-                    <input type="text" class="wide" id="myKeyPressInput" placeholder="Type a letter" onKeyPress="{
-                        document.getElementById('keyPressOutput').innerHTML = 'You pressed a key!'
-                    }">
-                    <span id="keyPressOutput" class="out"></span>
-                </div>
-
-         
-                <div class="card">
-                    <h3>onMouseMove</h3>
-                    Move your mouse over the piece:<br><br>
-                    <div id="myMoveBox" class="box" onMouseMove="{
-                        document.getElementById('moveOutput').innerHTML = 'Mouse is moving!'
-                    }">Move over me</div>
-                    <span id="moveOutput" class="out"></span>
-                </div>
-
-          
-                <div class="card">
-                    <h3>onMouseDown</h3>
-                    Hold the mouse button down on the piece:<br><br>
-                    <div id="myMouseBox" class="box" onMouseDown="{
-                        document.getElementById('mouseOutput').innerHTML = 'Mouse button is DOWN'
-                    }">Hold me</div>
-                    <span id="mouseOutput" class="out"></span>
-                </div>
-
-                
-                <div class="card">
-                    <h3>onMouseUp</h3>
-                    Click the piece and let go:<br><br>
-                    <div id="myMouseUpBox" class="box" onMouseUp="{
-                        document.getElementById('mouseUpOutput').innerHTML = 'Mouse button was RELEASED'
-                    }">Let go on me</div>
-                    <span id="mouseUpOutput" class="out"></span>
-                </div>
-
-       
-                <div class="card">
-                    <h3>onDragStart</h3>
-                    Drag this piece (click, hold and move):<br><br>
-                    <div id="myDragBox" class="box" draggable="true" onDragStart="{
-                        document.getElementById('dragOutput').innerHTML = 'You started dragging!'
-                    }">Drag me</div>
-                    <span id="dragOutput" class="out"></span>
-                </div>
-
-
-                <div class="card">
-                    <h3>onTouchStart / onTouchMove / onTouchEnd</h3>
-                    Touch this piece on a phone or touch screen:<br><br>
-                    <div id="myTouchBox" class="box" onTouchStart="{
-                        document.getElementById('touchOutput').innerHTML = 'Touch started'
-                    }" onTouchMove="{
-                        document.getElementById('touchOutput').innerHTML = 'Finger is moving'
-                    }" onTouchEnd="{
-                        document.getElementById('touchOutput').innerHTML = 'Touch ended'
-                    }">Touch me</div>
-                    <span id="touchOutput" class="out"></span>
-                </div>
-
-       
-                <div class="card">
-                    <h3>onClick (again)</h3>
-                    <input type="button" value="Change the box color" onClick="{
-                        document.getElementById('colorBox').style.backgroundColor = '#d4a017'
-                    }">
-                    <div id="colorBox" style="margin-top:10px; padding:10px; border-radius:8px; border:2px solid #6d4c41; background-color:#ffffff;">
-                        I will change color when you click the button.
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-
-</body>
-</html>
+</div>
+</div>
