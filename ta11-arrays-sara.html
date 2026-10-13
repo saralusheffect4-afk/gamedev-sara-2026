@@ -1,19 +1,194 @@
-<h2 align="center">ta11-arrays-sara.html</h2>
-<a href="#">Good reference to Javascript Arrays</a><br>
-<h4>Example working Array code</h4>
-Max Array Entry: <input type="number" id="myText01" value="3"><br>
-<input type="button" value="Example onClick" onClick="{
-    let myTemp = Number(document.getElementById('myText01').value);
-    let mySum = '';
-    document.getElementById('myDiv01').innerHTML = '';
-    let myArray = new Array();
-    myArray[0] = 'Fred';
-    myArray[1] = 'Mary';
-    myArray[2] = 'Lizzy';
-    for (let myLoop = 0; myLoop < myTemp; myLoop++) {
-        mySum += 'Loop #:' + myLoop + ' array entry:' + myArray[myLoop] + '<br>';
-    }
-    document.getElementById('myDiv01').innerHTML = mySum;
-}"> 
-<div id="myDiv01">...</div> 
-<br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ta11-arrays-sara.html - Medieval themed Warfare Arrays</title>
+    <style>
+        :root {
+            --bg-deep: #0a0b0e;
+            --bg-card: #12141a;
+            --border-iron: #2d313d;
+            --accent-blood: #8b0000;
+            --accent-steel: #b0c4de;
+            --text-main: #d1d5db;
+            --text-muted: #9ca3af;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .war-container {
+            width: 100%;
+            max-width: 850px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-iron);
+            border-top: 4px solid var(--accent-blood);
+            padding: 35px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8);
+        }
+
+        h2 {
+            text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-steel);
+            margin-top: 0;
+        }
+
+        h4 {
+            border-bottom: 1px solid var(--border-iron);
+            padding-bottom: 8px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin-top: 30px;
+        }
+
+        a {
+            color: var(--accent-steel);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .campaign-module {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-iron);
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        input[type="number"] {
+            background: var(--bg-deep);
+            color: var(--text-main);
+            border: 1px solid var(--border-iron);
+            padding: 8px 12px;
+            width: 80px;
+            margin: 5px 10px 15px 0;
+            font-family: inherit;
+        }
+
+        input[type="button"] {
+            background: var(--border-iron);
+            color: var(--text-main);
+            border: 1px solid #4b5563;
+            padding: 9px 16px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            font-weight: 600;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        input[type="button"]:hover {
+            background: var(--accent-blood);
+            border-color: #ff4d4d;
+        }
+
+        .battle-log {
+            background: var(--bg-deep);
+            border: 1px solid var(--border-iron);
+            padding: 15px;
+            margin-top: 15px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            min-height: 40px;
+            color: var(--accent-steel);
+        }
+    </style>
+</head>
+<body>
+
+<div class="war-container">
+    <h2>ta11-arrays-sara.html</h2>
+    <a href="#">Good reference to Javascript Arrays</a>
+
+
+    <h4>Example 1: String Array; WEAPONS</h4>
+    <div class="campaign-module">
+        <label for="myText01">Max Vanguard Entry:</label>
+        <input type="number" id="myText01" value="3"><br>
+        
+        <input type="button" value="Deploy Vanguard" onClick="{
+            let myTemp = Number(document.getElementById('myText01').value);
+            let mySum = '';
+            document.getElementById('myDiv01').innerHTML = '';
+            let myArray = new Array();
+            myArray[0] = 'Swords';
+            myArray[1] = 'Shield';
+            myArray[2] = 'bomb';
+            for (let myLoop = 0; myLoop < myTemp; myLoop++) {
+                mySum += 'Deployment Zone #' + myLoop + ' | Unit Assigned: ' + myArray[myLoop] + '<br>';
+            }
+            document.getElementById('myDiv01').innerHTML = mySum;
+        }"> 
+        <div id="myDiv01" class="battle-log">Awaiting deployment orders...</div>
+    </div>
+
+    <h4>Example 2: (Numerical Array & Summation; ATTACKED</h4>
+    <div class="campaign-module">
+        <input type="button" value="Calculate Total Ammunition" onClick="{
+            let catapultBoulders = [120, 350, 85, 210, 430];
+            let totalBoulders = 0;
+            let logText = 'Soldiers killed ' + Souldierskilled.join(', ') + '<br>';
+            
+            for (let i = 0; i < Souldierskilled; i++) {
+                totalBoulders += Souldierskilled[i];
+            }
+            
+            logText += 'Total Boulders Ready for Siege: <strong>' + totalBoulders + '</strong>';
+            document.getElementById('myDiv02').innerHTML = logText;
+        }">
+        <div id="myDiv02" class="battle-log">Arsenal report uncompiled...</div>
+    </div>
+
+    
+    <h4>Example 3: Numerical Array Filtering; VICTORIES</h4>
+    <div class="campaign-module">
+        <label for="myText03">Victories:</label>
+        <input type="number" id="myText03" value="500"><br>
+
+        <input type="button" value="check to see" onClick="{
+            let threshold = Number(document.getElementById('myText03').value);
+            let combatPowers = [320, 750, 410, 920, 640, 180, 880];
+            let eliteResults = 'Garrison Ratings: ' + combatPowers.join(', ') + '<br>';
+            eliteResults += 'Units exceeding threshold (' + threshold + '):<br>';
+            
+            let foundCount = 0;
+            for (let i = 0; i < combatPowers.length; i++) {
+                if (combatPowers[i] >= threshold) {
+                    eliteResults += '- Battalion ' + i + ' with rating ' + combatPowers[i] + '<br>';
+                    foundCount++;
+                }
+            }
+            
+            if (foundCount === 0) {
+                eliteResults += 'No units meet the required threshold.<br>';
+            }
+            
+            document.getElementById('myDiv03').innerHTML = eliteResults;
+        }">
+        <div id="myDiv03" class="battle-log">Garrison filter inactive...</div>
+    </div>
+
+</div>
+
+</body>
+</html>
