@@ -145,11 +145,11 @@
     <h4>Example 2: (Numerical Array & Summation; ATTACKED</h4>
     <div class="campaign-module">
         <input type="button" value="Calculate Total Ammunition" onClick="{
-            let catapultBoulders = [120, 350, 85, 210, 430];
+            let Souldierskilled = [120, 350, 85, 210, 430];
             let totalBoulders = 0;
             let logText = 'Soldiers killed ' + Souldierskilled.join(', ') + '<br>';
             
-            for (let i = 0; i < Souldierskilled; i++) {
+            for (let i = 0; i < Souldierskilled.length; i++) {
                 totalBoulders += Souldierskilled[i];
             }
             
@@ -168,7 +168,7 @@
         <input type="button" value="check to see" onClick="{
             let threshold = Number(document.getElementById('myText03').value);
             let combatPowers = [320, 750, 410, 920, 640, 180, 880];
-            let eliteResults = 'Garrison Ratings: ' + combatPowers.join(', ') + '<br>';
+            let eliteResults = 'Victory Ratings: ' + combatPowers.join(', ') + '<br>';
             eliteResults += 'Units exceeding threshold (' + threshold + '):<br>';
             
             let foundCount = 0;
@@ -185,10 +185,13 @@
             
             document.getElementById('myDiv03').innerHTML = eliteResults;
         }">
-        <div id="myDiv03" class="battle-log">Garrison filter inactive...</div>
+        <div id="myDiv03" class="battle-log">Victory filter inactive...</div>
     </div>
 
 </div>
 
+<script>
+    document.querySelector('h2').style.textShadow = '0 0 5px #b0c4de, 0 0 10px #b0c4de, 0 0 20px #b0c4de, 0 0 40px #8b0000';
+</script>
 </body>
 </html>
