@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ta11-arrays-sara.html - Medieval themed Warfare Arrays</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-deep: #0a0b0e;
@@ -12,105 +16,259 @@
             --accent-steel: #b0c4de;
             --text-main: #d1d5db;
             --text-muted: #9ca3af;
+
+   
+            --ember: #c9a25a;
+            --ember-dim: #7a6030;
+            --blood-bright: #b3121b;
+            --parchment: #e3d9c4;
+            --font-display: 'Cinzel', 'Trajan Pro', Georgia, 'Times New Roman', serif;
+            --font-body: 'EB Garamond', Garamond, Georgia, 'Times New Roman', serif;
         }
+
+        * { box-sizing: border-box; }
 
         body {
             background-color: var(--bg-deep);
+         
+            background-image:
+                radial-gradient(ellipse 60% 45% at 50% 0%, rgba(179, 18, 27, 0.22), transparent 70%),
+                radial-gradient(ellipse 40% 30% at 8% 100%, rgba(201, 162, 90, 0.10), transparent 70%),
+                radial-gradient(ellipse 40% 30% at 92% 100%, rgba(201, 162, 90, 0.10), transparent 70%),
+                repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 64px),
+                repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0 1px, transparent 1px 128px);
+            background-attachment: fixed;
             color: var(--text-main);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: var(--font-body);
+            font-size: 1.15rem;
+            line-height: 1.6;
             margin: 0;
             padding: 40px 20px;
             display: flex;
             justify-content: center;
+            min-height: 100vh;
         }
 
         .war-container {
+            position: relative;
             width: 100%;
             max-width: 850px;
-            background: var(--bg-card);
+            align-self: flex-start;
+            background:
+                linear-gradient(180deg, rgba(139, 0, 0, 0.10), transparent 160px),
+                var(--bg-card);
             border: 1px solid var(--border-iron);
             border-top: 4px solid var(--accent-blood);
-            padding: 35px;
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8);
+            outline: 1px solid var(--ember-dim);
+            outline-offset: -10px;
+            padding: 45px 40px 40px;
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.9),
+                0 0 0 1px #000,
+                inset 0 0 80px rgba(0, 0, 0, 0.6);
+        }
+
+
+        .war-container::before,
+        .war-container::after {
+            content: "";
+            position: absolute;
+            width: 34px;
+            height: 34px;
+            border: 2px solid var(--ember);
+            pointer-events: none;
+        }
+        .war-container::before {
+            top: 4px;
+            left: 4px;
+            border-right: none;
+            border-bottom: none;
+        }
+        .war-container::after {
+            bottom: 4px;
+            right: 4px;
+            border-left: none;
+            border-top: none;
         }
 
         h2 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: clamp(1.4rem, 4.5vw, 2.1rem);
             text-align: center;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
             text-transform: uppercase;
             color: var(--accent-steel);
             margin-top: 0;
+            margin-bottom: 8px;
+            overflow-wrap: anywhere;
+        }
+
+     
+        h2::after {
+            content: "";
+            display: block;
+            height: 2px;
+            width: min(260px, 60%);
+            margin: 18px auto 0;
+            background: linear-gradient(90deg, transparent, var(--blood-bright) 20%, var(--ember) 50%, var(--blood-bright) 80%, transparent);
         }
 
         h4 {
+            font-family: var(--font-display);
+            font-weight: 500;
             border-bottom: 1px solid var(--border-iron);
-            padding-bottom: 8px;
-            color: var(--text-muted);
+            padding-bottom: 10px;
+            color: var(--ember);
             text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            margin-top: 30px;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-top: 40px;
+            position: relative;
+        }
+
+        h4::before {
+            content: "\2694";
+            margin-right: 10px;
+            color: var(--blood-bright);
+            font-size: 1rem;
+        }
+
+        h4::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 70px;
+            height: 2px;
+            background: var(--blood-bright);
         }
 
         a {
             color: var(--accent-steel);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 1rem;
+            font-style: italic;
+            display: block;
+            text-align: center;
+            margin-top: 6px;
+            transition: color 0.2s;
         }
 
         a:hover {
+            color: var(--ember);
             text-decoration: underline;
+            text-underline-offset: 4px;
         }
 
         .campaign-module {
-            background: rgba(0, 0, 0, 0.3);
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.02), transparent 40%),
+                rgba(0, 0, 0, 0.35);
             border: 1px solid var(--border-iron);
-            padding: 20px;
-            margin-top: 15px;
+            border-left: 3px solid var(--accent-blood);
+            padding: 22px 24px;
+            margin-top: 18px;
+            box-shadow: inset 0 2px 14px rgba(0, 0, 0, 0.6);
         }
 
         label {
-            font-size: 0.9rem;
-            color: var(--text-muted);
+            font-size: 1rem;
+            color: var(--parchment);
+            letter-spacing: 0.5px;
         }
 
         input[type="number"] {
             background: var(--bg-deep);
-            color: var(--text-main);
+            color: var(--ember);
             border: 1px solid var(--border-iron);
+            border-bottom: 2px solid var(--ember-dim);
             padding: 8px 12px;
-            width: 80px;
+            width: 90px;
             margin: 5px 10px 15px 0;
-            font-family: inherit;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.7);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--ember);
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.7), 0 0 8px rgba(201, 162, 90, 0.35);
         }
 
         input[type="button"] {
-            background: var(--border-iron);
-            color: var(--text-main);
+            background: linear-gradient(180deg, #3a3f4d 0%, #23262f 100%);
+            color: var(--parchment);
             border: 1px solid #4b5563;
-            padding: 9px 16px;
+            border-bottom: 3px solid #0d0e12;
+            padding: 10px 20px;
             cursor: pointer;
+            font-family: var(--font-display);
             text-transform: uppercase;
             font-size: 0.8rem;
-            letter-spacing: 1px;
-            font-weight: 600;
-            transition: background 0.2s, border-color 0.2s;
+            letter-spacing: 2px;
+            font-weight: 700;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transition: background 0.2s, border-color 0.2s, transform 0.1s, box-shadow 0.2s;
         }
 
         input[type="button"]:hover {
-            background: var(--accent-blood);
+            background: linear-gradient(180deg, #b3121b 0%, var(--accent-blood) 100%);
             border-color: #ff4d4d;
+            color: #fff;
+            box-shadow: 0 0 14px rgba(179, 18, 27, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        input[type="button"]:active {
+            transform: translateY(2px);
+            border-bottom-width: 1px;
+        }
+
+        input[type="button"]:focus-visible,
+        input[type="number"]:focus-visible,
+        a:focus-visible {
+            outline: 2px solid var(--ember);
+            outline-offset: 3px;
         }
 
         .battle-log {
             background: var(--bg-deep);
             border: 1px solid var(--border-iron);
-            padding: 15px;
-            margin-top: 15px;
-            font-family: monospace;
+            border-left: 3px solid var(--ember-dim);
+            padding: 15px 18px;
+            margin-top: 18px;
+            font-family: 'Courier New', Consolas, monospace;
             font-size: 0.9rem;
-            min-height: 40px;
+            line-height: 1.7;
+            min-height: 48px;
             color: var(--accent-steel);
+            box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.85);
+            overflow-wrap: anywhere;
+        }
+
+        .battle-log strong {
+            color: var(--ember);
+            font-size: 1.05em;
+        }
+
+       
+        @media (prefers-reduced-motion: no-preference) {
+            .war-container {
+                animation: torchlight 5s ease-in-out infinite;
+            }
+            @keyframes torchlight {
+                0%, 100% { box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 0 1px #000, inset 0 0 80px rgba(0, 0, 0, 0.6), 0 0 40px rgba(179, 18, 27, 0.10); }
+                50%      { box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 0 1px #000, inset 0 0 80px rgba(0, 0, 0, 0.6), 0 0 70px rgba(201, 162, 90, 0.16); }
+            }
+        }
+
+        @media (max-width: 560px) {
+            body { padding: 18px 10px; }
+            .war-container { padding: 34px 20px 28px; }
+            .campaign-module { padding: 16px; }
+            input[type="button"] { width: 100%; }
         }
     </style>
 </head>
@@ -133,7 +291,7 @@
             let myArray = new Array();
             myArray[0] = 'Swords';
             myArray[1] = 'Shield';
-            myArray[2] = 'bomb';
+            myArray[2] = 'Bomb';
             for (let myLoop = 0; myLoop < myTemp; myLoop++) {
                 mySum += 'Deployment Zone #' + myLoop + ' | Unit Assigned: ' + myArray[myLoop] + '<br>';
             }
@@ -142,15 +300,15 @@
         <div id="myDiv01" class="battle-log">Awaiting deployment orders...</div>
     </div>
 
-    <h4>Example 2: (Numerical Array & Summation; ATTACKED</h4>
+    <h4>Example 2: (Numerical Array &amp; Summation; ATTACKED)</h4>
     <div class="campaign-module">
         <input type="button" value="Calculate Total Ammunition" onClick="{
-            let Souldierskilled = [120, 350, 85, 210, 430];
+            let soldiersKilled = [120, 350, 85, 210, 430];
             let totalBoulders = 0;
-            let logText = 'Soldiers killed ' + Souldierskilled.join(', ') + '<br>';
+            let logText = 'Soldiers killed: ' + soldiersKilled.join(', ') + '<br>';
             
-            for (let i = 0; i < Souldierskilled.length; i++) {
-                totalBoulders += Souldierskilled[i];
+            for (let i = 0; i < soldiersKilled.length; i++) {
+                totalBoulders += soldiersKilled[i];
             }
             
             logText += 'Total Boulders Ready for Siege: <strong>' + totalBoulders + '</strong>';
