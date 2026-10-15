@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Siege of Emberfall</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root { --blood:#b3121b; --ember:#e8a33d; --bone:#e3d9c4; --font:'Cinzel', Georgia, 'Times New Roman', serif; }
+* { box-sizing: border-box; }
+html, body { margin:0; height:100%; overflow:hidden; background:#05060a; color:var(--bone);
+  font-family:var(--font); user-select:none; -webkit-user-select:none; }
+canvas { position:fixed; inset:0; width:100%; height:100%; touch-action:none; cursor:crosshair; }
+
+#hud { position:fixed; top:0; left:0; right:0; display:flex; gap:24px; align-items:center;
+  justify-content:space-between; padding:14px 20px; pointer-events:none; text-shadow:0 2px 6px #000; }
+.stat { font-size:.75rem; letter-spacing:3px; opacity:.9; }
+.stat b { display:block; font-size:1.7rem; letter-spacing:1px; color:var(--ember); }
+#hp { flex:1; max-width:420px; }
+#hp .track { height:14px; border:2px solid #6b5a3a; background:#0b0c10; box-shadow:inset 0 0 12px #000; }
+#hpbar { height:100%; width:100%; background:linear-gradient(90deg,#5c0000,var(--blood)); transition:width .25s; }
+#hint { position:fixed; bottom:12px; width:100%; text-align:center; font-size:.8rem; letter-spacing:2px; opacity:.55; pointer-events:none; }
+
+#overlay { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:20px; background:radial-gradient(ellipse at center, rgba(5,6,10,.5), rgba(5,6,10,.94)); }
+#overlay.hidden { display:none; }
+h1 { font-size:clamp(2rem,8vw,4.6rem); margin:0; letter-spacing:6px;
+  text-shadow:0 0 18px var(--blood), 0 0 50px var(--blood); }
+#overlay p { max-width:470px; line-height:1.7; opacity:.85; font:1.1rem/1.7 Georgia, serif; }
+button { margin-top:22px; padding:14px 34px; font:700 1rem var(--font); letter-spacing:4px; color:var(--bone);
+  background:linear-gradient(#7a0f15,#4a0508); border:2px solid var(--ember); cursor:pointer;
+  box-shadow:0 0 24px rgba(179,18,27,.6); transition:transform .15s, box-shadow .15s; }
+button:hover { transform:translateY(-2px); box-shadow:0 0 40px rgba(232,163,61,.55); }
+button:focus-visible { outline:3px solid var(--ember); outline-offset:4px; }
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+
+<div id="hud">
+  <div class="stat">Wave<b id="wave">1</b></div>
+  <div id="hp"><div class="stat">Castle wall</div><div class="track"><div id="hpbar"></div></div></div>
+  <div class="stat" style="text-align:right">Score<b id="score">0</b></div>
+</div>
+<div id="hint">Drag back from the sling to aim. Release to fire.</div>
+
+<div id="overlay">
+  <h1 id="ovTitle">Siege of Emberfall</h1>
+  <p id="ovText">The enemy marches under a bleeding moon. Pull back the sling and take aim. Hold the wall as long as you can.</p>
+  <button id="startBtn">Hold the wall</button>
+</div>
+
+<script>
+
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+const W = 1000, H = 600, GROUND = 500, G = 900;       // world size, ground line, gravity
+const L = { x: 205, y: 318 };                          // sling position
+const WALL = 190, MAXPULL = 120;                       // enemies stop here, max drag length
+const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let dpr, scale, offX, offY, cw, ch;
+
+function resize() {
+  dpr = Math.min(devicePixelRatio || 1, 2);
+  cw = innerWidth; ch = innerHeight;
+  cv.width = cw * dpr; cv.height = ch * dpr;
+  scale = Math.min(cw / W, ch / H);
+  offX = (cw - W * scale) / 2; offY = (ch - H * scale) / 2;
+}
+addEventListener('resize', resize); resize();
+addEventListener('contextmenu', e => e.preventDefault());
+
+const rnd = (a, b) => a + Math.random() * (b - a);
+const stars = Array.from({ length: 240 }, () => ({ x: rnd(-900, 1900), y: rnd(-400, GROUND - 90), r: rnd(.4, 1.6), t: rnd(0, 6) }));
+const $ = id => document.getElementById(id);
+
+let state = 'title', time = 0, boulders = [], enemies = [], parts = [];
+let hp = 100, score = 0, wave = 1, toSpawn = 0, spawnT = 0, waveTimer = 0;
+let cool = 0, shake = 0, hurt = 0, banner = 0, best = 0, pull = null, drag = false;
+try { best = +localStorage.getItem('emberfallBest') || 0; } catch (e) {}
+
+
+function ui() {
+  $('wave').textContent = wave; $('score').textContent = score;
+  $('hpbar').style.width = Math.max(0, hp) + '%';
+}
+function startWave(n) { wave = n; toSpawn = 4 + n * 3; spawnT = 1; banner = 2.5; hp = Math.min(100, hp + 10); ui(); }
+function startGame() {
+  boulders = []; enemies = []; parts = [];
+  hp = 100; score = 0; cool = 0; shake = 0; hurt = 0; waveTimer = 0;
+  startWave(1); state = 'play'; $('overlay').classList.add('hidden'); $('hint').style.opacity = .55;
+}
+function gameOver() {
+  state = 'over';
+  if (score > best) { best = score; try { localStorage.setItem('emberfallBest', best); } catch (e) {} }
+  $('ovTitle').textContent = 'The wall has fallen';
+  $('ovText').textContent = 'You held until wave ' + wave + ' and scored ' + score + '. Best: ' + best + '.';
+  $('startBtn').textContent = 'Defend again';
+  $('overlay').classList.remove('hidden');
+}
+$('startBtn').addEventListener('click', startGame);
+
+function spawn() {
+  const armored = wave >= 2 && Math.random() < Math.min(.15 + wave * .05, .45);
+  enemies.push({ x: W + 60, y: GROUND + 4, type: armored ? 1 : 0, hp: armored ? 3 : 1, max: armored ? 3 : 1,
+    sp: (armored ? 22 : 34) + wave * 4 + rnd(0, 12), t: rnd(0, 6), flash: 0, atk: 0 });
+}
+function hitCastle(d) {
+  hp -= d; hurt = .5; shake = 12; ui();
+  burst(WALL, GROUND - rnd(40, 120), 12, 'dust');
+  if (hp <= 0) gameOver();
+}
+function damage(e) {                                 
+  e.hp--; e.flash = .12; burst(e.x, e.y - 30, 10, 'blood');
+  if (e.hp > 0) return false;
+  e.dead = true; score += e.type ? 300 : 100; shake = Math.max(shake, 8);
+  burst(e.x, e.y - 30, 26, 'blood'); burst(e.x, e.y - 30, 14, 'ember'); ui();
+  return true;
+}
+function fire() {
+  boulders.push({ x: L.x, y: L.y, vx: -pull.x * 8, vy: -pull.y * 8, r: 11, rot: 0, hits: 0, hit: new Set() });
+  cool = .8; shake = 4; burst(L.x, L.y, 14, 'spark');
+}
+
+
+const COL = { blood:'#8b0000', ember:'#ffb347', dust:'#8a8578', smoke:'#555', spark:'#fff4c2', flame:'#ff7a1a', rise:'#ff9a3c' };
+const GRAV = { blood: 700, ember: 500, spark: 500 };
+const ADD = { ember: 1, spark: 1, flame: 1, rise: 1 };
+function burst(x, y, n, kind) {
+  for (let i = 0; i < n; i++) {
+    const a = rnd(0, 6.283), s = rnd(40, kind === 'dust' ? 160 : 340);
+    parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - (kind === 'dust' ? 0 : 90),
+      life: 0, max: rnd(.4, 1), r: rnd(1.5, kind === 'dust' ? 7 : 4), k: kind });
+  }
+}
+function flame(x, y) { parts.push({ x, y, vx: rnd(-12, 12), vy: rnd(-110, -60), life: 0, max: rnd(.4, .9), r: rnd(3, 6), k: 'flame' }); }
+function ambient(dt) {
+  if (Math.random() < dt * 14) parts.push({ x: rnd(-300, 1300), y: GROUND, vx: rnd(-10, 20), vy: rnd(-60, -25), life: 0, max: rnd(3, 6), r: rnd(1, 2.4), k: 'rise' });
+  if (Math.random() < dt * 60) flame(50 + rnd(-3, 3), GROUND - 110);
+  if (Math.random() < dt * 60) flame(150 + rnd(-3, 3), GROUND - 110);
+  if (state === 'play' && hp < 60 && Math.random() < dt * (60 - hp)) flame(rnd(40, 170), 335);
+}
+function stepParts(dt) {
+  for (const p of parts) {
+    p.life += dt; p.vy += (GRAV[p.k] || 0) * dt; p.x += p.vx * dt; p.y += p.vy * dt;
+    if (p.k === 'dust' || p.k === 'smoke') { p.vx *= .97; p.vy *= .97; }
+    if (p.k === 'blood' && p.y > GROUND) { p.y = GROUND; p.vy = 0; p.vx *= .5; }
+  }
+  parts = parts.filter(p => p.life < p.max);
+}
+
+
+function update(dt) {
+  time += dt; ambient(dt); stepParts(dt);
+  if (state !== 'play') return;
+  cool -= dt; shake *= .9; hurt = Math.max(0, hurt - dt); banner -= dt;
+
+  if (toSpawn > 0) {
+    spawnT -= dt;
+    if (spawnT <= 0) { spawn(); toSpawn--; spawnT = Math.max(.5, 2.2 - wave * .12) + rnd(0, .8); }
+  } else if (!enemies.length) {
+    if (waveTimer <= 0) waveTimer = 2.2;
+    waveTimer -= dt;
+    if (waveTimer <= 0) startWave(wave + 1);
+  }
+
+  for (const e of enemies) {
+    e.t += dt; e.flash -= dt;
+    if (e.x > WALL + (e.type ? 22 : 14)) e.x -= e.sp * dt;
+    else { e.atk -= dt; if (e.atk <= 0) { e.atk = 1; hitCastle(e.type ? 9 : 5); } }
+  }
+
+  for (const b of boulders) {
+    b.vy += G * dt; b.x += b.vx * dt; b.y += b.vy * dt; b.rot += dt * 8;
+    if (Math.random() < .9) parts.push({ x: b.x, y: b.y, vx: rnd(-20, 20), vy: rnd(-30, 10), life: 0, max: rnd(.3, .6), r: rnd(3, 6), k: 'flame' });
+    if (Math.random() < .5) parts.push({ x: b.x, y: b.y, vx: rnd(-15, 15), vy: rnd(-25, 5), life: 0, max: rnd(.6, 1.1), r: 4, k: 'smoke' });
+    for (const e of enemies) {
+      const s = e.type ? 1.3 : 1;
+      if (e.dead || b.hit.has(e)) continue;
+      if (b.x > e.x - 12 * s - b.r && b.x < e.x + 12 * s + b.r && b.y > e.y - 54 * s - b.r && b.y < e.y + b.r) {
+        b.hit.add(e);
+        if (damage(e)) { b.hits++; b.vx *= .85; } else b.dead = true;   // boulders plough through the fallen
+        if (b.hits >= 3) b.dead = true;
+      }
+    }
+    if (b.y > GROUND - b.r && !b.dead) {                             
+      b.dead = true; shake = Math.max(shake, 6);
+      burst(b.x, GROUND, 18, 'dust'); burst(b.x, GROUND, 10, 'ember');
+      for (const e of enemies) if (!e.dead && Math.abs(e.x - b.x) < 55) damage(e);
+    }
+    if (b.x > W + 400 || b.x < -300) b.dead = true;
+  }
+  boulders = boulders.filter(b => !b.dead);
+  enemies = enemies.filter(e => !e.dead);
+}
+
+
+function pt(e) {
+  const r = cv.getBoundingClientRect();
+  return { x: (e.clientX - r.left - offX) / scale, y: (e.clientY - r.top - offY) / scale };
+}
+function aim(p) {
+  let dx = p.x - L.x, dy = p.y - L.y; const d = Math.hypot(dx, dy) || 1;
+  if (d > MAXPULL) { dx *= MAXPULL / d; dy *= MAXPULL / d; }
+  pull = { x: dx, y: dy };
+}
+cv.addEventListener('pointerdown', e => { if (state !== 'play') return; drag = true; cv.setPointerCapture(e.pointerId); aim(pt(e)); });
+cv.addEventListener('pointermove', e => { if (drag) aim(pt(e)); });
+cv.addEventListener('pointerup', () => {
+  if (!drag) return; drag = false;
+  if (pull && cool <= 0 && Math.hypot(pull.x, pull.y) > 18) fire();
+  pull = null;
+});
+
+
+function ridge(base, amp, seed, col) {
+  ctx.fillStyle = col; ctx.beginPath(); ctx.moveTo(-1500, GROUND);
+  for (let x = -1500; x <= 2500; x += 20)
+    ctx.lineTo(x, base - amp * (.55 + .3 * Math.sin(x * .004 + seed) + .15 * Math.sin(x * .013 + seed * 2) + .1 * Math.sin(x * .031)));
+  ctx.lineTo(2500, GROUND); ctx.fill();
+}
+function glow(x, y, r, a) {
+  const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+  g.addColorStop(0, 'rgba(255,150,50,' + a + ')'); g.addColorStop(1, 'rgba(255,150,50,0)');
+  ctx.fillStyle = g; ctx.fillRect(x - r, y - r, r * 2, r * 2);
+}
+function drawScenery() {
+  let g = ctx.createLinearGradient(0, -400, 0, GROUND);
+  g.addColorStop(0, '#04050a'); g.addColorStop(.6, '#120a14'); g.addColorStop(1, '#3a1216');
+  ctx.fillStyle = g; ctx.fillRect(-1500, -1000, 4000, GROUND + 1000);
+  for (const s of stars) { ctx.globalAlpha = .4 + .4 * Math.sin(time * 2 + s.t); ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.283); ctx.fill(); }
+  ctx.globalAlpha = 1;
+  g = ctx.createRadialGradient(770, 100, 20, 770, 100, 190);                 // blood moon
+  g.addColorStop(0, 'rgba(200,60,50,.5)'); g.addColorStop(1, 'rgba(200,60,50,0)');
+  ctx.fillStyle = g; ctx.fillRect(570, -100, 400, 400);
+  ctx.fillStyle = '#c9a79a'; ctx.beginPath(); ctx.arc(770, 100, 46, 0, 6.283); ctx.fill();
+  ctx.fillStyle = 'rgba(120,60,60,.35)';
+  [[755, 90, 10], [785, 115, 8], [778, 80, 5]].forEach(c => { ctx.beginPath(); ctx.arc(c[0], c[1], c[2], 0, 6.283); ctx.fill(); });
+  ridge(430, 150, 1, '#1a1320'); ridge(470, 90, 4, '#120d17');
+  g = ctx.createLinearGradient(0, GROUND - 70, 0, GROUND);
+  g.addColorStop(0, 'rgba(150,130,160,0)'); g.addColorStop(1, 'rgba(150,130,160,.12)');
+  ctx.fillStyle = g; ctx.fillRect(-1500, GROUND - 70, 4000, 70);
+  g = ctx.createLinearGradient(0, GROUND, 0, H + 300);
+  g.addColorStop(0, '#0d0b0f'); g.addColorStop(1, '#040306');
+  ctx.fillStyle = g; ctx.fillRect(-1500, GROUND, 4000, 1500);
+  ctx.fillStyle = '#07060a';
+  for (let x = -300; x < 1300; x += 14) {
+    const h = 4 + Math.abs(Math.sin(x * 12.9898)) * 9;
+    ctx.beginPath(); ctx.moveTo(x, GROUND + 2); ctx.lineTo(x + 3, GROUND - h); ctx.lineTo(x + 7, GROUND + 2); ctx.fill();
+  }
+}
+function drawCastle() {
+  ctx.fillStyle = '#15171e'; ctx.fillRect(-1500, GROUND - 95, 1675, 95);
+  ctx.fillStyle = '#1b1e27'; ctx.fillRect(25, GROUND - 175, 150, 175);
+  for (let i = 0; i < 5; i++) ctx.fillRect(25 + i * 32, GROUND - 195, 18, 20);
+  ctx.strokeStyle = 'rgba(255,255,255,.06)'; ctx.lineWidth = 1; ctx.beginPath();
+  for (let r = 0; r < 8; r++) {
+    const y = GROUND - 175 + r * 22; ctx.moveTo(25, y); ctx.lineTo(175, y);
+    for (let x = 25 + (r % 2) * 25; x < 175; x += 50) { ctx.moveTo(x, y); ctx.lineTo(x, y + 22); }
+  }
+  ctx.stroke();
+  ctx.fillStyle = '#ff9a3c'; ctx.globalAlpha = .7 + .3 * Math.sin(time * 9); ctx.fillRect(95, GROUND - 130, 8, 30); ctx.globalAlpha = 1;
+  ctx.fillStyle = '#3a2a1c'; ctx.fillRect(98, GROUND - 260, 3, 65);               // banner pole
+  ctx.fillStyle = '#8b0000'; ctx.beginPath(); ctx.moveTo(101, GROUND - 258);
+  for (let i = 0; i <= 30; i += 5) ctx.lineTo(101 + i, GROUND - 258 + Math.sin(time * 4 + i * .3) * 3 + i * .2);
+  for (let i = 30; i >= 0; i -= 5) ctx.lineTo(101 + i, GROUND - 228 + Math.sin(time * 4 + i * .3) * 3 + i * .2);
+  ctx.fill();
+  ctx.fillStyle = '#4a3322'; ctx.fillRect(175, L.y + 22, 60, 10);                   // sling platform
+  ctx.strokeStyle = '#4a3322'; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(175, L.y + 60); ctx.lineTo(215, L.y + 32); ctx.stroke();
+  [50, 150].forEach(x => { ctx.fillStyle = '#2b2018'; ctx.fillRect(x - 3, GROUND - 108, 6, 18); });
+}
+function drawEnemy(e) {
+  const s = e.type ? 1.3 : 1, sw = Math.sin(e.t * 9), atk = e.x <= WALL + 22, f = e.flash > 0;
+  ctx.save(); ctx.translate(e.x, e.y); ctx.scale(s, s);
+  ctx.strokeStyle = '#14151a'; ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.beginPath();
+  ctx.moveTo(-3, -18); ctx.lineTo(-3 + sw * 7, 0); ctx.moveTo(3, -18); ctx.lineTo(3 - sw * 7, 0); ctx.stroke();
+  ctx.fillStyle = f ? '#fff' : (e.type ? '#2e323e' : '#4f5565');
+  ctx.fillRect(-10, -40, 20, 24); ctx.beginPath(); ctx.arc(0, -46, 8, 0, 6.283); ctx.fill();
+  ctx.fillStyle = '#7a0f15'; ctx.fillRect(-10, -20, 20, 5);
+  ctx.fillStyle = '#000'; ctx.fillRect(-8, -47, 9, 2.5);
+  ctx.fillStyle = '#b3121b'; ctx.beginPath(); ctx.ellipse(2, -56, 3, 6, .4, 0, 6.283); ctx.fill();
+  const a = atk ? Math.sin(e.t * 8) - 1 : -.9;
+  ctx.strokeStyle = f ? '#fff' : '#cfd6e4'; ctx.lineWidth = 3; ctx.beginPath();
+  ctx.moveTo(-8, -30); ctx.lineTo(-8 + Math.sin(a) * 28, -30 - Math.cos(a) * 28); ctx.stroke();
+  ctx.fillStyle = f ? '#fff' : '#6b1016'; ctx.strokeStyle = '#c9a25a'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(-18, -38); ctx.lineTo(-8, -38); ctx.lineTo(-8, -24); ctx.lineTo(-13, -17); ctx.lineTo(-18, -24); ctx.closePath(); ctx.fill(); ctx.stroke();
+  if (e.max > 1) for (let i = 0; i < e.max; i++) { ctx.fillStyle = i < e.hp ? '#b3121b' : '#333'; ctx.fillRect(-14 + i * 10, -70, 8, 3); }
+  ctx.restore();
+}
+function drawBoulder(x, y, r, rot) {
+  glow(x, y, 50, .5);
+  const g = ctx.createRadialGradient(x - 3, y - 3, 1, x, y, r);
+  g.addColorStop(0, '#9a9488'); g.addColorStop(1, '#3a3732');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fill();
+  ctx.strokeStyle = '#ff9a3c'; ctx.lineWidth = 1.5; ctx.beginPath();
+  ctx.moveTo(x + Math.cos(rot) * r * .8, y + Math.sin(rot) * r * .8); ctx.lineTo(x - Math.cos(rot) * r * .3, y - Math.sin(rot) * r * .3); ctx.stroke();
+}
+function drawSling() {
+  const bx = pull ? L.x + pull.x : L.x, by = pull ? L.y + pull.y : L.y;
+  ctx.strokeStyle = '#4a3322'; ctx.lineWidth = 5; ctx.lineCap = 'round'; ctx.beginPath();
+  ctx.moveTo(L.x, L.y + 24); ctx.lineTo(L.x, L.y + 6); ctx.lineTo(L.x - 8, L.y - 14);
+  ctx.moveTo(L.x, L.y + 6); ctx.lineTo(L.x + 8, L.y - 14); ctx.stroke();
+  ctx.strokeStyle = '#8a3a22'; ctx.lineWidth = 3; ctx.beginPath();
+  ctx.moveTo(L.x - 8, L.y - 14); ctx.lineTo(bx, by); ctx.lineTo(L.x + 8, L.y - 14); ctx.stroke();
+  if (cool <= 0 || !drag) { if (cool <= 0) drawBoulder(bx, by, 11, time * 2); }
+  if (drag && pull && cool <= 0) {                                             
+    const vx = -pull.x * 8, vy = -pull.y * 8;
+    for (let i = 1; i < 28; i++) {
+      const t = i * .045, x = L.x + vx * t, y = L.y + vy * t + .5 * G * t * t;
+      if (y > GROUND) break;
+      ctx.fillStyle = 'rgba(232,163,61,' + (1 - i / 28) * .9 + ')';
+      ctx.beginPath(); ctx.arc(x, y, 3.5 - i * .06, 0, 6.283); ctx.fill();
+    }
+  }
+}
+function drawParts() {
+  for (const p of parts) {
+    const a = 1 - p.life / p.max, soft = p.k === 'dust' || p.k === 'smoke';
+    ctx.globalAlpha = Math.max(0, a * (soft ? .5 : 1));
+    ctx.globalCompositeOperation = ADD[p.k] ? 'lighter' : 'source-over';
+    ctx.fillStyle = COL[p.k];
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.r * (soft ? 1 + p.life * 2 : a * .5 + .5), 0, 6.283); ctx.fill();
+  }
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+}
+function draw() {
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.fillStyle = '#05060a'; ctx.fillRect(0, 0, cw, ch);
+  const k = (!calm && shake > .3) ? shake : 0;
+  ctx.setTransform(dpr * scale, 0, 0, dpr * scale, dpr * (offX + rnd(-k, k)), dpr * (offY + rnd(-k, k)));
+  drawScenery(); drawCastle();
+  enemies.forEach(drawEnemy);
+  drawSling();
+  boulders.forEach(b => drawBoulder(b.x, b.y, b.r, b.rot));
+  drawParts();
+  ctx.globalCompositeOperation = 'lighter';                                   
+  const fl = .35 + .1 * Math.sin(time * 13) + .05 * Math.sin(time * 31);
+  glow(50, GROUND - 110, 110, fl); glow(150, GROUND - 110, 110, fl);
+  ctx.globalCompositeOperation = 'source-over';
+  if (hurt > 0) {
+    const g = ctx.createRadialGradient(500, 300, 200, 500, 300, 700);
+    g.addColorStop(0, 'rgba(179,18,27,0)'); g.addColorStop(1, 'rgba(179,18,27,' + hurt * 1.2 + ')');
+    ctx.fillStyle = g; ctx.fillRect(-1500, -1000, 4000, 2500);
+  }
+  if (state === 'play' && banner > 0) {
+    ctx.globalAlpha = Math.min(1, banner); ctx.textAlign = 'center';
+    ctx.font = "700 54px Cinzel, Georgia, serif"; ctx.fillStyle = '#e3d9c4';
+    ctx.shadowColor = '#b3121b'; ctx.shadowBlur = 24; ctx.fillText('Wave ' + wave, 500, 200);
+    ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+  }
+}
+
+
+let last = 0;
+function frame(t) {
+  const dt = Math.min(.033, (t - last) / 1000 || 0); last = t;
+  update(dt); draw(); requestAnimationFrame(frame);
+}
+ui(); requestAnimationFrame(frame);
+</script>
+</body>
+</html>
