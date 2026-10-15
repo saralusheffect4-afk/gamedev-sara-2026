@@ -1,98 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>t1a10-Events-by-Sara.html</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
+        :root {
+            --walnut: #3e2723;
+            --wood: #6d4c41;
+            --wood-light: #8d6e63;
+            --gold: #d4a017;
+            --gold-light: #f3d36b;
+            --cream: #fbf1d6;
+            --paper: #fffaf0;
+            --font-display: 'Cinzel', 'Trajan Pro', Georgia, 'Times New Roman', serif;
+            --font-body: 'EB Garamond', Garamond, Georgia, 'Times New Roman', serif;
+        }
+
+        * { box-sizing: border-box; }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: var(--font-body);
+            font-size: 1.15rem;
             color: #3e2723;
             margin: 0;
             padding: 25px 15px;
             line-height: 1.8;
             background-color: #6d4c41;
+         
             background-image:
-                linear-gradient(45deg, #3e2723 25%, transparent 25%, transparent 75%, #3e2723 75%),
-                linear-gradient(45deg, #3e2723 25%, transparent 25%, transparent 75%, #3e2723 75%);
-            background-size: 60px 60px;
-            background-position: 0 0, 30px 30px;
+                radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, 0.55) 100%),
+                conic-gradient(#3e2723 25%, #5d4037 0 50%, #3e2723 0 75%, #5d4037 0);
+            background-size: 100% 100%, 80px 80px;
+            background-attachment: fixed;
         }
+
         .page {
             max-width: 800px;
             margin: 0 auto;
             background-color: #fbf1d6;
             border: 8px solid #d4a017;
-            border-radius: 14px;
+            border-radius: 10px;
             overflow: hidden;
+            box-shadow:
+                0 0 0 3px var(--walnut),
+                0 18px 45px rgba(0, 0, 0, 0.65);
         }
+
         .header {
             background-color: #3e2723;
-            padding: 15px;
+            background-image: linear-gradient(180deg, #4e342e, #2b1a17);
+            padding: 22px 15px;
         }
+
         h2 {
+            font-family: var(--font-display);
             color: #f3d36b;
             margin: 0;
-            font-size: 1.9em;
+            font-size: clamp(1.2rem, 4.5vw, 1.9rem);
+            letter-spacing: 2px;
+            text-shadow: 0 2px 0 #000, 0 0 14px rgba(243, 211, 107, 0.35);
+            overflow-wrap: anywhere;
         }
+
+       
+        h2::before { content: "\2654\00a0\00a0"; color: #fffaf0; }
+        h2::after  { content: "\00a0\00a0\265B"; color: #d4a017; }
+
         .strip {
             height: 24px;
             background-color: #d4a017;
-            background-image:
-                linear-gradient(45deg, #3e2723 25%, transparent 25%, transparent 75%, #3e2723 75%),
-                linear-gradient(45deg, #3e2723 25%, transparent 25%, transparent 75%, #3e2723 75%);
+     
+            background-image: conic-gradient(#3e2723 25%, #d4a017 0 50%, #3e2723 0 75%, #d4a017 0);
             background-size: 24px 24px;
-            background-position: 0 0, 12px 12px;
+            border-bottom: 2px solid #3e2723;
         }
+
         .content {
             padding: 25px 35px 35px 35px;
+            background-image: radial-gradient(ellipse at top, rgba(255, 255, 255, 0.5), transparent 70%);
         }
+
         a {
             color: #6d4c41;
             font-weight: bold;
             text-decoration: none;
             border-bottom: 2px solid #d4a017;
+            transition: background-color 0.2s;
         }
+
         a:hover {
             background-color: #f3d36b;
         }
+
         input[type=text] {
-            padding: 9px;
+            width: min(100%, 340px);
+            padding: 9px 12px;
             border: 2px solid #6d4c41;
             border-radius: 8px;
+            font-family: inherit;
             font-size: 1em;
             background-color: #fffaf0;
             color: #3e2723;
+            box-shadow: inset 0 2px 5px rgba(62, 39, 35, 0.2);
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
+
+        input[type=text]:focus {
+            outline: none;
+            border-color: #d4a017;
+            box-shadow: inset 0 2px 5px rgba(62, 39, 35, 0.2), 0 0 0 3px rgba(212, 160, 23, 0.4);
+        }
+
         input[type=button] {
-            padding: 10px 20px;
+            padding: 10px 22px;
             background-color: #3e2723;
+            background-image: linear-gradient(180deg, #5d4037, #3e2723);
             color: #f3d36b;
             border: 2px solid #d4a017;
+            border-bottom-width: 4px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 1em;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.95em;
+            letter-spacing: 1px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+            transition: background-color 0.2s, color 0.2s, transform 0.1s;
         }
+
         input[type=button]:hover {
             background-color: #d4a017;
+            background-image: none;
             color: #3e2723;
         }
+
+        input[type=button]:active {
+            transform: translateY(2px);
+            border-bottom-width: 2px;
+        }
+
+        input[type=button]:focus-visible,
+        input[type=text]:focus-visible,
+        a:focus-visible,
+        b:focus-visible {
+            outline: 3px solid #3e2723;
+            outline-offset: 3px;
+        }
+
         .content div {
             margin: 12px 0;
             padding: 10px 15px;
             background-color: #f3d36b;
+            background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.35), transparent);
             border-left: 6px solid #3e2723;
             border-radius: 6px;
             font-weight: bold;
+            box-shadow: 0 2px 6px rgba(62, 39, 35, 0.25);
         }
+
+
         b {
             display: inline-block;
             cursor: pointer;
-            padding: 8px 18px;
+            padding: 8px 20px;
             border: 3px double #6d4c41;
             border-radius: 50px;
             background-color: #fffaf0;
+            box-shadow: 0 3px 6px rgba(62, 39, 35, 0.3);
+            user-select: none;
+            -webkit-user-select: none;
+            transition: background-color 0.2s, color 0.2s, transform 0.15s, box-shadow 0.2s;
         }
+
+        b::before {
+            margin-right: 8px;
+            font-size: 1.2em;
+            line-height: 1;
+            vertical-align: -1px;
+        }
+
+        #myB02::before { content: "\265E"; } 
+        #myB03::before { content: "\265D"; } 
+        #myB04::before { content: "\265C"; } 
+        #myB05::before { content: "\265F"; } 
+
         b:hover {
             background-color: #3e2723;
             color: #f3d36b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(62, 39, 35, 0.4);
+        }
+
+        @media (max-width: 560px) {
+            body { padding: 12px 8px; }
+            .page { border-width: 5px; }
+            .content { padding: 20px 18px 28px; }
+            input[type=button] { width: 100%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; }
         }
 </style>
+</head>
+<body>
 
 <div class="page">
 
@@ -175,3 +290,5 @@ onKeyPress, onDragStart, onTouchStart, onTouchEnd, onTouchMove
 
 </div>
 </div>
+</body>
+</html>
