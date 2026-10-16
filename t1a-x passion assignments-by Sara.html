@@ -55,9 +55,9 @@ button:focus-visible { outline:3px solid var(--ember); outline-offset:4px; }
 <script>
 
 const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
-const W = 1000, H = 600, GROUND = 500, G = 900;       // world size, ground line, gravity
-const L = { x: 205, y: 318 };                          // sling position
-const WALL = 190, MAXPULL = 120;                       // enemies stop here, max drag length
+const W = 1000, H = 600, GROUND = 500, G = 900;       
+const L = { x: 205, y: 318 };                          
+const WALL = 190, MAXPULL = 120;                       
 const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
 let dpr, scale, offX, offY, cw, ch;
 
@@ -180,7 +180,7 @@ function update(dt) {
       if (e.dead || b.hit.has(e)) continue;
       if (b.x > e.x - 12 * s - b.r && b.x < e.x + 12 * s + b.r && b.y > e.y - 54 * s - b.r && b.y < e.y + b.r) {
         b.hit.add(e);
-        if (damage(e)) { b.hits++; b.vx *= .85; } else b.dead = true;   // boulders plough through the fallen
+        if (damage(e)) { b.hits++; b.vx *= .85; } else b.dead = true;   
         if (b.hits >= 3) b.dead = true;
       }
     }
@@ -231,7 +231,7 @@ function drawScenery() {
   ctx.fillStyle = g; ctx.fillRect(-1500, -1000, 4000, GROUND + 1000);
   for (const s of stars) { ctx.globalAlpha = .4 + .4 * Math.sin(time * 2 + s.t); ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, 6.283); ctx.fill(); }
   ctx.globalAlpha = 1;
-  g = ctx.createRadialGradient(770, 100, 20, 770, 100, 190);                 // blood moon
+  g = ctx.createRadialGradient(770, 100, 20, 770, 100, 190);            
   g.addColorStop(0, 'rgba(200,60,50,.5)'); g.addColorStop(1, 'rgba(200,60,50,0)');
   ctx.fillStyle = g; ctx.fillRect(570, -100, 400, 400);
   ctx.fillStyle = '#c9a79a'; ctx.beginPath(); ctx.arc(770, 100, 46, 0, 6.283); ctx.fill();
@@ -261,12 +261,12 @@ function drawCastle() {
   }
   ctx.stroke();
   ctx.fillStyle = '#ff9a3c'; ctx.globalAlpha = .7 + .3 * Math.sin(time * 9); ctx.fillRect(95, GROUND - 130, 8, 30); ctx.globalAlpha = 1;
-  ctx.fillStyle = '#3a2a1c'; ctx.fillRect(98, GROUND - 260, 3, 65);               // banner pole
+  ctx.fillStyle = '#3a2a1c'; ctx.fillRect(98, GROUND - 260, 3, 65);       
   ctx.fillStyle = '#8b0000'; ctx.beginPath(); ctx.moveTo(101, GROUND - 258);
   for (let i = 0; i <= 30; i += 5) ctx.lineTo(101 + i, GROUND - 258 + Math.sin(time * 4 + i * .3) * 3 + i * .2);
   for (let i = 30; i >= 0; i -= 5) ctx.lineTo(101 + i, GROUND - 228 + Math.sin(time * 4 + i * .3) * 3 + i * .2);
   ctx.fill();
-  ctx.fillStyle = '#4a3322'; ctx.fillRect(175, L.y + 22, 60, 10);                   // sling platform
+  ctx.fillStyle = '#4a3322'; ctx.fillRect(175, L.y + 22, 60, 10);               
   ctx.strokeStyle = '#4a3322'; ctx.lineWidth = 5; ctx.beginPath(); ctx.moveTo(175, L.y + 60); ctx.lineTo(215, L.y + 32); ctx.stroke();
   [50, 150].forEach(x => { ctx.fillStyle = '#2b2018'; ctx.fillRect(x - 3, GROUND - 108, 6, 18); });
 }
