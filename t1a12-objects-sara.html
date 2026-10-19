@@ -1,0 +1,141 @@
+<h2 align=center>t1a12-objects-sara.html</h2> 
+
+<style>
+    body {
+        background: radial-gradient(circle at center, #020617 0%, #000000 100%);
+        color: #38bdf8;
+        font-family: 'Courier New', Courier, monospace;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+    }
+
+    h2 {
+        color: #00f0ff;
+        font-size: 2.2rem;
+        text-shadow: 0 0 15px #00f0ff, 0 0 30px #00f0ff;
+        letter-spacing: 2px;
+    }
+
+    h4 {
+        color: #38bdf8;
+        border-bottom: 1px solid #00f0ff;
+        padding-bottom: 5px;
+    }
+
+    a {
+        color: #00f0ff;
+        text-shadow: 0 0 8px #00f0ff;
+        transition: 0.3s;
+    }
+
+    a:hover {
+        color: #ffffff;
+        text-shadow: 0 0 15px #ffffff;
+    }
+
+    input[type="text"] {
+        background: #030712;
+        border: 2px solid #00f0ff;
+        color: #38bdf8;
+        padding: 8px;
+        box-shadow: 0 0 10px rgba(0, 240, 255, 0.3) inset;
+        border-radius: 4px;
+        margin: 5px 0;
+    }
+
+    input[type="button"] {
+        background: linear-gradient(135deg, #0284c7, #00f0ff);
+        color: #030712;
+        border: 1px solid #00f0ff;
+        padding: 10px 20px;
+        font-weight: bold;
+        border-radius: 6px;
+        cursor: pointer;
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+        transition: 0.3s;
+        margin-top: 10px;
+    }
+
+    input[type="button"]:hover {
+        background: #00f0ff;
+        box-shadow: 0 0 25px #00f0ff, 0 0 50px #38bdf8;
+        transform: scale(1.05);
+    }
+
+    #myDiv01 {
+        background: rgba(3, 7, 18, 0.85);
+        border: 1px dashed #00f0ff;
+        padding: 15px;
+        margin-top: 15px;
+        border-radius: 6px;
+        box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+        color: #38bdf8;
+        min-height: 40px;
+    }
+
+    .cyber-terminal {
+        background: rgba(15, 23, 42, 0.7);
+        border: 2px solid #00f0ff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 30px rgba(0, 240, 255, 0.25);
+        max-width: 600px;
+        width: 100%;
+        backdrop-filter: blur(10px);
+    }
+
+    .cyber-section {
+        background: rgba(2, 6, 23, 0.9);
+        border: 1px solid #38bdf8;
+        padding: 15px;
+        margin-top: 20px;
+        border-radius: 6px;
+        box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+    }
+
+    .cyber-section h4 {
+        color: #00f0ff;
+        margin-top: 0;
+    }
+</style>
+
+<div class="cyber-terminal">
+<script> 
+//what might be a good idea to declare here?
+let globalCyberObject = {
+    'systemStatus': 'ONLINE',
+    'securityLevel': 'YEAR 3000 MAXIMUM'
+};
+</script> 
+
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects" target="_blank">Good reference to Javascript Objects (MDN Docs) </a> <br> 
+Objects are stored named variables 
+<h4> Example working Objects code </h4> 
+Nothing: <input type= text id="myText01" value="Useless at the moment"> <br> 
+<input type=button value="Example Object Set and Show" onClick="{ 
+  let myPerson={ 
+  'firstName' : 'John', 
+  'lastName': 'Doe', 
+  'age': 50, 
+  'eyeColor': 'blue' 
+  } 
+  document.getElementById('myDiv01').innerHTML='<br>myPerson Object has properties:<br>'
+  document.getElementById('myDiv01').innerHTML+= 'firstName: ' + myPerson.firstName + '<br>' 
+  document.getElementById('myDiv01').innerHTML+= 'lastName: ' + myPerson.lastName + '<br>'
+  document.getElementById('myDiv01').innerHTML+= 'age: ' + myPerson.age + '<br>'
+  document.getElementById('myDiv01').innerHTML+= 'eyeColor: ' + myPerson.eyeColor + '<br>'
+  }"> 
+  <div id="myDiv01">...</div>
+
+
+  <div class="cyber-section">
+      <h4> Local vs Global Variables Notes</h4>
+      <p><strong>Question:</strong> Why might it be best to declare the objects in the script tag?</p>
+      <p><strong>Answer:</strong> If you put your objects right in the main script tag instead of hiding them inside a button or function, they become global. That means any button or function on the whole page can use them without issues. If you make them local inside just one function, they disappear as soon as that function is done running, so other buttons won't be able to see them.</p>
+  </div>
+</div>
