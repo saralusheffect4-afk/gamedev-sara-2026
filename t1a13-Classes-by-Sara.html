@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Paws &amp; Whiskers Pet Shop</title>
+<title>Paws &amp; Whiskers Pet Shop - Classes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -22,7 +22,6 @@
     background-attachment:fixed;
   }
 
- 
   .lights{position:relative;height:46px;overflow:hidden}
   .lights::before,.lights::after{
     content:"";position:absolute;inset:0;
@@ -57,7 +56,6 @@
     text-shadow:0 0 6px rgba(255,211,122,.9),0 0 22px rgba(255,211,122,.55);
   }
   .tag{margin:.6rem 0 0;color:#bfe3dc;font-weight:600}
-
 
   main{max-width:760px;margin:0 auto;padding:0 18px 60px;display:grid;gap:26px}
   .card{
@@ -163,14 +161,13 @@
 </header>
 
 <main>
-
 <section class="card">
-<h2 align=center>t1a13-Classes-by-Sara.html</h2> 
+<h2 align="center">t1a13-Classes-by-Sara.html</h2> 
 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference">Find a good reference to Javascript Classes </a><br>
-Classes are both objects that store varaibles (called properties) and Functions that work on the variables (called Methods)
+Classes are both objects that store variables (called properties) and Functions that work on the variables (called Methods)
 <h4>Example working classes code</h4> 
-Nothing: <input type=text id="myText01" value="useless at the moment"><br> 
-<input type=button value="Example Class Set and Show Class Animal" onClick="{ 
+Nothing: <input type="text" id="myText01" value="useless at the moment"><br> 
+<input type="button" value="Example Class Set and Show Class Animal" onClick="{ 
   class myAnimal { 
   constructor (passName,passAge) { 
   this.myName = passName; 
@@ -182,8 +179,8 @@ Nothing: <input type=text id="myText01" value="useless at the moment"><br>
   }// end class myAnimal 
   myDog= new myAnimal ('Snickers', 5)
   myDog.myShow() 
-  }"> 
-  <div id="myDiv01">...</div>
+}"> 
+<div id="myDiv01">...</div>
   <script>
     //using a script tag to make the class global 
     class myAnimal {
@@ -203,31 +200,8 @@ Nothing: <input type=text id="myText01" value="useless at the moment"><br>
     }
   </script> 
 </section>
-
-<section class="card">
-    <h2 align=center>t1a14-extend-class-by-Sara</h2> 
-    Extending a pre existing Class <br>
-      <h4>Example working Classes code</h4> 
-    <input type=button value="Example Class Set and Show Class Animal" onClick="{ let myDog = new myAnimal ('Snickers', 5); myDog.myShow();
-    }"> 
-      <h4>Example extending Class code</h4> 
-    Nothing: <input type=text id="myText01" value="Useless at the moment"><br>
-      <input type=button value="Example Extend Class Animal" onClick="{ 
-      class myCat extends myAnimal { 
-      myShow() {
-        document.getElementById ('myDiv01').innerHTML = this.myName + ' is a great cat <br>'
-      } 
-    } //end extended class myCat 
-
-    let myPet = new myCat ('fluffy', 14);
-    myPet.myShow();
-    }">
-      <div id="myDiv01">...</div>.
-</section>
-
 </main>
 
 <footer>Paws &amp; Whiskers Pet Shop</footer>
-
 </body>
 </html>
