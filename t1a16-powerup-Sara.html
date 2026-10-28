@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stateful Hero Energy Tracker</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --accent-green: #2ea043;
+            --accent-yellow: #f0883e;
+            --accent-red: #f85149;
+            --text-color: #c9d1d9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            border: 1px solid #30363d;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 0 25px rgba(88, 166, 255, 0.15),
+                        inset 0 0 10px rgba(88, 166, 255, 0.05);
+            text-align: center;
+            width: 380px;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        /* LED Power Indicator */
+        .led-display {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 1.5rem 0;
+            padding: 10px;
+            border-radius: 10px;
+            background: #0d1117;
+            border: 2px solid #30363d;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            transition: all 0.3s ease;
+        }
+
+        .power-high {
+            color: var(--accent-green);
+            text-shadow: 0 0 10px rgba(46, 160, 67, 0.6), 0 0 20px rgba(46, 160, 67, 0.4);
+        }
+
+        .power-med {
+            color: var(--accent-yellow);
+            text-shadow: 0 0 10px rgba(240, 136, 62, 0.6), 0 0 20px rgba(240, 136, 62, 0.4);
+        }
+
+        .power-low {
+            color: var(--accent-red);
+            text-shadow: 0 0 10px rgba(248, 81, 73, 0.6), 0 0 20px rgba(248, 81, 73, 0.4);
+        }
+
+        .info-box {
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+     
+        button {
+            background: linear-gradient(135deg, #238636, #2ea043);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(46, 160, 67, 0.4);
+            transition: all 0.2s ease-in-out;
+            width: 100%;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #2ea043, #3fb950);
+            box-shadow: 0 0 20px rgba(46, 160, 67, 0.7);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 0 10px rgba(46, 160, 67, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Hero Energy Tracker</h2>
+        <p>Click the button below to begin training!</p>
+        
+        <!-- Target Div for displaying object data -->
+        <div id="div01" class="info-box">
+            Initial Power: 100
+        </div>
+
+        <!-- LED Status Display -->
+        <div id="ledDisplay" class="led-display power-high">100</div>
+
+        <!-- Training Button -->
+        <button onclick="trainHero()">Train Hero (-10 Power)</button>
+    </div>
+
+    <script>
+        // 1. Define global object 'myHero'
+        let myHero = {
+            name: "Captain Code",
+            power: 100,
+            comment: "Ready for training!"
+        };
+
+        function trainHero() {
+            // 2. Subtract 10 from myHero.power
+            myHero.power -= 10;
+
+            // 3. Add if / else if / else conditions to update comment and LED styles
+            const ledElement = document.getElementById("ledDisplay");
+            
+            if (myHero.power > 60) {
+                myHero.comment = "High energy! Crushing this training session!";
+                ledElement.className = "led-display power-high";
+            } else if (myHero.power > 30) {
+                myHero.comment = "Medium power. Getting a bit tired, keep pushing!";
+                ledElement.className = "led-display power-med";
+            } else if (myHero.power > 0) {
+                myHero.comment = "Low power! Warning: Energy levels critical!";
+                ledElement.className = "led-display power-low";
+            }
+
+            // 4. When power reaches 0 or below, alert, update comment, and reset
+            if (myHero.power <= 0) {
+                alert("Energy depleted! Resetting hero power to 100.");
+                myHero.power = 100;
+                myHero.comment = "Fully recharged and ready for training!";
+                ledElement.className = "led-display power-high";
+            }
+
+            // 5. Invoke data display update inside div01
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            const div01 = document.getElementById("div01");
+            const ledDisplay = document.getElementById("ledDisplay");
+            
+            // Display the updated object data
+            div01.innerHTML = `
+                <strong>Hero:</strong> ${myHero.name}<br>
+                <strong>Status:</strong> ${myHero.comment}
+            `;
+            
+            ledDisplay.innerText = myHero.power;
+        }
+
+        // Initialize display on page load
+        window.onload = function() {
+            updateDisplay();
+        };
+    </script>
+</body>
+</html>
