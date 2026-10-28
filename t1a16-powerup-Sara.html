@@ -3,138 +3,465 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stateful Hero Energy Tracker</title>
+    <title>Mario Full Blast | Hero Energy Tracker</title>
+
     <style>
         :root {
-            --bg-deep: #08090d;
-            --panel-bg: #12151e;
+            --bg-deep: #070817;
+            --panel-bg: #10152b;
             --neon-cyan: #00f0ff;
-            --text-main: #e2e8f0;
+            --mario-red: #ff304f;
+            --coin-gold: #ffd447;
+            --power-green: #39ff88;
+            --text-main: #f4f7ff;
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg-deep);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background:
+                radial-gradient(ellipse at 50% 0%, #24245b 0%, transparent 55%),
+                radial-gradient(ellipse at 100% 100%, #42152e 0%, transparent 45%),
+                var(--bg-deep);
             color: var(--text-main);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-        }
-
-        /* Modern High-Tech Card */
-        .tracker-card {
-            background: var(--panel-bg);
-            border: 1px solid rgba(0, 240, 255, 0.25);
-            box-shadow: 0 0 35px rgba(0, 240, 255, 0.12),
-                        inset 0 0 15px rgba(0, 240, 255, 0.04);
-            border-radius: 16px;
-            padding: 2.5rem;
-            width: 380px;
-            text-align: center;
+            padding: 24px;
+            overflow-x: hidden;
             position: relative;
         }
 
-        /* Glowing LED Top Accent Bar */
+        /* Animated arcade background */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(0,240,255,.045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,240,255,.045) 1px, transparent 1px);
+            background-size: 38px 38px;
+            mask-image: linear-gradient(to bottom, black, transparent 90%);
+            animation: gridMove 12s linear infinite;
+        }
+
+        @keyframes gridMove {
+            from { background-position: 0 0; }
+            to { background-position: 38px 38px; }
+        }
+
+        .tracker-card {
+            width: min(100%, 460px);
+            padding: 34px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+            border: 1px solid rgba(0,240,255,.45);
+            border-radius: 24px;
+            background: linear-gradient(
+                155deg,
+                rgba(24,31,65,.97),
+                rgba(9,12,29,.98) 65%
+            );
+            box-shadow:
+                0 0 25px rgba(0,240,255,.13),
+                0 0 75px rgba(255,48,79,.09),
+                inset 0 0 35px rgba(0,240,255,.035);
+            animation: cardEnter .8s ease both;
+        }
+
+        @keyframes cardEnter {
+            from {
+                opacity: 0;
+                transform: translateY(24px) scale(.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
         .tracker-card::before {
-            content: '';
+            content: "";
             position: absolute;
-            top: -2px;
-            left: 25%;
-            right: 25%;
+            z-index: -1;
+            top: 0;
+            left: 15%;
+            width: 70%;
             height: 3px;
-            background: var(--neon-cyan);
-            box-shadow: 0 0 12px var(--neon-cyan), 0 0 24px var(--neon-cyan);
-            border-radius: 2px;
+            background: linear-gradient(
+                90deg,
+                var(--mario-red),
+                var(--coin-gold),
+                var(--neon-cyan)
+            );
+            box-shadow:
+                0 0 15px var(--neon-cyan),
+                0 0 30px var(--mario-red);
+        }
+
+        .tracker-card::after {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            right: -110px;
+            top: 120px;
+            border: 1px solid rgba(0,240,255,.13);
+            border-radius: 50%;
+            box-shadow: 0 0 0 20px rgba(0,240,255,.025),
+                        0 0 0 40px rgba(0,240,255,.02);
+            pointer-events: none;
+        }
+
+        .game-label {
+            display: inline-block;
+            padding: 7px 13px;
+            margin-bottom: 17px;
+            color: var(--coin-gold);
+            background: rgba(255,212,71,.08);
+            border: 1px solid rgba(255,212,71,.4);
+            border-radius: 30px;
+            font-size: .7rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            box-shadow: 0 0 16px rgba(255,212,71,.08);
+        }
+
+        .mascot {
+            font-size: 4.2rem;
+            line-height: 1.2;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 0 16px rgba(255,48,79,.5));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
         h2 {
-            margin-top: 0;
-            color: #ffffff;
-            font-size: 1.5rem;
-            letter-spacing: 1px;
+            margin: 0;
+            font-size: clamp(1.55rem, 6vw, 2.1rem);
+            font-weight: 1000;
+            line-height: 1.2;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        /* Modern LED HUD Style for myDiv01 */
-        #myDiv01 {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(0, 240, 255, 0.2);
-            border-radius: 10px;
-            padding: 16px;
-            margin: 1.5rem 0;
-            text-align: left;
-            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.8),
-                        0 0 10px rgba(0, 240, 255, 0.05);
-        }
-
-        /* Glowing Modern LED Button */
-        button {
-            background: linear-gradient(135deg, #00b4db, #0083b0);
             color: white;
-            border: none;
-            padding: 13px 24px;
-            font-size: 1rem;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
+            text-shadow:
+                0 0 10px rgba(0,240,255,.45),
+                0 3px 0 #222b57;
+        }
+
+        .subtitle {
+            margin: 10px 0 22px;
+            color: #aeb9df;
+            font-size: .88rem;
+            letter-spacing: .5px;
+        }
+
+        .coin-row {
+            display: flex;
+            justify-content: center;
+            gap: 9px;
+            margin: 0 0 22px;
+        }
+
+        .coin {
+            width: 33px;
+            height: 33px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            color: #654100;
+            font-weight: 1000;
+            background: linear-gradient(135deg, #fff1a0, #ffbf24 60%, #e98b00);
+            border: 2px solid #ffe78a;
+            box-shadow: 0 0 15px rgba(255,212,71,.35);
+            animation: coinPulse 2s ease-in-out infinite;
+        }
+
+        .coin:nth-child(2) { animation-delay: .2s; }
+        .coin:nth-child(3) { animation-delay: .4s; }
+        .coin:nth-child(4) { animation-delay: .6s; }
+        .coin:nth-child(5) { animation-delay: .8s; }
+
+        @keyframes coinPulse {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        .power-heading {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 9px;
+            color: #b9c6ee;
+            font-size: .72rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        #powerValue {
+            color: var(--power-green);
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        .power-track {
+            height: 13px;
+            padding: 2px;
+            margin-bottom: 24px;
+            background: #080b19;
+            border: 1px solid rgba(0,240,255,.24);
+            border-radius: 20px;
+            box-shadow: inset 0 2px 6px #000;
+        }
+
+        #powerBar {
             width: 100%;
-            letter-spacing: 0.5px;
-            box-shadow: 0 0 15px rgba(0, 180, 219, 0.4);
-            transition: all 0.2s ease-in-out;
+            height: 100%;
+            border-radius: 20px;
+            background: linear-gradient(
+                90deg,
+                #22ff88,
+                #00f0ff,
+                #70ffff
+            );
+            box-shadow: 0 0 12px rgba(0,240,255,.7);
+            transition: width .35s ease, background .35s ease;
+        }
+
+        #myDiv01 {
+            position: relative;
+            z-index: 1;
+            min-height: 135px;
+            padding: 20px;
+            margin: 0 0 22px;
+            text-align: left;
+            line-height: 1.9;
+            font-size: .91rem;
+            background: rgba(2,5,17,.7);
+            border: 1px solid rgba(0,240,255,.25);
+            border-radius: 15px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,.5);
+            overflow-wrap: anywhere;
+        }
+
+        #myDiv01 strong {
+            color: var(--neon-cyan);
+        }
+
+        .button-wrap {
+            position: relative;
+        }
+
+        button {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            padding: 17px 20px;
+            border: 1px solid rgba(255,255,255,.35);
+            border-radius: 12px;
+            color: white;
+            background: linear-gradient(110deg, #ff234b, #ed1640 50%, #b70b38);
+            box-shadow:
+                0 5px 0 #790b2a,
+                0 0 22px rgba(255,48,79,.4);
+            font: inherit;
+            font-size: .95rem;
+            font-weight: 1000;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
+            cursor: pointer;
+            transition: transform .2s, box-shadow .2s, filter .2s;
+        }
+
+        button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,255,255,.28),
+                transparent
+            );
+            transform: skewX(-20deg);
+            transition: left .5s;
         }
 
         button:hover {
-            background: linear-gradient(135deg, #00d2ff, #0099cc);
-            box-shadow: 0 0 25px rgba(0, 210, 255, 0.7);
-            transform: translateY(-2px);
+            filter: brightness(1.15);
+            transform: translateY(-3px);
+            box-shadow:
+                0 8px 0 #790b2a,
+                0 0 32px rgba(255,48,79,.65);
+        }
+
+        button:hover::before {
+            left: 150%;
         }
 
         button:active {
-            transform: translateY(0);
-            box-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #790b2a;
+        }
+
+        .footer {
+            margin-top: 23px;
+            color: #68749e;
+            font-size: .68rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .footer span {
+            color: var(--neon-cyan);
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 16px; }
+            .tracker-card { padding: 25px 20px; }
+            .mascot { font-size: 3.5rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="tracker-card">
+
+        <div class="game-label">★ ARCADE MODE ACTIVATED ★</div>
+
+        <div class="mascot" aria-hidden="true">🍄</div>
+
         <h2>Hero Energy Tracker</h2>
-        
-        <!-- Target Div for displaying object data -->
-        <div id="myDiv01">
+
+        <p class="subtitle">
+            POWER UP. TRAIN HARD. SAVE THE KINGDOM.
+        </p>
+
+        <div class="coin-row" aria-label="Five golden coins">
+            <div class="coin">★</div>
+            <div class="coin">★</div>
+            <div class="coin">★</div>
+            <div class="coin">★</div>
+            <div class="coin">★</div>
+        </div>
+
+        <div class="power-heading">
+            <span> POWER LEVEL</span>
+            <span id="powerValue">100 / 100</span>
+        </div>
+
+        <div
+            class="power-track"
+            role="progressbar"
+            aria-label="Hero power"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="100"
+            id="powerTrack"
+        >
+            <div id="powerBar"></div>
+        </div>
+
+       
+        <div id="myDiv01" aria-live="polite">
             Click the button above to begin training! Initial Power: 100.
         </div>
 
-        <!-- Button invoking trainHero() -->
-        <button onclick="trainHero()">Train Hero</button>
+        
+        <div class="button-wrap">
+            <button onclick="trainHero()">
+                 Train Hero 
+            </button>
+        </div>
+
+        <div class="footer">
+            <span>PLAYER 01</span> &nbsp;•&nbsp; FULL BLAST EDITION
+        </div>
+
     </div>
 
     <script>
-        // 1. Define global object myHero
+       
         let myHero = {
             name: "Captain Code",
             power: 100,
             comment: "Ready for training!"
         };
 
-        // 2. Complete trainHero() function
+        
         function trainHero() {
-            // Subtract 10 from power on each click
+           
             myHero.power -= 10;
 
-            // 3. if / else if / else conditions for power levels
+           
             if (myHero.power > 60) {
                 myHero.comment = "High power! Crushing the training!";
             } else if (myHero.power > 30) {
                 myHero.comment = "Medium power. Keep going!";
             } else if (myHero.power > 0) {
                 myHero.comment = "Low power! Almost out of energy!";
+            } else {
+                
+                alert("Out of energy! Resetting hero power...");
+                myHero.power = 100;
+                myHero.comment = "Fully recharged and ready for training!";
             }
 
-            // 4. When power reaches 0 or below, alert, update comment, and reset
+            
+            document.getElementById("myDiv01").innerHTML = `
+                <strong>Hero:</strong> ${myHero.name}<br>
+                <strong>Power:</strong> ${myHero.power}<br>
+                <strong>Status:</strong> ${myHero.comment}
+            `;
+
+          
+            const percentage = Math.max(0, Math.min(100, myHero.power));
+            const powerBar = document.getElementById("powerBar");
+            const powerValue = document.getElementById("powerValue");
+            const powerTrack = document.getElementById("powerTrack");
+
+            powerBar.style.width = percentage + "%";
+            powerValue.textContent = percentage + " / 100";
+            powerTrack.setAttribute("aria-valuenow", percentage);
+
+            if (percentage <= 30) {
+                powerBar.style.background =
+                    "linear-gradient(90deg, #ff304f, #ff8a47)";
+                powerBar.style.boxShadow =
+                    "0 0 12px rgba(255,48,79,.8)";
+                powerValue.style.color = "#ff526f";
+            } else {
+                powerBar.style.background =
+                    "linear-gradient(90deg, #22ff88, #00f0ff, #70ffff)";
+                powerBar.style.boxShadow =
+                    "0 0 12px rgba(0,240,255,.7)";
+                powerValue.style.color = "#39ff88";
+            }
+        }
+    </script>
+</body>
+</html>
