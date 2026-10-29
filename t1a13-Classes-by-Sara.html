@@ -64,7 +64,7 @@
     border:1px solid rgba(255,255,255,.7);
     box-shadow:0 0 0 4px rgba(255,211,122,.18),0 18px 40px rgba(0,0,0,.35);
   }
-  .card::before{ 
+  .card::before{
     content:"";position:absolute;left:22px;right:22px;top:-12px;height:14px;border-radius:12px 12px 0 0;
     background:repeating-linear-gradient(90deg,var(--mint) 0 28px,#fff 28px 56px);
     box-shadow:0 4px 8px rgba(0,0,0,.25);
@@ -99,7 +99,7 @@
   .card input[type=button]:active{transform:translateY(3px);box-shadow:0 1px 0 #0f5663,0 0 18px rgba(93,184,255,.45)}
   .card input[type=button]:focus-visible{outline:3px solid var(--bulb);outline-offset:3px}
 
-  .card div{ 
+  .card div{
     margin-top:14px;min-height:64px;padding:16px 20px;border-radius:14px;
     background:var(--board);color:var(--chalk);
     font:600 1.15rem/1.5 "Fredoka",sans-serif;
@@ -162,43 +162,93 @@
 
 <main>
 <section class="card">
-<h2 align="center">t1a13-Classes-by-Sara.html</h2> 
-<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference">Find a good reference to Javascript Classes </a><br>
+<h2 align="center">t1a13-Classes-by-Sara.html</h2>
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference">Find a good reference to Javascript Classes</a><br>
 Classes are both objects that store variables (called properties) and Functions that work on the variables (called Methods)
-<h4>Example working classes code</h4> 
-Nothing: <input type="text" id="myText01" value="useless at the moment"><br> 
-<input type="button" value="Example Class Set and Show Class Animal" onClick="{ 
-  class myAnimal { 
-  constructor (passName,passAge) { 
-  this.myName = passName; 
-  this.myAge=passAge;
-  } 
-  myShow(){ 
-  document.getElementById ('myDiv01').innerHTML= 'Hello '+ this.myName + '. You are ' + this.myAge + ' years old <br>' 
-  } 
-  }// end class myAnimal 
-  myDog= new myAnimal ('Snickers', 5)
-  myDog.myShow() 
-}"> 
-<div id="myDiv01">...</div>
-  <script>
-    //using a script tag to make the class global 
-    class myAnimal {
-      constructor (passName, passAge) {
-        this.myName = passName; 
-        this.myAge = passAge; 
-      } 
-      myShow (){
-        document.getElementById('myDiv01').innerHTML = 'Hello ' + this.myName + ' <br>';
-      } 
-    } //end class myAnimal 
 
-    class myCat extends myAnimal {
-      myShow() {
-        document.getElementById('myDiv01').innerHTML = this.myName + ' is a great cat <br>';
-      }
+<h4>Example working classes code</h4>
+
+Nothing: <input type="text" id="myText01" value="useless at the moment"><br>
+
+<input type="button" value="Example Class Set and Show Class Animal" onClick="
+  class myAnimal {
+    constructor(passName, passAge) {
+      this.myName = passName;
+      this.myAge = passAge;
     }
-  </script> 
+    myShow() {
+      document.getElementById('myDiv01').innerHTML =
+        'Hello ' + this.myName + '. You are ' + this.myAge + ' years old <br>';
+    }
+  }
+  myDog = new myAnimal('Snickers', 5);
+  myDog.myShow();
+">
+<div id="myDiv01">...</div>
+
+
+<h4>Example 2: Create a Cat Class</h4>
+<input type="button" value="Example Class Cat" onclick="
+  class myAnimal2 {
+    constructor(passName, passAge) {
+      this.myName = passName;
+      this.myAge = passAge;
+    }
+  }
+
+  class myCat2 extends myAnimal2 {
+    myShow() {
+      document.getElementById('myDiv02').innerHTML =
+        this.myName + ' is a great cat and is ' + this.myAge + ' years old!';
+    }
+  }
+
+  let myPetCat = new myCat2('Whiskers', 3);
+  myPetCat.myShow();
+">
+<div id="myDiv02">Click the button to meet a cat!</div>
+
+<!-- NEW BUTTON 3 -->
+<h4>Example 3: Create Another Animal</h4>
+<input type="button" value="Example Class Puppy" onclick="
+  class myAnimal3 {
+    constructor(passName, passAge) {
+      this.myName = passName;
+      this.myAge = passAge;
+    }
+
+    myShow() {
+      document.getElementById('myDiv03').innerHTML =
+        'Meet ' + this.myName + '! This puppy is ' + this.myAge + ' years old.';
+    }
+  }
+
+  let myPuppy = new myAnimal3('Buddy', 2);
+  myPuppy.myShow();
+">
+<div id="myDiv03">Click the button to meet a puppy!</div>
+
+<script>
+  
+  class myAnimal {
+    constructor(passName, passAge) {
+      this.myName = passName;
+      this.myAge = passAge;
+    }
+
+    myShow() {
+      document.getElementById('myDiv01').innerHTML =
+        'Hello ' + this.myName + ' <br>';
+    }
+  }
+
+  class myCat extends myAnimal {
+    myShow() {
+      document.getElementById('myDiv01').innerHTML =
+        this.myName + ' is a great cat <br>';
+    }
+  }
+</script>
 </section>
 </main>
 
