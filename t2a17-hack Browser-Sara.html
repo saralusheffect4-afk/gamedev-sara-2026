@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Sara - Browser Hack</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #0b0b0b;
+    background: linear-gradient(135deg, #150202, #0b0b0b, #1a0000);
+    color: #f2ebd9;
+    font-family: 'Times New Roman', Times, Georgia, serif;
+    margin: 0;
+    padding: 30px;
+}
+
+.container {
+    max-width: 1050px;
+    margin: auto;
+    background: #111111;
+    padding: 30px;
+    border-radius: 18px;
+    border: 2px solid #dfc184;
+    box-shadow: 0 0 25px rgba(223, 193, 132, 0.25), 0 0 50px rgba(220, 20, 60, 0.2);
+}
+
+h1 {
+    background: linear-gradient(135deg, #8b0000, #3a0101);
+    color: #fceea7;
+    text-align: center;
+    padding: 25px;
+    border-radius: 12px;
+    letter-spacing: 3px;
+    border: 1px solid #dfc184;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(220, 20, 60, 0.8);
+    box-shadow: inset 0 0 15px rgba(220, 20, 60, 0.5);
+}
+
+h2, h3 {
+    color: #dfc184;
+    text-shadow: 0 0 8px rgba(223, 193, 132, 0.4);
+}
+
+p {
+    line-height: 1.7;
+    color: #dcd0bc;
+}
+
+button, input[type=button] {
+    background: linear-gradient(135deg, #a40000, #660000);
+    color: #fceea7;
+    border: 1px solid #dfc184;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 0 8px rgba(220, 20, 60, 0.4);
+    transition: all 0.3s ease;
+}
+
+button:hover, input[type=button]:hover {
+    background: linear-gradient(135deg, #dfc184, #b28c51);
+    color: #0b0b0b;
+    border-color: #fff;
+    box-shadow: 0 0 15px #dfc184, 0 0 25px rgba(255, 215, 0, 0.8);
+}
+
+textarea, input[type=text] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dfc184;
+    border-radius: 7px;
+    background: #1a1a1a;
+    color: #fceea7;
+    font-family: monospace;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.8);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    border: 1px solid #4a3b22;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background: #660000;
+    color: #fceea7;
+    border-color: #dfc184;
+}
+
+tr:nth-child(even) {
+    background: #181515;
+}
+
+.feature-list {
+    background: #161313;
+    padding: 20px 40px;
+    border-radius: 10px;
+    border: 1px solid #4a3b22;
+}
+
+#move1 {
+    display: block;
+    position: relative;
+    max-width: 100%;
+    height: auto;
+    margin: 20px auto;
+    border-radius: 12px;
+    border: 4px solid #dfc184;
+    box-shadow: 0 0 15px rgba(220, 20, 60, 0.6), 0 0 25px rgba(223, 193, 132, 0.4);
+    transition: box-shadow 0.3s ease;
+}
+
+#move1:hover {
+    box-shadow: 0 0 20px #ff1a1a, 0 0 35px #dfc184;
+}
+
+.output {
+    margin-top: 20px;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 30px;
+    color: #dfc184;
+}
+</style>
+
+<script>
+document.name = "myDocument";
+window.name = "myWindow";
+document.cookie = "cookieName=fred";
+
+var splitIndex = 0;
+var splitArray = [];
+
+function splits(string, text) {
+    var strLength = string.length;
+    var txtLength = text.length;
+
+    if (strLength == 0 || txtLength == 0) return;
+
+    var i = string.indexOf(text);
+
+    if (i == -1) {
+        splitArray[splitIndex++] = string;
+        return;
+    }
+
+    splitArray[splitIndex++] = string.substring(0, i);
+
+    if (i + txtLength < strLength) {
+        splits(string.substring(i + txtLength), text);
+    }
+
+    return;
+}
+
+function split(string, text) {
+    splitIndex = 0;
+    splitArray = [];
+    splits(string, text);
+}
+
+function join(arrayName) {
+    var temp = '';
+
+    for (var i = 0; i < splitIndex; i++) {
+        temp += arrayName[i] + '\n';
+    }
+
+    return temp;
+}
+
+function sort(arrayName) {
+    for (var i = 0; i < splitIndex - 1; i++) {
+        for (var j = i + 1; j < splitIndex; j++) {
+            if (arrayName[j] < arrayName[i]) {
+                var dummy = arrayName[i];
+                arrayName[i] = arrayName[j];
+                arrayName[j] = dummy;
+            }
+        }
+    }
+}
+
+function sorttext() {
+    split(document.myForm.myTextarea.value, '\n');
+    sort(splitArray);
+    document.myForm.myTextarea.value = join(splitArray);
+}
+
+function myObjectData(myObject) {
+
+    var output = document.myForm.myTextarea;
+    var nameOutput = document.myForm.myText1;
+
+    output.value = "";
+    nameOutput.value = "";
+
+    if (!myObject) {
+        output.value = "This object is not available in this browser.";
+        return;
+    }
+
+    var objectName = myObject.name || myObject.constructor?.name || "Browser Object";
+
+    nameOutput.value = objectName;
+
+    var properties = [];
+
+    for (var prop in myObject) {
+        try {
+            properties.push(
+                objectName + "." + prop + " = " +
+                String(myObject[prop])
+            );
+        } catch (error) {
+            properties.push(objectName + "." + prop + " = [Not accessible]");
+        }
+    }
+
+    try {
+        Object.getOwnPropertyNames(myObject).forEach(function(prop) {
+            if (!properties.some(function(item) {
+                return item.startsWith(objectName + "." + prop + " =");
+            })) {
+                properties.push(objectName + "." + prop + " = [Built-in property/method]");
+            }
+        });
+    } catch (error) {}
+
+    properties.sort();
+
+    output.value = properties.join('\n');
+
+    window.status = "Browser object information loaded";
+}
+
+document.counter = 0;
+
+function moreAnimations() {
+    document.counter++;
+
+    var picture = document.getElementById("move1");
+
+    picture.style.left = (document.counter * 2) + "px";
+    picture.style.top = (document.counter) + "px";
+
+    if (document.counter > 10 && document.counter < 20) {
+        picture.style.width =
+            (picture.offsetWidth + 2) + "px";
+    }
+}
+
+function refreshBrowser() {
+    document.counter = 0;
+
+    var picture = document.getElementById("move1");
+
+    picture.style.left = "0px";
+    picture.style.top = "0px";
+    picture.style.width = "400px";
+
+    document.myForm.myTextarea.value = "";
+    document.myForm.myText1.value = "";
+}
+</script>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1><b>Browser Hack by Sara</b></h1>
+
+<h2>Welcome to My Browser Object Explorer</h2>
+
+<p>
+Explore your web browser and discover its hidden objects,
+classes, properties, and methods using JavaScript.
+Different browsers may produce different results.
+</p>
+
+<h3>What can you explore?</h3>
+
+<ul class="feature-list">
+<li><b>Window:</b> Browser window information.</li>
+<li><b>Document:</b> Information about the webpage.</li>
+<li><b>Images:</b> Image properties and styling.</li>
+<li><b>Forms:</b> Text fields and form objects.</li>
+<li><b>Navigator:</b> Browser identification information.</li>
+</ul>
+
+<h3>Browser Object Comparison</h3>
+
+<table>
+<tr>
+<th>Object</th>
+<th>What it does</th>
+<th>Example property</th>
+</tr>
+<tr>
+<td>window</td>
+<td>Controls the browser window</td>
+<td>innerWidth</td>
+</tr>
+<tr>
+<td>document</td>
+<td>Represents the webpage</td>
+<td>title</td>
+</tr>
+<tr>
+<td>navigator</td>
+<td>Provides browser information</td>
+<td>userAgent</td>
+</tr>
+<tr>
+<td>screen</td>
+<td>Provides screen information</td>
+<td>width</td>
+</tr>
+<tr>
+<td>history</td>
+<td>Provides browser history methods</td>
+<td>length</td>
+</tr>
+<tr>
+<td>Image</td>
+<td>Represents an image element</td>
+<td>naturalWidth</td>
+</tr>
+</table>
+
+<h3>Image and Anchor Experiment</h3>
+
+<p>
+Click the image to visit the link. The image is a real
+HTML image object wrapped in an anchor link that JavaScript can inspect.
+</p>
+
+<a href="https://www.forbes.com/sites/neilwinton/2023/11/13/ferrari-reports-improved-profits-expects-even-more/" name="myAnchor" id="myA" target="_blank">
+<img id="move1"
+src="https://imageio.forbes.com/specials-images/imageserve/6552427075f8cabe3a24d6f1/The-Ferrari-SF90-Stradale---/0x0.jpg?width=960&dpr=1"
+width="400"
+height="200">
+</a>
+
+<h3>Move the Image</h3>
+
+<input type="button" value="Move Image" onclick="moreAnimations()">
+<input type="button" value="Refresh Browser" onclick="refreshBrowser()">
+
+<hr>
+
+<h2>Browser Hack Buttons</h2>
+
+<p>
+Click buttons 1–15 to explore the original browser objects.
+Buttons 16–20 explore additional objects and the image.
+</p>
+
+<form name="myForm2">
+
+<textarea name="myTextarea" rows="3">wow</textarea>
+
+<input type="text" name="myText1" id="myText2" size="50" value="">
+
+</form>
+
+<form name="myForm">
+
+<input type="text" name="myText1" value="Selected object">
+
+<h3>Original 15 Browser Buttons</h3>
+
+<input type="button" value="1 window"
+onclick="myObjectData(window)">
+
+<input type="button" value="2 document"
+onclick="myObjectData(document)">
+
+<input type="button" value="3 document.myForm2"
+onclick="myObjectData(document.myForm2)">
+
+<input type="button" value="4 textarea"
+onclick="myObjectData(document.myForm2.myTextarea)">
+
+<input type="button" value="5 document.body"
+onclick="myObjectData(document.body)">
+
+<input type="button" value="6 window.parent"
+onclick="myObjectData(window.parent)">
+
+<input type="button" value="7 window.chrome"
+onclick="myObjectData(window.chrome)">
+
+<input type="button" value="8 image style"
+onclick="myObjectData(document.getElementById('move1').style)">
+
+<input type="button" value="9 style"
+onclick="myObjectData(document.getElementById('move1').style)">
+
+<input type="button" value="10 image"
+onclick="myObjectData(document.getElementById('move1'))">
+
+<input type="button" value="11 localStorage"
+onclick="myObjectData(window.localStorage)">
+
+<input type="button" value="12 image style"
+onclick="myObjectData(document.getElementById('move1').style)">
+
+<input type="button" value="13 text field"
+onclick="myObjectData(document.myForm2.myText1)">
+
+<input type="button" value="14 anchor myA"
+onclick="myObjectData(document.getElementById('myA'))">
+
+<input type="button" value="15 text field myText2"
+onclick="myObjectData(document.getElementById('myText2'))">
+
+<h3>Five Additional Browser Experiments</h3>
+
+<input type="button" value="16 screen"
+onclick="myObjectData(window.screen)">
+
+<input type="button" value="17 history"
+onclick="myObjectData(window.history)">
+
+<input type="button" value="18 image properties"
+onclick="myObjectData(document.getElementById('move1'))">
+
+<input type="button" value="19 Google anchor"
+onclick="myObjectData(document.getElementById('myA'))">
+
+<input type="button" value="20 performance"
+onclick="myObjectData(window.performance)">
+
+<h3>Object Properties and Methods</h3>
+
+<label>Selected Browser Object:</label>
+
+<input type="text" name="objectName" id="objectName" readonly>
+
+<label>Properties and Methods:</label>
+
+<textarea name="myTextarea" rows="20" cols="70"
+placeholder="Click a button above to display object information.">
+</textarea>
+
+<br>
+
+<input type="button" value="Sort Results Alphabetically"
+onclick="sorttext()">
+
+</form>
+
+<div class="footer">
+
+<hr>
+
+<p><b>Browser Hack by Sara | JavaScript Object Explorer</b></p>
+
+<input type="button"
+value="Back"
+style="font-size:20px"
+onclick="window.history.back()">
+
+</div>
+
+</div>
+
+</body>
+</html> 
