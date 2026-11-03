@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>t2a18-game-template-fred</title>
+<style>
+  :root { --neon: #00f0ff; --neon2: #ff2bd6; }
+  body { color: #fff; font-family: 'Trebuchet MS', Arial, sans-serif; overflow-x: hidden; }
+  h1 { font-size: 26px; letter-spacing: 3px; color: #fff; margin: 6px 0;
+       text-shadow: 0 0 6px var(--neon), 0 0 18px var(--neon), 0 0 36px var(--neon2);
+       animation: flicker 3s infinite; }
+  @keyframes flicker { 0%,92%,100% { opacity: 1 } 94% { opacity: .55 } 96% { opacity: 1 } 98% { opacity: .7 } }
+  input[type=button] { background: rgba(10,0,30,.8); color: var(--neon); border: 2px solid var(--neon);
+       border-radius: 10px; padding: 9px 12px; margin: 3px; font-weight: bold; font-size: 13px; cursor: pointer;
+       box-shadow: 0 0 8px var(--neon), inset 0 0 8px var(--neon); text-shadow: 0 0 6px var(--neon); transition: transform .1s; }
+  input[type=button]:active { transform: scale(.92); background: var(--neon); color: #000; }
+  #hud { text-align: center; font-size: 16px; margin: 4px; text-shadow: 0 0 8px var(--neon2); }
+  #hud b { color: #ffe600; }
+  .led { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 3px;
+         background: var(--neon2); box-shadow: 0 0 8px var(--neon2); animation: blink 1s infinite alternate; }
+  .led:nth-child(2) { animation-delay: .2s } .led:nth-child(3) { animation-delay: .4s } .led:nth-child(4) { animation-delay: .6s }
+  @keyframes blink { from { opacity: .2 } to { opacity: 1 } }
+  #myImg01, #myImg02 { z-index: 5; filter: drop-shadow(0 0 8px var(--neon)); transition: top .3s ease-out; }
+  #myImg02 { filter: drop-shadow(0 0 8px var(--neon2)); animation: bob 1.2s ease-in-out infinite; cursor: pointer; }
+  @keyframes bob { 50% { transform: translateY(-6px) } }
+  .spin { animation: spin .6s linear; } @keyframes spin { to { transform: rotate(720deg) } }
+  .zap { animation: zap .4s; } @keyframes zap { 50% { transform: scale(1.5) rotate(20deg); opacity: .3 } }
+  #track { position: absolute; left: 0; right: 0; top: 242px; height: 6px; z-index: 1;
+           background: var(--neon); box-shadow: 0 0 12px var(--neon), 0 0 30px var(--neon2); animation: pulse 1.5s infinite alternate; }
+  @keyframes pulse { to { opacity: .45 } }
+  #goal { position: absolute; top: 120px; right: 4px; width: 14px; height: 124px; z-index: 1;
+          background: repeating-linear-gradient(45deg, #fff 0 8px, #111 8px 16px); box-shadow: 0 0 14px #ffe600; }
+  .ring { position: absolute; width: 26px; height: 26px; border-radius: 50%; border: 5px solid #ffe600;
+          box-shadow: 0 0 10px #ffe600, inset 0 0 6px #ffe600; cursor: pointer; z-index: 4; animation: ringspin 1s linear infinite; }
+  @keyframes ringspin { 50% { transform: scaleX(.3) } }
+  .pop { animation: pop .3s forwards; } @keyframes pop { to { transform: scale(2.5); opacity: 0 } }
+  #msg { position: fixed; left: 0; right: 0; top: 40%; text-align: center; font-size: 40px; font-weight: bold; z-index: 20;
+         pointer-events: none; opacity: 0; text-shadow: 0 0 10px #fff, 0 0 30px var(--neon2), 0 0 50px var(--neon2); }
+  #msg.show { animation: msgshow 1.2s; } @keyframes msgshow { 10%,80% { opacity: 1; transform: scale(1.1) } 0%,100% { opacity: 0 } }
+</style>
+</head>
+<body id="myBody" style="background-color: #0a0020; background-image: linear-gradient(rgba(0,240,255,.25) 2px, transparent 2px), linear-gradient(90deg, rgba(255,43,214,.25) 2px, transparent 2px), linear-gradient(180deg, #0a0020, #1d0045 60%, #003a5c); background-size: 50px 50px, 50px 50px, 100% 100%; background-repeat: repeat; min-height: 100vh; margin: 0; padding: 20px;">
+
+<h1 align="center">⚡ NEON BLITZ ZONE ⚡</h1>
+<div id="hud"><span class="led"></span><span class="led"></span><span class="led"></span><span class="led"></span>
+  Rings <b id="myRings">0</b> · Lives <b id="myLives">3</b> · Level <b id="myLevel">1</b>
+  <span class="led"></span><span class="led"></span><span class="led"></span><span class="led"></span></div>
+<br>
+
+<div style="text-align: center; margin-bottom: 20px;">
+    <input type="button" value="Auto Background Left" onclick="{
+      clearInterval(myClock)
+      let myTemp = '0px 0px'
+      myClock = setInterval(function(){
+          myGlobalX -= 5
+          myTemp = myGlobalX + 'px 0px'
+          document.getElementById('myBody').style.backgroundPosition = myTemp
+      }, 50)
+    }">
+
+    <input type="button" value="Image Right Fast Button" onTouchStart="{this.click(); event.preventDefault();}" onclick="{
+      let img = document.getElementById('myImg01')
+      img.style.left = parseInt(img.style.left) + 10 + 'px'
+      myCheckHit()
+    }">
+
+    <input type="button" value="⬆ Jump" onclick="myJump()">
+    <input type="button" value="💨 Spin Dash" onclick="mySpinDash()">
+    <input type="button" value="🎨 Neon Color" onclick="myNextColor()">
+    <input type="button" value="↺ Reset" onclick="myReset()">
+</div>
+
+<script>
+   // global variables here
+   let myGlobalX = 0
+   let myClock
+   let myRings = 0, myLives = 3, myLevel = 1, myJumping = false
+   let myColors = [['#00f0ff','#ff2bd6'], ['#39ff14','#ffe600'], ['#ff6a00','#ff2bd6'], ['#b44cff','#00f0ff']]
+   let myColorIndex = 0
+
+   // global functions here
+   function myHitOther(my1, my2){
+      let left1   = parseInt(document.getElementById(my1).style.left)
+      let right1  = left1 + parseInt(document.getElementById(my1).style.width)
+      let top1    = parseInt(document.getElementById(my1).style.top)   
+      let bottom1 = top1  + parseInt(document.getElementById(my1).style.height)
+      let left2   = parseInt(document.getElementById(my2).style.left)
+      let right2  = left2 + parseInt(document.getElementById(my2).style.width)
+      let top2    = parseInt(document.getElementById(my2).style.top)   
+      let bottom2 = top2  + parseInt(document.getElementById(my2).style.height)
+      
+      if ((right1  >=  left2) &&         
+          (bottom1 >=  top2) &&
+          (left1   <=  right2) &&
+          (top1    <=  bottom2)){
+          return true
+      }
+      return false;
+   }
+
+   function myShow(text){
+      let m = document.getElementById('msg')
+      m.textContent = text
+      m.className = ''
+      void m.offsetWidth
+      m.className = 'show'
+   }
+
+   function myHud(){
+      document.getElementById('myRings').textContent = myRings
+      document.getElementById('myLives').textContent = myLives
+      document.getElementById('myLevel').textContent = myLevel
+   }
+
+   function myCheckHit(){
+      let img = document.getElementById('myImg01')
+      if (myHitOther('myImg01', 'myImg02')){
+          myLives--
+          myShow(myLives > 0 ? 'OUCH!' : 'GAME OVER')
+          img.style.left = '50px'
+          if (myLives <= 0){ myLives = 3; myRings = 0; myLevel = 1; myPlaceEnemy() }
+          myHud()
+          return
+      }
+      // reached the goal: go to the next level (stays on this page)
+      if (parseInt(img.style.left) + 100 >= window.innerWidth - 20){
+          myLevel++
+          myRings += 25
+          img.style.left = '50px'
+          myPlaceEnemy()
+          myShow('LEVEL ' + myLevel + '!')
+          myHud()
+      }
+   }
+
+   function myPlaceEnemy(){
+      let e = document.getElementById('myImg02')
+      let max = Math.max(260, window.innerWidth - 150)
+      e.style.left = (200 + Math.floor(Math.random() * (max - 200))) + 'px'
+   }
+
+   function myJump(){
+      if (myJumping) return
+      myJumping = true
+      let img = document.getElementById('myImg01')
+      img.style.top = '50px'
+      setTimeout(function(){ img.style.top = '160px'; myJumping = false; myCheckHit() }, 700)
+   }
+
+   function mySpinDash(){
+      let img = document.getElementById('myImg01')
+      img.className = 'spin'
+      img.style.left = parseInt(img.style.left) + 60 + 'px'
+      setTimeout(function(){ img.className = '' }, 600)
+      myCheckHit()
+   }
+
+   function myNextColor(){
+      myColorIndex = (myColorIndex + 1) % myColors.length
+      document.documentElement.style.setProperty('--neon', myColors[myColorIndex][0])
+      document.documentElement.style.setProperty('--neon2', myColors[myColorIndex][1])
+   }
+
+   function myReset(){
+      myRings = 0; myLives = 3; myLevel = 1
+      document.getElementById('myImg01').style.left = '50px'
+      myPlaceEnemy()
+      myHud()
+   }
+
+   function mySpawnRing(){
+      if (document.querySelectorAll('.ring').length >= 6) return
+      let r = document.createElement('div')
+      r.className = 'ring'
+      r.style.left = (20 + Math.floor(Math.random() * (window.innerWidth - 80))) + 'px'
+      r.style.top = (280 + Math.floor(Math.random() * 160)) + 'px'
+      r.onclick = function(){
+         r.onclick = null
+         r.className = 'ring pop'
+         myRings += 10
+         myHud()
+         setTimeout(function(){ r.remove() }, 300)
+      }
+      document.body.appendChild(r)
+   }
+
+   // images (two characters drawn as SVG pictures)
+   const myHeroSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 80"><path d="M10 30 L-0 20 L16 22 L8 8 L26 16 L28 0 L42 14 L56 4 L58 20 L74 14 L68 30Z" fill="#1565ff" stroke="#00f0ff" stroke-width="2"/><circle cx="50" cy="40" r="26" fill="#1e7bff" stroke="#00f0ff" stroke-width="2.5"/><ellipse cx="60" cy="44" rx="16" ry="14" fill="#ffd9a8"/><circle cx="58" cy="32" r="8" fill="#fff"/><circle cx="60" cy="33" r="3.5" fill="#111"/><circle cx="76" cy="42" r="4" fill="#111"/><path d="M56 52 Q64 58 72 51" stroke="#a33" stroke-width="2" fill="none"/><ellipse cx="38" cy="72" rx="16" ry="7" fill="#ff2b2b" stroke="#fff" stroke-width="2"/><ellipse cx="68" cy="72" rx="16" ry="7" fill="#ff2b2b" stroke="#fff" stroke-width="2"/></svg>'
+   const myBotSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 80"><path d="M14 52 A36 36 0 0 1 86 52Z" fill="#5a2bd6" stroke="#ff2bd6" stroke-width="3"/><rect x="8" y="52" width="84" height="14" rx="7" fill="#2a1060" stroke="#ff2bd6" stroke-width="3"/><circle cx="50" cy="38" r="11" fill="#ff1744"/><circle cx="50" cy="38" r="5" fill="#fff"/><circle cx="26" cy="59" r="3" fill="#39ff14"/><circle cx="50" cy="59" r="3" fill="#ffe600"/><circle cx="74" cy="59" r="3" fill="#00f0ff"/><path d="M50 16 L50 4" stroke="#ff2bd6" stroke-width="3"/><circle cx="50" cy="4" r="3" fill="#ffe600"/><rect x="22" y="68" width="10" height="10" fill="#555"/><rect x="68" y="68" width="10" height="10" fill="#555"/></svg>'
+
+   window.onload = function(){
+      document.getElementById('myImg01').src = 'data:image/svg+xml,' + encodeURIComponent(myHeroSvg)
+      document.getElementById('myImg02').src = 'data:image/svg+xml,' + encodeURIComponent(myBotSvg)
+      document.getElementById('myImg01').onclick = function(){
+         this.className = 'spin'; myRings += 1; myHud()
+         setTimeout(function(){ document.getElementById('myImg01').className = '' }, 600)
+      }
+      document.getElementById('myImg02').onclick = function(){
+         let e = this
+         e.className = 'zap'
+         myRings += 50; myHud(); myShow('+50 BOT ZAPPED!')
+         setTimeout(function(){ e.className = ''; myPlaceEnemy() }, 400)
+      }
+      setInterval(mySpawnRing, 1800)
+      myHud()
+   }
+</script>
+
+<!-- Images positioned safely below the title and buttons -->
+<div id="track"></div>
+<div id="goal"></div>
+<img id="myImg01" style="position: absolute; width: 100px; height: 80px; top: 160px; left: 50px;" src="">
+<img id="myImg02" style="position: absolute; width: 100px; height: 80px; top: 160px; left: 250px;" src="">
+<div id="msg"></div>
+
+</body>
+</html>
