@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline Vision Quest</title>
+    <style>
+        :root {
+            --neon-bg: #0a0a12;
+            --neon-panel: #121222;
+            --neon-cyan: #00f3ff;
+            --neon-pink: #ff007f;
+            --neon-green: #00ff66;
+            --neon-yellow: #f3e600;
+            --neon-text: #e0e6ed;
+            --neon-border: #1f1f3a;
+        }
+
+        body {
+            background-color: var(--neon-bg);
+            color: var(--neon-text);
+            font-family: 'Courier New', Courier, monospace, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px rgba(0, 243, 255, 0.5);
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            justify-content: center;
+        }
+
+        .panel {
+            background-color: var(--neon-panel);
+            border: 2px solid var(--neon-border);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
+            flex: 1;
+            min-width: 320px;
+            max-width: 550px;
+        }
+
+        .panel h2 {
+            color: var(--neon-pink);
+            text-shadow: 0 0 8px rgba(255, 0, 127, 0.5);
+            margin-top: 0;
+            font-size: 1.2rem;
+            border-bottom: 1px dashed var(--neon-border);
+            padding-bottom: 8px;
+        }
+
+        .control-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: var(--neon-cyan);
+        }
+
+        select, input[type="number"], input[type="file"] {
+            background-color: var(--neon-bg);
+            color: var(--neon-text);
+            border: 1px solid var(--neon-cyan);
+            padding: 8px;
+            border-radius: 4px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        button {
+            background-color: transparent;
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            box-shadow: 0 0 5px rgba(0, 243, 255, 0.2);
+            margin: 2px;
+        }
+
+        button:hover {
+            background-color: var(--neon-cyan);
+            color: var(--neon-bg);
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        button.active-train {
+            background-color: var(--neon-pink);
+            border-color: var(--neon-pink);
+            color: white;
+            box-shadow: 0 0 15px var(--neon-pink);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background: #000;
+            border: 1px solid var(--neon-border);
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1);
+        }
+
+        canvas#myProcessingCanvas {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 64px;
+            height: 64px;
+            image-rendering: pixelated;
+            border: 2px solid var(--neon-green);
+            box-shadow: 0 0 8px var(--neon-green);
+            background: #000;
+        }
+
+        .training-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .training-grid button {
+            width: 100%;
+            margin: 0;
+        }
+
+        .stats-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--neon-border);
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        .prediction-display {
+            font-size: 1.1rem;
+            color: var(--neon-green);
+            text-shadow: 0 0 8px rgba(0, 255, 102, 0.5);
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            border: 1px solid var(--neon-green);
+            border-radius: 4px;
+        }
+
+        canvas#myGameCanvas {
+            display: block;
+            margin: 0 auto 15px auto;
+            background: #05050f;
+            border: 2px solid var(--neon-yellow);
+            box-shadow: 0 0 10px rgba(243, 230, 0, 0.3);
+            width: 400px;
+            height: 300px;
+        }
+
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .file-io {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>OFFLINE VISION QUEST</h1>
+
+    <div class="container">
+        <!-- Panel 1: Camera & Training Lab -->
+        <div class="panel">
+            <h2>Camera & Training Lab</h2>
+            
+            <div class="control-group">
+                <label for="myFacingModeSelect">Camera Facing Mode:</label>
+                <select id="myFacingModeSelect">
+                    <option value="user">Front (User)</option>
+                    <option value="environment">Rear (Environment)</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <div style="display: flex; gap: 10px;">
+                    <button id="myActivateBtn" onclick="myActivateCamera()">Activate WebCam</button>
+                    <button id="myStopBtn" onclick="myStopCamera()" style="border-color: var(--neon-pink); color: var(--neon-pink);">Stop</button>
+                </div>
+            </div>
+
+            <div class="video-container">
+                <video id="myVideoElement" autoplay playsinline muted></video>
+                <canvas id="myProcessingCanvas" width="16" height="16"></canvas>
+            </div>
+
+            <label>Train Classes (Hold Down Button to Sample):</label>
+            <div class="training-grid">
+                <button id="myBtnUp" onpointerdown="myStartTraining('UP')" onpointerup="myStopTraining()" onpointerleave="myStopTraining()">UP (<span id="myCountUP">0</span>)</button>
+                <button id="myBtnDown" onpointerdown="myStartTraining('DOWN')" onpointerup="myStopTraining()" onpointerleave="myStopTraining()">DOWN (<span id="myCountDOWN">0</span>)</button>
+                <button id="myBtnLeft" onpointerdown="myStartTraining('LEFT')" onpointerup="myStopTraining()" onpointerleave="myStopTraining()">LEFT (<span id="myCountLEFT">0</span>)</button>
+                <button id="myBtnRight" onpointerdown="myStartTraining('RIGHT')" onpointerup="myStopTraining()" onpointerleave="myStopTraining()">RIGHT (<span id="myCountRIGHT">0</span>)</button>
+                <button id="myBtnNeutral" onpointerdown="myStartTraining('NEUTRAL')" onpointerup="myStopTraining()" onpointerleave="myStopTraining()" style="grid-column: span 2;">NEUTRAL (<span id="myCountNEUTRAL">0</span>)</button>
+            </div>
+
+            <div class="stats-box">
+                <div>Total Training Samples: <span id="myTotalSamples">0</span></div>
+                <div id="myCurrentActiveTraining" style="color: var(--neon-pink); margin-top: 5px;">Status: Idle</div>
+            </div>
+
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button onclick="myClearData()" style="border-color: var(--neon-pink); color: var(--neon-pink);">Clear Data</button>
+                <button onclick="mySaveModel()">Save Model</button>
+            </div>
+
+            <div class="file-io">
+                <label for="myModelLoadInput" style="cursor: pointer; border: 1px dashed var(--neon-cyan); padding: 6px; border-radius: 4px; flex: 1; text-align: center;">Load Model JSON</label>
+                <input type="file" id="myModelLoadInput" accept=".json" onchange="myLoadModel(event)" style="display: none;">
+            </div>
+        </div>
+
+        <!-- Panel 2: Live Prediction & Game -->
+        <div class="panel">
+            <h2>Live Prediction & Treasure Game</h2>
+
+            <div class="prediction-display" id="myPredictionDisplay">
+                Prediction: NEUTRAL (0%)
+            </div>
+
+            <canvas id="myGameCanvas" width="400" height="300"></canvas>
+
+            <div class="control-group" style="flex-direction: row; align-items: center; justify-content: space-between;">
+                <label for="mySpeedInput">Base Speed:</label>
+                <input type="number" id="mySpeedInput" value="2" min="0.5" max="10" step="0.5" style="width: 80px;" onchange="myUpdateSpeed(event)">
+            </div>
+
+            <div class="stats-box">
+                <div>Treasures Collected: <span id="myTreasureCounter">0</span> / 3</div>
+                <div style="margin-top: 5px; font-size: 0.75rem; color: var(--neon-cyan);">Fallback: Use Arrow Keys or WASD to move if camera is inactive.</div>
+            </div>
+
+            <div class="game-controls">
+                <button onclick="myStartGame()">Start / Resume</button>
+                <button onclick="myPauseGame()" style="border-color: var(--neon-yellow); color: var(--neon-yellow);">Pause</button>
+                <button onclick="myResetGame()" style="border-color: var(--neon-pink); color: var(--neon-pink);">Reset Game</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // All custom variables and functions strictly use camelCase and prefix "my"
+        let myVideoElement = document.getElementById('myVideoElement');
+        let myProcessingCanvas = document.getElementById('myProcessingCanvas');
+        let myProcessingCtx = myProcessingCanvas.getContext('2d', { willReadFrequently: true });
+        let myCameraStream = null;
+        let myFacingModeSelect = document.getElementById('myFacingModeSelect');
+
+        let myTrainingData = {
+            'UP': [],
+            'DOWN': [],
+            'LEFT': [],
+            'RIGHT': [],
+            'NEUTRAL': []
+        };
+
+        let myActiveTrainingClass = null;
+        let myTrainingInterval = null;
+        let myCurrentPrediction = 'NEUTRAL';
+        let myCurrentConfidence = 0;
+        let myPredictionLoopId = null;
+
+        // Game state variables
+        let myGameCanvas = document.getElementById('myGameCanvas');
+        let myGameCtx = myGameCanvas.getContext('2d');
+        let myGameRunning = false;
+        let myGamePaused = false;
+        let myPlayerX = 200;
+        let myPlayerY = 150;
+        let myPlayerSize = 16;
+        let myPlayerSpeed = 2;
+        let myTreasures = [];
+        let myCollectedCount = 0;
+        let myGameLoopId = null;
+        let myActiveKeys = {};
+
+        // Camera Activation and Management
+        async function myActivateCamera() {
+            myStopCamera();
+            try {
+                let myConstraints = {
+                    video: { facingMode: myFacingModeSelect.value }
+                };
+                myCameraStream = await navigator.mediaDevices.getUserMedia(myConstraints);
+                myVideoElement.srcObject = myCameraStream;
+                await myVideoElement.play();
+                myStartPredictionLoop();
+            } catch (myError) {
+                alert('Camera access denied or unavailable: ' + myError.message);
+            }
+        }
+
+        function myStopCamera() {
+            if (myCameraStream) {
+                myCameraStream.getTracks().forEach(myTrack => myTrack.stop());
+                myCameraStream = null;
+                myVideoElement.srcObject = null;
+            }
+            if (myPredictionLoopId) {
+                cancelAnimationFrame(myPredictionLoopId);
+                myPredictionLoopId = null;
+            }
+        }
+
+        // Feature Extraction (16x16 grayscale, 256 normalized values)
+        function myExtractFeatures() {
+            if (!myVideoElement.videoWidth) return null;
+
+            myProcessingCtx.save();
+            myProcessingCtx.scale(-1, 1);
+            myProcessingCtx.drawImage(myVideoElement, -16, 0, 16, 16);
+            myProcessingCtx.restore();
+
+            let myCameraImageData = myProcessingCtx.getImageData(0, 0, 16, 16);
+            let myPixels = myCameraImageData.data;
+            let myFeatureVector = new Float32Array(256);
+
+            for (let myIdx = 0; myIdx < 256; myIdx++) {
+                let myOffset = myIdx * 4;
+                let myRed = myPixels[myOffset];
+                let myGreen = myPixels[myOffset + 1];
+                let myBlue = myPixels[myOffset + 2];
+                // Grayscale conversion and normalization between 0 and 1
+                let myGray = (myRed * 0.299 + myGreen * 0.587 + myBlue * 0.114) / 255;
+                myFeatureVector[myIdx] = myGray;
+            }
+            return myFeatureVector;
+        }
+
+        // Training Handlers
+        function myStartTraining(myClassName) {
+            myActiveTrainingClass = myClassName;
+            document.getElementById('myCurrentActiveTraining').innerText = 'Status: Training [' + myClassName + ']';
+            
+            // Highlight button
+            document.querySelectorAll('.training-grid button').forEach(myBtn => myBtn.classList.remove('active-train'));
+            let myActiveBtnElem = document.getElementById('myBtn' + myClassName);
+            if (myActiveBtnElem) myActiveBtnElem.classList.add('active-train');
+
+            if (myTrainingInterval) clearInterval(myTrainingInterval);
+            myTrainingInterval = setInterval(() => {
+                myCaptureSample();
+            }, 100);
+        }
+
+        function myStopTraining() {
+            if (myTrainingInterval) {
+                clearInterval(myTrainingInterval);
+                myTrainingInterval = null;
+            }
+            myActiveTrainingClass = null;
+            document.getElementById('myCurrentActiveTraining').innerText = 'Status: Idle';
+            document.querySelectorAll('.training-grid button').forEach(myBtn => myBtn.classList.remove('active-train'));
+        }
+
+        function myCaptureSample() {
+            if (!myActiveTrainingClass) return;
+            let myFeatures = myExtractFeatures();
+            if (!myFeatures) return;
+
+            myTrainingData[myActiveTrainingClass].push(Array.from(myFeatures));
+            myUpdateSampleCounters();
+        }
+
+        function myUpdateSampleCounters() {
+            let myTotal = 0;
+            for (let myKey in myTrainingData) {
+                let myCount = myTrainingData[myKey].length;
+                let myElem = document.getElementById('myCount' + myKey);
+                if (myElem) myElem.innerText = myCount;
+                myTotal += myCount;
+            }
+            document.getElementById('myTotalSamples').innerText = myTotal;
+        }
+
+        function myClearData() {
+            for (let myKey in myTrainingData) {
+                myTrainingData[myKey] = [];
+            }
+            myUpdateSampleCounters();
+        }
+
+        // Model Import / Export JSON
+        function mySaveModel() {
+            let myJsonData = JSON.stringify(myTrainingData);
+            let myBlob = new Blob([myJsonData], { type: 'application/json' });
+            let myUrl = URL.createObjectURL(myBlob);
+            let myAnchor = document.createElement('a');
+            myAnchor.href = myUrl;
+            myAnchor.download = 'OfflineVisionQuest_Model.json';
+            myAnchor.click();
+            URL.revokeObjectURL(myUrl);
+        }
+
+        function myLoadModel(myEvent) {
+            let myFile = myEvent.target.files[0];
+            if (!myFile) return;
+            let myReader = new FileReader();
+            myReader.onload = function(myLoadEvent) {
+                try {
+                    let myParsed = JSON.parse(myLoadEvent.target.result);
+                    if (myParsed && typeof myParsed === 'object') {
+                        myTrainingData = myParsed;
+                        myUpdateSampleCounters();
+                        alert('Model successfully loaded!');
+                    }
+                } catch (myErr) {
+                    alert('Invalid model file format.');
+                }
+            };
+            myReader.readAsText(myFile);
+        }
+
+        // k-NN Classifier Engine
+        function myClassifyFrame() {
+            let myFeatures = myExtractFeatures();
+            if (!myFeatures) return;
+
+            let myDistances = [];
+            let myK = 3;
+
+            for (let myClassName in myTrainingData) {
+                let mySamples = myTrainingData[myClassName];
+                for (let mySampleIdx = 0; mySampleIdx < mySamples.length; mySampleIdx++) {
+                    let mySampleVec = mySamples[mySampleIdx];
+                    let mySumSq = 0;
+                    for (let myI = 0; myI < 256; myI++) {
+                        let myDiff = myFeatures[myI] - mySampleVec[myI];
+                        mySumSq += myDiff * myDiff;
+                    }
+                    let myDist = Math.sqrt(mySumSq);
+                    myDistances.push({ className: myClassName, distance: myDist });
+                }
+            }
+
+            if (myDistances.length === 0) {
+                myCurrentPrediction = 'NEUTRAL';
+                myCurrentConfidence = 0;
+                myUpdatePredictionDisplay();
+                return;
+            }
+
+            // Sort ascending by distance
+            myDistances.sort((myA, myB) => myA.distance - myB.distance);
+
+            let myClassCounts = { 'UP': 0, 'DOWN': 0, 'LEFT': 0, 'RIGHT': 0, 'NEUTRAL': 0 };
+            let myNeighborLimit = Math.min(myK, myDistances.length);
+            let myTotalDistanceWeight = 0;
+
+            for (let myI = 0; myI < myNeighborLimit; myI++) {
+                let myClass = myDistances[myI].className;
+                myClassCounts[myClass]++;
+                myTotalDistanceWeight += (1 / (myDistances[myI].distance + 0.0001));
+            }
+
+            let myBestClass = 'NEUTRAL';
+            let myMaxCount = -1;
+            for (let myClass in myClassCounts) {
+                if (myClassCounts[myClass] > myMaxCount) {
+                    myMaxCount = myClassCounts[myClass];
+                    myBestClass = myClass;
+                }
+            }
+
+            // Confidence calculation based on neighbor votes and inverse distance
+            let myConfidencePct = Math.round((myMaxCount / myNeighborLimit) * 100);
+            myCurrentPrediction = myBestClass;
+            myCurrentConfidence = myConfidencePct;
+
+            myUpdatePredictionDisplay();
+        }
+
+        function myUpdatePredictionDisplay() {
+            let myDisplayElem = document.getElementById('myPredictionDisplay');
+            myDisplayElem.innerText = 'Prediction: ' + myCurrentPrediction + ' (' + myCurrentConfidence + '%)';
+        }
+
+        function myStartPredictionLoop() {
+            function myLoopStep() {
+                if (myCameraStream) {
+                    myClassifyFrame();
+                    myPredictionLoopId = requestAnimationFrame(myLoopStep);
+                }
+            }
+            myPredictionLoopId = requestAnimationFrame(myLoopStep);
+        }
+
+        // Treasure Game Implementation
+        function myInitTreasures() {
+            myTreasures = [];
+            for (let myI = 0; myI < 3; myI++) {
+                myTreasures.push({
+                    x: Math.random() * 360 + 20,
+                    y: Math.random() * 260 + 20,
+                    collected: false
+                });
+            }
+            myCollectedCount = 0;
+            document.getElementById('myTreasureCounter').innerText = myCollectedCount;
+        }
+
+        function myStartGame() {
+            if (!myGameRunning) {
+                myGameRunning = true;
+                myGamePaused = false;
+                if (myTreasures.length === 0 || myCollectedCount >= 3) {
+                    myResetGame();
+                } else {
+                    myGameLoop();
+                }
+            } else if (myGamePaused) {
+                myGamePaused = false;
+                myGameLoop();
+            }
+        }
+
+        function myPauseGame() {
+            myGamePaused = true;
+            if (myGameLoopId) {
+                cancelAnimationFrame(myGameLoopId);
+                myGameLoopId = null;
+            }
+        }
+
+        function myResetGame() {
+            myGameRunning = false;
+            myGamePaused = false;
+            if (myGameLoopId) {
+                cancelAnimationFrame(myGameLoopId);
+                myGameLoopId = null;
+            }
+            myPlayerX = 200;
+            myPlayerY = 150;
+            myInitTreasures();
+            myDrawGame();
+        }
+
+        function myUpdateSpeed(myEvent) {
+            let myVal = parseFloat(myEvent.target.value);
+            if (!isNaN(myVal) && myVal > 0) {
+                myPlayerSpeed = myVal;
+            }
+        }
+
+        // Keyboard Event Listeners for Fallback
+        window.addEventListener('keydown', (myEvent) => {
+            myActiveKeys[myEvent.key] = true;
+        });
+
+        window.addEventListener('keyup', (myEvent) => {
+            myActiveKeys[myEvent.key] = false;
+        });
+
+        function myGameLoop() {
+            if (!myGameRunning || myGamePaused) return;
+
+            // Determine Movement Direction (Classifier primary, fallback to Keyboard)
+            let myMoveX = 0;
+            let myMoveY = 0;
+
+            if (myCameraStream && myCurrentConfidence > 40) {
+                if (myCurrentPrediction === 'UP') myMoveY -= myPlayerSpeed;
+                if (myCurrentPrediction === 'DOWN') myMoveY += myPlayerSpeed;
+                if (myCurrentPrediction === 'LEFT') myMoveX -= myPlayerSpeed;
+                if (myCurrentPrediction === 'RIGHT') myMoveX += myPlayerSpeed;
+            } else {
+                // Keyboard Fallback (Arrow Keys or WASD)
+                if (myActiveKeys['ArrowUp'] || myActiveKeys['w'] || myActiveKeys['W']) myMoveY -= myPlayerSpeed;
+                if (myActiveKeys['ArrowDown'] || myActiveKeys['s'] || myActiveKeys['S']) myMoveY += myPlayerSpeed;
+                if (myActiveKeys['ArrowLeft'] || myActiveKeys['a'] || myActiveKeys['A']) myMoveX -= myPlayerSpeed;
+                if (myActiveKeys['ArrowRight'] || myActiveKeys['d'] || myActiveKeys['D']) myMoveX += myPlayerSpeed;
+            }
+
+            myPlayerX += myMoveX;
+            myPlayerY += myMoveY;
+
+            // Boundaries
+            if (myPlayerX < 10) myPlayerX = 10;
+            if (myPlayerX > 390) myPlayerX = 390;
+            if (myPlayerY < 10) myPlayerY = 10;
+            if (myPlayerY > 290) myPlayerY = 290;
+
+            // Check Collision with Treasures
+            for (let myI = 0; myI < myTreasures.length; myI++) {
+                let myT = myTreasures[myI];
+                if (!myT.collected) {
+                    let myDistSq = (myPlayerX - myT.x) * (myPlayerX - myT.x) + (myPlayerY - myT.y) * (myPlayerY - myT.y);
+                    if (myDistSq < (myPlayerSize + 8) * (myPlayerSize + 8)) {
+                        myT.collected = true;
+                        myCollectedCount++;
+                        document.getElementById('myTreasureCounter').innerText = myCollectedCount;
+                    }
+                }
+            }
+
+            myDrawGame();
+
+            if (myCollectedCount >= 3) {
+                myGameRunning = false;
+                myGamePaused = false;
+                myGameCtx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                myGameCtx.fillRect(0, 0, 400, 300);
+                myGameCtx.fillStyle = 'var(--neon-green)';
+                myGameCtx.font = '20px Courier New';
+                myGameCtx.textAlign = 'center';
+                myGameCtx.fillText('VICTORY! ALL TREASURES FOUND!', 200, 150);
+                return;
+            }
+
+            myGameLoopId = requestAnimationFrame(myGameLoop);
+        }
+
+        function myDrawGame() {
+            myGameCtx.clearRect(0, 0, 400, 300);
+
+            // Draw Grid lines (Neon aesthetic)
+            myGameCtx.strokeStyle = '#121226';
+            myGameCtx.lineWidth = 1;
+            for (let myX = 0; myX < 400; myX += 20) {
+                myGameCtx.beginPath();
+                myGameCtx.moveTo(myX, 0);
+                myGameCtx.lineTo(myX, 300);
+                myGameCtx.stroke();
+            }
+            for (let myY = 0; myY < 300; myY += 20) {
+                myGameCtx.beginPath();
+                myGameCtx.moveTo(0, myY);
+                myGameCtx.lineTo(400, myY);
+                myGameCtx.stroke();
+            }
+
+            // Draw Treasures
+            for (let myI = 0; myI < myTreasures.length; myI++) {
+                let myT = myTreasures[myI];
+                if (!myT.collected) {
+                    myGameCtx.fillStyle = 'var(--neon-yellow)';
+                    myGameCtx.shadowColor = 'var(--neon-yellow)';
+                    myGameCtx.shadowBlur = 10;
+                    myGameCtx.beginPath();
+                    myGameCtx.arc(myT.x, myT.y, 6, 0, Math.PI * 2);
+                    myGameCtx.fill();
+                    myGameCtx.shadowBlur = 0;
+                }
+            }
+
+            // Draw Player
+            myGameCtx.fillStyle = 'var(--neon-cyan)';
+            myGameCtx.shadowColor = 'var(--neon-cyan)';
+            myGameCtx.shadowBlur = 12;
+            myGameCtx.fillRect(myPlayerX - myPlayerSize/2, myPlayerY - myPlayerSize/2, myPlayerSize, myPlayerSize);
+            myGameCtx.shadowBlur = 0;
+        }
+
+        // Initial setup draw
+        myInitTreasures();
+        myDrawGame();
+    </script>
+</body>
+</html>
