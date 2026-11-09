@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Luxury Fragrance Collection</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #030711;
+    color: white;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* BLUE LIGHT BACKGROUND */
+
+body::before {
+    content: "";
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    background: #005eff;
+    filter: blur(180px);
+    opacity: 0.19;
+    top: -200px;
+    left: -150px;
+    z-index: -1;
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    background: #00b7ff;
+    filter: blur(180px);
+    opacity: 0.12;
+    bottom: -200px;
+    right: -100px;
+    z-index: -1;
+}
+
+/* HEADER */
+
+header {
+    text-align: center;
+    padding: 55px 20px 30px;
+}
+
+header h1 {
+    font-size: clamp(30px, 5vw, 55px);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    background: linear-gradient(
+        90deg,
+        #ffffff,
+        #61caff,
+        #ffffff
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+header p {
+    color: #8daac9;
+    margin-top: 15px;
+    letter-spacing: 3px;
+    font-size: 12px;
+}
+
+/* MAIN CONTAINER */
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: auto;
+    padding-bottom: 60px;
+}
+
+/* DROPDOWN */
+
+.select-area {
+    text-align: center;
+    margin: 35px 0;
+}
+
+select {
+    background: #091426;
+    color: white;
+    border: 1px solid #168bff;
+    padding: 15px 25px;
+    width: 280px;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    cursor: pointer;
+    box-shadow: 0 0 20px #0077ff30;
+}
+
+select:hover {
+    box-shadow: 0 0 25px #008cff80;
+}
+
+/* PRODUCT CARD */
+
+#myDiv1 {
+    display: flex;
+    justify-content: center;
+    min-height: 400px;
+}
+
+.product-card {
+    width: 100%;
+    max-width: 850px;
+    background: linear-gradient(
+        145deg,
+        #101d30,
+        #050b16
+    );
+    border: 1px solid #1b6bb0;
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow:
+        0 0 25px #007bff25,
+        inset 0 0 30px #008cff0a;
+    animation: appear 0.6s ease;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.product-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 25px;
+    padding: 35px;
+}
+
+/* IMAGE */
+
+.image-container {
+    background: radial-gradient(
+        circle,
+        #163d64,
+        #07111f 70%
+    );
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 350px;
+}
+
+.product-card img {
+    width: 100%;
+    max-height: 330px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 20px #168bff50);
+    transition: transform 0.4s ease;
+}
+
+.product-card img:hover {
+    transform: scale(1.06);
+}
+
+/* PRODUCT DETAILS */
+
+.details h2 {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.brand {
+    color: #4bbaff;
+    letter-spacing: 4px;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+}
+
+.description {
+    color: #a9bfd7;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.price {
+    font-size: 27px;
+    color: #75caff;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.category {
+    display: inline-block;
+    border: 1px solid #168bff;
+    color: #83caff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+/* JSON SECTION */
+
+.json-section {
+    background: #050b14;
+    border-top: 1px solid #143b62;
+    padding: 25px 35px;
+}
+
+.json-section h3 {
+    color: #59baff;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+}
+
+pre {
+    color: #9dcaff;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+    color: #54718e;
+    padding: 30px;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+    .product-content {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+
+    .details h2 {
+        font-size: 26px;
+    }
+
+    .image-container {
+        min-height: 260px;
+    }
+
+    .json-section {
+        padding: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>NOIR LUXE</h1>
+    <p>THE ART OF EXCLUSIVE FRAGRANCE</p>
+</header>
+
+<div class="container">
+
+    <div class="select-area">
+        <select id="mySelect" size="1" onchange="fetchData(this.value)">
+
+            <option value="dior">Dior Sauvage Elixir</option>
+
+            <option value="jpg">Jean Paul Gaultier Le Male</option>
+
+            <option value="creed">Creed Aventus</option>
+
+            <option value="tomford">Tom Ford Oud Wood</option>
+
+        </select>
+    </div>
+
+    <div id="myDiv1">
+        Loading luxury collection...
+    </div>
+
+</div>
+
+<footer>
+    NOIR LUXE © 2026 | EXCLUSIVE FRAGRANCE COLLECTION
+</footer>
+
+<script>
+
+// LUXURY PERFUME DATABASE
+
+const perfumes = {
+
+    dior: {
+        brand: "Christian Dior",
+        name: "Sauvage Elixir",
+        price: "$244",
+        category: "LUXURY MEN'S FRAGRANCE",
+        description:
+            "An intense aromatic fragrance featuring rich spices, lavender and deep woody notes. A bold statement of sophistication.",
+        image:
+            "https://www.dior.com/dw/image/v2/BGXS_PRD/on/demandware.static/-/Sites-master_dior/default/dw0a9edc36/Y0996460/Y0996460_C099600755_E01_RHC.jpg?sw=1024"
+    },
+
+    jpg: {
+        brand: "Jean Paul Gaultier",
+        name: "Le Male",
+        price: "$127",
+        category: "LUXURY MEN'S FRAGRANCE",
+        description:
+            "A distinctive fragrance inspired by timeless masculinity, combining warm vanilla, aromatic lavender and fresh mint.",
+        image:
+            "https://tse3.mm.bing.net/th/id/OIP.64KPttfAXUvvsO8RM0TmNgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"
+    },
+
+    creed: {
+        brand: "Creed",
+        name: "Aventus",
+        price: "$480",
+        category: "EXCLUSIVE COLLECTION",
+        description:
+            "A sophisticated blend of fruity freshness, smoky woods and refined musk. Created for those who appreciate distinctive luxury.",
+        image:
+            "https://www.creedfragrances.co.uk/cdn/shop/files/aventus_moonrock_2.jpg?v=1693391334&width=1100"
+    },
+
+    tomford: {
+        brand: "Tom Ford",
+        name: "Oud Wood",
+        price: "$460",
+        category: "PRIVATE BLEND COLLECTION",
+        description:
+            "An elegant woody fragrance with oud, exotic spices and smooth amber. Dark, refined and unforgettable.",
+        image:
+            "https://www.perfumenetwork.in/cdn/shop/files/1GuerlainMonBloomofRoseEaudeParfum_6311968a-0c7e-40fe-9a56-052a34b9637b_1024x1024.png?v=1691564991"
+    }
+
+};
+
+
+// ORIGINAL ASYNC FUNCTION STRUCTURE
+
+async function fetchData(url) {
+
+    const data = perfumes[url];
+
+    if (!data) {
+        document.getElementById("myDiv1").innerHTML =
+            "Perfume not found.";
+        return;
+    }
+
+    console.log(data);
+
+    const myJson = JSON.stringify(data, null, 2);
+
+    document.getElementById("myDiv1").innerHTML = `
+
+        <div class="product-card">
+
+            <div class="product-content">
+
+                <div class="image-container">
+
+                    <img
+                        src="${data.image}"
+                        alt="${data.brand} ${data.name}"
+                    >
+
+                </div>
+
+                <div class="details">
+
+                    <div class="brand">
+                        ${data.brand}
+                    </div>
+
+                    <h2>${data.name}</h2>
+
+                    <p class="description">
+                        ${data.description}
+                    </p>
+
+                    <div class="price">
+                        ${data.price}
+                    </div>
+
+                    <span class="category">
+                        ${data.category}
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="json-section">
+
+                <h3>PRODUCT JSON DATA</h3>
+
+                <pre>${myJson.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</pre>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+// AUTOMATICALLY LOAD FIRST PERFUME
+
+fetchData(document.getElementById("mySelect").value);
+
+</script>
+
+</body>
+</html>
