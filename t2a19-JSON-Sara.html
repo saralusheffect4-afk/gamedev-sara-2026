@@ -3,439 +3,596 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="An interactive luxury product showcase with dynamic themed product cards.">
 
-<title>Luxury Fragrance Collection</title>
+<title>Ultimate Luxury Showcase</title>
 
 <style>
+:root {
+  --bg: #030711;
+  --text: #ffffff;
+  --muted: #8daac9;
+  --accent: #61caff;
+  --card-radius: 22px;
+}
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    background: #030711;
-    color: white;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", Arial, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* BLUE LIGHT BACKGROUND */
-
-body::before {
-    content: "";
-    position: fixed;
-    width: 600px;
-    height: 600px;
-    background: #005eff;
-    filter: blur(180px);
-    opacity: 0.19;
-    top: -200px;
-    left: -150px;
-    z-index: -1;
+/* Background lighting */
+.overhead-rig {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 350px;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
 }
 
-body::after {
-    content: "";
-    position: fixed;
-    width: 500px;
-    height: 500px;
-    background: #00b7ff;
-    filter: blur(180px);
-    opacity: 0.12;
-    bottom: -200px;
-    right: -100px;
-    z-index: -1;
+.overhead-rig::before {
+  content: "";
+  position: absolute;
+  top: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 400px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(0, 183, 255, 0.08) 50%,
+    transparent 80%
+  );
+  filter: blur(40px);
 }
 
-/* HEADER */
+.lamp {
+  position: absolute;
+  top: -50px;
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.25;
+}
 
+.lamp--left {
+  left: 10%;
+  background: #00ffff;
+}
+
+.lamp--right {
+  right: 10%;
+  background: #ff007f;
+}
+
+/* Header */
 header {
-    text-align: center;
-    padding: 55px 20px 30px;
+  padding: 55px 20px 20px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
 }
 
 header h1 {
-    font-size: clamp(30px, 5vw, 55px);
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    background: linear-gradient(
-        90deg,
-        #ffffff,
-        #61caff,
-        #ffffff
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  font-size: clamp(30px, 5vw, 55px);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #ffffff, var(--accent), #ffffff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 header p {
-    color: #8daac9;
-    margin-top: 15px;
-    letter-spacing: 3px;
-    font-size: 12px;
+  margin-top: 15px;
+  color: var(--muted);
+  letter-spacing: 3px;
+  font-size: 12px;
 }
 
-/* MAIN CONTAINER */
-
+/* Layout */
 .container {
-    width: 90%;
-    max-width: 1100px;
-    margin: auto;
-    padding-bottom: 60px;
+  width: min(90%, 1100px);
+  margin-inline: auto;
+  padding-bottom: 60px;
+  position: relative;
+  z-index: 2;
 }
-
-/* DROPDOWN */
 
 .select-area {
-    text-align: center;
-    margin: 35px 0;
+  display: flex;
+  justify-content: center;
+  margin: 45px auto;
+}
+
+.select-wrapper {
+  width: min(100%, 340px);
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(22, 139, 255, 0.2), rgba(5, 11, 22, 0.9));
+  border: 2px solid #168bff;
+  border-radius: 12px;
+  box-shadow: 0 0 35px rgba(0, 119, 255, 0.4);
+  backdrop-filter: blur(10px);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.select-wrapper:hover,
+.select-wrapper:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 50px rgba(0, 140, 255, 0.7);
 }
 
 select {
-    background: #091426;
-    color: white;
-    border: 1px solid #168bff;
-    padding: 15px 25px;
-    width: 280px;
-    border-radius: 10px;
-    font-size: 15px;
-    outline: none;
-    cursor: pointer;
-    box-shadow: 0 0 20px #0077ff30;
+  width: 100%;
+  padding: 10px 15px;
+  color: #fff;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
 }
 
-select:hover {
-    box-shadow: 0 0 25px #008cff80;
+select option {
+  background: #050b16;
+  color: #fff;
 }
 
-/* PRODUCT CARD */
-
-#myDiv1 {
-    display: flex;
-    justify-content: center;
-    min-height: 400px;
+/* Product card */
+#product-display {
+  display: flex;
+  justify-content: center;
+  min-height: 400px;
 }
 
 .product-card {
-    width: 100%;
-    max-width: 850px;
-    background: linear-gradient(
-        145deg,
-        #101d30,
-        #050b16
-    );
-    border: 1px solid #1b6bb0;
-    border-radius: 22px;
-    overflow: hidden;
-    box-shadow:
-        0 0 25px #007bff25,
-        inset 0 0 30px #008cff0a;
-    animation: appear 0.6s ease;
+  width: 100%;
+  max-width: 850px;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  border: 1px solid var(--theme-border, #168bff);
+  background: var(--theme-card-bg, #050b16);
+  box-shadow: 0 0 30px var(--theme-glow, rgba(0, 119, 255, 0.35));
+  animation: appear 0.6s ease;
 }
 
 @keyframes appear {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .product-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    gap: 25px;
-    padding: 35px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 25px;
+  padding: 35px;
 }
 
-/* IMAGE */
-
 .image-container {
-    background: radial-gradient(
-        circle,
-        #163d64,
-        #07111f 70%
-    );
-    border-radius: 16px;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 350px;
+  padding: 20px;
+  border-radius: 16px;
+  background: var(--theme-image-bg, #0a1220);
 }
 
 .product-card img {
-    width: 100%;
-    max-height: 330px;
-    object-fit: contain;
-    filter: drop-shadow(0 0 20px #168bff50);
-    transition: transform 0.4s ease;
+  width: 100%;
+  max-height: 330px;
+  object-fit: contain;
+  transition: transform 0.4s ease;
 }
 
 .product-card img:hover {
-    transform: scale(1.06);
+  transform: scale(1.06);
 }
 
-/* PRODUCT DETAILS */
-
 .details h2 {
-    font-size: 32px;
-    margin-bottom: 12px;
+  margin-bottom: 12px;
+  font-size: 32px;
 }
 
 .brand {
-    color: #4bbaff;
-    letter-spacing: 4px;
-    font-size: 12px;
-    text-transform: uppercase;
-    margin-bottom: 18px;
+  margin-bottom: 18px;
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--theme-accent, var(--accent));
 }
 
 .description {
-    color: #a9bfd7;
-    line-height: 1.8;
-    margin-bottom: 20px;
+  margin-bottom: 20px;
+  line-height: 1.8;
+  color: var(--theme-description, #a9bfd7);
 }
 
 .price {
-    font-size: 27px;
-    color: #75caff;
-    font-weight: bold;
-    margin: 20px 0;
+  margin: 20px 0;
+  font-size: 27px;
+  font-weight: 700;
+  color: var(--theme-price, #fff);
 }
 
 .category {
-    display: inline-block;
-    border: 1px solid #168bff;
-    color: #83caff;
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: 11px;
-    letter-spacing: 2px;
+  display: inline-block;
+  padding: 8px 15px;
+  border: 1px solid var(--theme-border, #168bff);
+  border-radius: 20px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--theme-accent, var(--accent));
 }
 
-/* JSON SECTION */
-
+/* JSON section */
 .json-section {
-    background: #050b14;
-    border-top: 1px solid #143b62;
-    padding: 25px 35px;
+  padding: 25px 35px;
+  background: var(--theme-json-bg, #020704);
+  border-top: 1px solid var(--theme-border, #168bff);
 }
 
 .json-section h3 {
-    color: #59baff;
-    margin-bottom: 15px;
-    letter-spacing: 2px;
+  margin-bottom: 15px;
+  letter-spacing: 2px;
+  color: var(--theme-accent, var(--accent));
+}
+
+.json-explanation {
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--theme-description, #a9bfd7);
 }
 
 pre {
-    color: #9dcaff;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-    font-size: 13px;
-    line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--theme-json-text, #cbd5e1);
 }
-
-/* FOOTER */
 
 footer {
-    text-align: center;
-    color: #54718e;
-    padding: 30px;
-    font-size: 12px;
-    letter-spacing: 2px;
+  padding: 30px;
+  text-align: center;
+  color: #54718e;
+  font-size: 12px;
+  letter-spacing: 2px;
+  position: relative;
+  z-index: 2;
 }
 
-/* RESPONSIVE */
-
+/* Responsive */
 @media (max-width: 700px) {
-    .product-content {
-        grid-template-columns: 1fr;
-        padding: 20px;
-    }
+  .product-content {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
 
-    .details h2 {
-        font-size: 26px;
-    }
+  .details h2 {
+    font-size: 26px;
+  }
 
-    .image-container {
-        min-height: 260px;
-    }
+  .image-container {
+    min-height: 260px;
+  }
 
-    .json-section {
-        padding: 20px;
-    }
+  .json-section {
+    padding: 20px;
+  }
 }
 </style>
 </head>
 
 <body>
+  <div class="overhead-rig" aria-hidden="true">
+    <div class="lamp lamp--left"></div>
+    <div class="lamp lamp--right"></div>
+  </div>
 
-<header>
-    <h1>NOIR LUXE</h1>
-    <p>THE ART OF EXCLUSIVE FRAGRANCE</p>
-</header>
+  <header>
+    <h1>Ultimate Luxury</h1>
+    <p>THE ART OF EXCLUSIVE MASTERPIECES</p>
+  </header>
 
-<div class="container">
-
+  <main class="container">
     <div class="select-area">
-        <select id="mySelect" size="1" onchange="fetchData(this.value)">
+      <label class="visually-hidden" for="product-select">Choose a luxury item</label>
 
-            <option value="dior">Dior Sauvage Elixir</option>
-
-            <option value="jpg">Jean Paul Gaultier Le Male</option>
-
-            <option value="creed">Creed Aventus</option>
-
-            <option value="tomford">Tom Ford Oud Wood</option>
-
+      <div class="select-wrapper">
+        <select id="product-select">
+          <option value="perfume">1. Dark Green Perfume</option>
+          <option value="car">2. Navy Blue &amp; Gold Car</option>
+          <option value="watch">3. Rose Gold Chrono Watch</option>
+          <option value="birkin">4. Himalaya Birkin Bag</option>
+          <option value="ralphlauren">5. Ralph Lauren Exquisite Suit</option>
+          <option value="ring">6. Platinum Diamond Ring</option>
+          <option value="glasses">7. Onyx Gold Designer Glasses</option>
+          <option value="golfset">8. Most Expensive Gold Golf Set</option>
         </select>
+      </div>
     </div>
 
-    <div id="myDiv1">
-        Loading luxury collection...
+    <div id="product-display" aria-live="polite">
+      Loading luxury collection...
     </div>
+  </main>
 
-</div>
-
-<footer>
-    NOIR LUXE © 2026 | EXCLUSIVE FRAGRANCE COLLECTION
-</footer>
+  <footer>
+    ULTIMATE LUXURY © 2026 | ALL RIGHTS RESERVED
+  </footer>
 
 <script>
-
-// LUXURY PERFUME DATABASE
-
-const perfumes = {
-
-    dior: {
-        brand: "Christian Dior",
-        name: "Sauvage Elixir",
-        price: "$244",
-        category: "LUXURY MEN'S FRAGRANCE",
-        description:
-            "An intense aromatic fragrance featuring rich spices, lavender and deep woody notes. A bold statement of sophistication.",
-        image:
-            "https://www.dior.com/dw/image/v2/BGXS_PRD/on/demandware.static/-/Sites-master_dior/default/dw0a9edc36/Y0996460/Y0996460_C099600755_E01_RHC.jpg?sw=1024"
+const luxuryData = {
+  perfume: {
+    themeName: "Dark Green & Black Velvet",
+    theme: {
+      cardBg: "linear-gradient(145deg, #061a12, #020805)",
+      border: "#114a2f",
+      imageBg: "radial-gradient(circle, #0e3b26, #020805 70%)",
+      accent: "#2ee6a8",
+      price: "#5cdbb3",
+      description: "#9fdcc4",
+      jsonBg: "#020704",
+      jsonText: "#8ce8c4"
     },
+    brand: "Clive Christian",
+    name: "No. 1 Imperial Majesty Perfume",
+    price: "$215,000",
+    category: "DARK GREEN / BLACK VELVET PERFUME",
+    description: "Housed in a hand-crafted crystal bottle featuring an 18-karat gold collar and a 5-carat white diamond. A rich, opulent dark green and black theme celebrating ultimate olfactory rarity.",
+    image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=800&q=80",
+    jsonUse: "JSON structures product data so JavaScript can dynamically build and inject this themed card without reloading the page."
+  },
 
-    jpg: {
-        brand: "Jean Paul Gaultier",
-        name: "Le Male",
-        price: "$127",
-        category: "LUXURY MEN'S FRAGRANCE",
-        description:
-            "A distinctive fragrance inspired by timeless masculinity, combining warm vanilla, aromatic lavender and fresh mint.",
-        image:
-            "https://tse3.mm.bing.net/th/id/OIP.64KPttfAXUvvsO8RM0TmNgHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3"
+  car: {
+    themeName: "Navy Blue & Rich Gold",
+    theme: {
+      cardBg: "linear-gradient(145deg, #091326, #03060f)",
+      border: "#c59b27",
+      imageBg: "radial-gradient(circle, #122240, #03060f 70%)",
+      accent: "#f3c654",
+      price: "#f7d779",
+      description: "#a9bfd7",
+      jsonBg: "#03060f",
+      jsonText: "#9dcaff"
     },
+    brand: "Rolls-Royce",
+    name: "Boat Tail Coachbuilt Navy Gold",
+    price: "$28,000,000",
+    category: "NAVY BLUE & RICH GOLD AUTOMOTIVE",
+    description: "An ultra-exclusive marine-inspired masterpiece featuring bespoke dual-tone deep navy blue infused with bronze and gold flakes, paired with hand-crafted matching rear hosting suites.",
+    image: "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80",
+    jsonUse: "JSON acts as a lightweight data source, allowing product details to be stored and rendered cleanly without hardcoding HTML."
+  },
 
-    creed: {
-        brand: "Creed",
-        name: "Aventus",
-        price: "$480",
-        category: "EXCLUSIVE COLLECTION",
-        description:
-            "A sophisticated blend of fruity freshness, smoky woods and refined musk. Created for those who appreciate distinctive luxury.",
-        image:
-            "https://www.creedfragrances.co.uk/cdn/shop/files/aventus_moonrock_2.jpg?v=1693391334&width=1100"
+  watch: {
+    themeName: "Royal Burgundy & Rose Gold",
+    theme: {
+      cardBg: "linear-gradient(145deg, #260a12, #0d0205)",
+      border: "#d9779c",
+      imageBg: "radial-gradient(circle, #4d1424, #0d0205 70%)",
+      accent: "#ff9ec4",
+      price: "#ffb3d1",
+      description: "#e6b8cc",
+      jsonBg: "#080103",
+      jsonText: "#f5c4d8"
     },
+    brand: "Patek Philippe",
+    name: "Grand Master Chime Rose Gold",
+    price: "$31,000,000",
+    category: "BURGUNDY & ROSE GOLD HOROLOGY",
+    description: "The most complicated wristwatch ever made by Patek Philippe featuring twenty complications across a double-faced reversible case wrapped in rich rose gold and deep burgundy accents.",
+    image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80",
+    jsonUse: "JSON separates watch data from layout logic, making the presentation easier to maintain and update."
+  },
 
-    tomford: {
-        brand: "Tom Ford",
-        name: "Oud Wood",
-        price: "$460",
-        category: "PRIVATE BLEND COLLECTION",
-        description:
-            "An elegant woody fragrance with oud, exotic spices and smooth amber. Dark, refined and unforgettable.",
-        image:
-            "https://www.perfumenetwork.in/cdn/shop/files/1GuerlainMonBloomofRoseEaudeParfum_6311968a-0c7e-40fe-9a56-052a34b9637b_1024x1024.png?v=1691564991"
-    }
+  birkin: {
+    themeName: "Snow White & Diamond Platinum",
+    theme: {
+      cardBg: "linear-gradient(145deg, #1f2229, #090a0d)",
+      border: "#94a3b8",
+      imageBg: "radial-gradient(circle, #333845, #090a0d 70%)",
+      accent: "#cbd5e1",
+      price: "#ffffff",
+      description: "#94a3b8",
+      jsonBg: "#050608",
+      jsonText: "#cbd5e1"
+    },
+    brand: "Hermès",
+    name: "Himalaya Niloticus Crocodile Birkin",
+    price: "$450,000",
+    category: "SNOW WHITE & PLATINUM LEATHER",
+    description: "Graduated dyeing echoing the majestic snow-capped Himalayas, fashioned from rare Niloticus crocodile skin adorned with 18-karat white gold hardware encrusted with over 240 diamonds.",
+    image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80",
+    jsonUse: "JSON enables structured key-value data management, allowing item properties and design values to be swapped instantly."
+  },
 
+  ralphlauren: {
+    themeName: "Vintage Amber & Tuxedo Black",
+    theme: {
+      cardBg: "linear-gradient(145deg, #261c0c, #0a0703)",
+      border: "#d4af37",
+      imageBg: "radial-gradient(circle, #4a3517, #0a0703 70%)",
+      accent: "#f3e0aa",
+      price: "#faeab9",
+      description: "#d9cbaf",
+      jsonBg: "#050402",
+      jsonText: "#e6d7b8"
+    },
+    brand: "Ralph Lauren",
+    name: "Purple Label Custom Bespoke Tuxedo Set",
+    price: "$25,000",
+    category: "AMBER & TUXEDO BLACK COUTURE",
+    description: "Ralph Lauren's pinnacle of sartorial elegance, tailored in Italy from exclusive kid mohair and silk, finished with hand-stitched silk satin lapels and bespoke gold-trimmed inner linings.",
+    image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=80",
+    jsonUse: "JSON organizes product records cleanly, enabling structured rendering without bloating the core HTML document."
+  },
+
+  ring: {
+    themeName: "Electric Violet & Platinum",
+    theme: {
+      cardBg: "linear-gradient(145deg, #1b0c29, #07030a)",
+      border: "#a855f7",
+      imageBg: "radial-gradient(circle, #3b195c, #07030a 70%)",
+      accent: "#d8b4fe",
+      price: "#f3e8ff",
+      description: "#d8b4fe",
+      jsonBg: "#040106",
+      jsonText: "#e9d5ff"
+    },
+    brand: "Graff Diamonds",
+    name: "The Graff Lesedi La Rona Ring",
+    price: "$40,000,000",
+    category: "ELECTRIC VIOLET & PLATINUM JEWELRY",
+    description: "An engineering marvel featuring a massive 302.37 carat square emerald-cut diamond of exceptional D color and clarity, set onto an understated hand-forged platinum band.",
+    image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80",
+    jsonUse: "JSON securely organizes prices, descriptions, and image links into a readable object for fast template rendering."
+  },
+
+  glasses: {
+    themeName: "Midnight Obsidian & Brushed Titanium",
+    theme: {
+      cardBg: "linear-gradient(145deg, #1c1c1c, #050505)",
+      border: "#737373",
+      imageBg: "radial-gradient(circle, #383838, #050505 70%)",
+      accent: "#d4d4d4",
+      price: "#ffffff",
+      description: "#a3a3a3",
+      jsonBg: "#020202",
+      jsonText: "#d4d4d4"
+    },
+    brand: "Cartier Paris / Shamballa",
+    name: "Diamond-Encrusted Platinum Aviators",
+    price: "$25,000",
+    category: "OBSIDIAN & TITANIUM EYEWEAR",
+    description: "Custom handcrafted optical frames cut from solid Japanese titanium, plated in dark obsidian ruthenium and embellished with micro-pavé conflict-free diamonds along the bridge.",
+    image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80",
+    jsonUse: "JSON simplifies data updates, making it easy to scale items and modify descriptions without changing markup templates."
+  },
+
+  golfset: {
+    themeName: "Radiant 24k Gold & Forest Emerald",
+    theme: {
+      cardBg: "linear-gradient(145deg, #1a2410, #040802)",
+      border: "#eab308",
+      imageBg: "radial-gradient(circle, #364d23, #040802 70%)",
+      accent: "#fde047",
+      price: "#fef08a",
+      description: "#bef264",
+      jsonBg: "#020501",
+      jsonText: "#fef08a"
+    },
+    brand: "Honma Golf / 24K Gold",
+    name: "Honma Beres 5-Star 24K Gold Golf Set",
+    price: "$75,000",
+    category: "24K GOLD & EMERALD SPORTING SET",
+    description: "Crafted by master artisans in Sakata, Japan, this complete set features shafts woven with actual 24-karat gold and platinum fibers, paired with precision-plated gold club heads.",
+    image: "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=800&q=80",
+    jsonUse: "JSON stores complex product specifications in a structured format that JavaScript can render dynamically."
+  }
 };
 
+const productDisplay = document.getElementById("product-display");
+const productSelect = document.getElementById("product-select");
 
-// ORIGINAL ASYNC FUNCTION STRUCTURE
-
-async function fetchData(url) {
-
-    const data = perfumes[url];
-
-    if (!data) {
-        document.getElementById("myDiv1").innerHTML =
-            "Perfume not found.";
-        return;
-    }
-
-    console.log(data);
-
-    const myJson = JSON.stringify(data, null, 2);
-
-    document.getElementById("myDiv1").innerHTML = `
-
-        <div class="product-card">
-
-            <div class="product-content">
-
-                <div class="image-container">
-
-                    <img
-                        src="${data.image}"
-                        alt="${data.brand} ${data.name}"
-                    >
-
-                </div>
-
-                <div class="details">
-
-                    <div class="brand">
-                        ${data.brand}
-                    </div>
-
-                    <h2>${data.name}</h2>
-
-                    <p class="description">
-                        ${data.description}
-                    </p>
-
-                    <div class="price">
-                        ${data.price}
-                    </div>
-
-                    <span class="category">
-                        ${data.category}
-                    </span>
-
-                </div>
-
-            </div>
-
-            <div class="json-section">
-
-                <h3>PRODUCT JSON DATA</h3>
-
-                <pre>${myJson.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</pre>
-
-            </div>
-
-        </div>
-
-    `;
-
+function escapeHTML(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
+function applyTheme(theme) {
+  const root = productDisplay;
 
-// AUTOMATICALLY LOAD FIRST PERFUME
+  root.style.setProperty("--theme-card-bg", theme.cardBg);
+  root.style.setProperty("--theme-border", theme.border);
+  root.style.setProperty("--theme-image-bg", theme.imageBg);
+  root.style.setProperty("--theme-accent", theme.accent);
+  root.style.setProperty("--theme-price", theme.price);
+  root.style.setProperty("--theme-description", theme.description);
+  root.style.setProperty("--theme-json-bg", theme.jsonBg);
+  root.style.setProperty("--theme-json-text", theme.jsonText);
+  root.style.setProperty("--theme-glow", `${theme.border}55`);
+}
 
-fetchData(document.getElementById("mySelect").value);
+function createProductCard(data) {
+  const card = document.createElement("article");
+  card.className = "product-card";
 
+  card.innerHTML = `
+    <div class="product-content">
+      <div class="image-container">
+        <img
+          src="${escapeHTML(data.image)}"
+          alt="${escapeHTML(`${data.brand} — ${data.name}`)}"
+          loading="lazy"
+        >
+      </div>
+
+      <div class="details">
+        <p class="brand">${escapeHTML(data.brand)}</p>
+        <h2>${escapeHTML(data.name)}</h2>
+        <p class="description">${escapeHTML(data.description)}</p>
+        <p class="price">${escapeHTML(data.price)}</p>
+        <span class="category">${escapeHTML(data.category)}</span>
+      </div>
+    </div>
+
+    <section class="json-section">
+      <h3>JSON Data Structure</h3>
+      <pre>${escapeHTML(JSON.stringify(data, null, 2))}</pre>
+      <p class="json-explanation">${escapeHTML(data.jsonUse)}</p>
+    </section>
+  `;
+
+  return card;
+}
+
+function renderProduct(key) {
+  const data = luxuryData[key];
+
+  if (!data) {
+    productDisplay.innerHTML = "<p>Item not found.</p>";
+    return;
+  }
+
+  applyTheme(data.theme);
+  productDisplay.replaceChildren(createProductCard(data));
+}
+
+productSelect.addEventListener("change", (event) => {
+  renderProduct(event.target.value);
+});
+
+renderProduct(productSelect.value);
 </script>
-
 </body>
 </html>
