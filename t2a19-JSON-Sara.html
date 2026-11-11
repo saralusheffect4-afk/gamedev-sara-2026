@@ -3,326 +3,164 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="An interactive luxury product showcase with dynamic themed product cards.">
-
+<meta name="description" content="An interactive luxury boutique showcase with neon-lit, themed product cards.">
 <title>Ultimate Luxury Showcase</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --bg: #030711;
-  --text: #ffffff;
-  --muted: #8daac9;
+  --bg: #14100d;
+  --text: #fff;
+  --muted: #c9b79c;
   --accent: #61caff;
+  --neon: #61caff;
   --card-radius: 22px;
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --sans: "Montserrat", "Segoe UI", Arial, sans-serif;
 }
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: "Segoe UI", Arial, sans-serif;
   min-height: 100vh;
   overflow-x: hidden;
+  color: var(--text);
+  font-family: var(--sans);
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.55), transparent 30%),
+    repeating-linear-gradient(90deg, #1b1510 0 118px, #120d0a 118px 120px, #1b1510 120px 238px, rgba(201,160,80,.25) 238px 239px),
+    var(--bg);
 }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
-/* Background lighting */
-.overhead-rig {
-  position: fixed;
-  inset: 0 0 auto 0;
-  height: 350px;
-  pointer-events: none;
-  z-index: -1;
-  overflow: hidden;
+/* ---------- Boutique set (pure CSS drawings) ---------- */
+.boutique { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+
+/* ceiling track light + pendant lamps */
+.track { position: absolute; top: 0; left: 0; right: 0; height: 10px; background: linear-gradient(#3a2e22, #17110c); border-bottom: 1px solid #c9a050; }
+.pendant { position: absolute; top: 0; width: 2px; background: #c9a050; }
+.pendant::after {
+  content: ""; position: absolute; bottom: -2px; left: 50%; width: 64px; height: 34px; transform: translateX(-50%);
+  border-radius: 64px 64px 6px 6px; background: linear-gradient(#e7c36d, #8a6a26);
+  box-shadow: 0 18px 40px 6px var(--neon), 0 0 70px 14px rgba(255,214,140,.25);
+  transition: box-shadow .6s ease;
 }
+.pendant:nth-child(2) { left: 14%; height: 70px; }
+.pendant:nth-child(3) { left: 50%; height: 40px; }
+.pendant:nth-child(4) { left: 86%; height: 80px; }
 
-.overhead-rig::before {
-  content: "";
-  position: absolute;
-  top: -150px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 700px;
-  height: 400px;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.22) 0%,
-    rgba(0, 183, 255, 0.08) 50%,
-    transparent 80%
-  );
-  filter: blur(40px);
-}
+/* spotlight cones */
+.cone { position: absolute; top: 10px; width: 320px; height: 70vh; clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+  background: linear-gradient(180deg, rgba(255,235,190,.22), transparent 85%); opacity: .7; }
+.cone.c1 { left: 6%; } .cone.c2 { left: calc(50% - 160px); } .cone.c3 { right: 6%; }
 
-.lamp {
-  position: absolute;
-  top: -50px;
-  width: 350px;
-  height: 350px;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.25;
-}
+/* wall picture frames with neon outline */
+.frame { position: absolute; top: 24%; width: 110px; height: 150px; border: 6px solid #b8902f; outline: 2px solid var(--neon);
+  outline-offset: 6px; box-shadow: 0 0 22px var(--neon), inset 0 0 30px rgba(0,0,0,.8);
+  background: radial-gradient(circle at 50% 35%, rgba(255,255,255,.12), #0b0806 70%); transition: all .6s ease; }
+.frame::after { content: ""; position: absolute; left: 22%; right: 22%; bottom: 22%; height: 38%; border: 2px solid var(--neon); border-radius: 50% 50% 8px 8px; opacity: .6; }
+.frame.f1 { left: 2.5%; } .frame.f2 { right: 2.5%; }
 
-.lamp--left {
-  left: 10%;
-  background: #00ffff;
-}
+/* marble floor */
+.floor { position: absolute; left: 0; right: 0; bottom: 0; height: 22vh;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.7), transparent 40%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 2px, transparent 2px 140px),
+    linear-gradient(180deg, #2a2119, #0d0906);
+  border-top: 2px solid #b8902f; box-shadow: 0 -20px 60px -20px var(--neon); }
 
-.lamp--right {
-  right: 10%;
-  background: #ff007f;
-}
+/* ---------- Header with neon sign ---------- */
+header { padding: 80px 20px 10px; text-align: center; position: relative; z-index: 2; }
+.neon-sign { display: inline-block; padding: 14px 38px; border: 3px solid var(--neon); border-radius: 18px;
+  box-shadow: 0 0 14px var(--neon), inset 0 0 14px var(--neon), 0 0 60px rgba(255,255,255,.08);
+  transition: all .6s ease; animation: flicker 6s infinite; }
+header h1 { font-family: var(--serif); font-size: clamp(30px, 5.5vw, 62px); font-weight: 700; letter-spacing: 8px; text-transform: uppercase;
+  color: #fff; text-shadow: 0 0 6px #fff, 0 0 18px var(--neon), 0 0 42px var(--neon), 0 0 80px var(--neon); transition: text-shadow .6s ease; }
+header p { margin-top: 18px; color: var(--muted); letter-spacing: 4px; font-size: 12px; }
+@keyframes flicker { 0%,18%,22%,62%,64%,100% { opacity: 1; } 20%,63% { opacity: .78; } }
 
-/* Header */
-header {
-  padding: 55px 20px 20px;
-  text-align: center;
-  position: relative;
-  z-index: 2;
-}
+/* ---------- Layout ---------- */
+.container { width: min(90%, 1100px); margin-inline: auto; padding-bottom: 80px; position: relative; z-index: 2; }
+.select-area { display: flex; justify-content: center; margin: 40px auto; }
+.select-wrapper { width: min(100%, 360px); padding: 10px; background: rgba(10,7,5,.8); border: 2px solid var(--neon); border-radius: 50px;
+  box-shadow: 0 0 20px var(--neon), inset 0 0 14px rgba(255,255,255,.06); backdrop-filter: blur(8px); transition: all .5s ease; }
+.select-wrapper:hover, .select-wrapper:focus-within { box-shadow: 0 0 40px var(--neon), inset 0 0 20px var(--neon); }
+select { width: 100%; padding: 10px 15px; color: #fff; background: transparent; border: none; font: 600 15px var(--sans); text-align: center; cursor: pointer; outline: none; }
+select option { background: #120d0a; color: #fff; }
 
-header h1 {
-  font-size: clamp(30px, 5vw, 55px);
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  background: linear-gradient(90deg, #ffffff, var(--accent), #ffffff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
+/* ---------- Product card ---------- */
+#product-display { display: flex; flex-direction: column; align-items: center; gap: 30px; min-height: 400px; }
+.product-card { width: 100%; max-width: 850px; border-radius: var(--card-radius); overflow: hidden; position: relative;
+  border: 2px solid var(--theme-border, #168bff); background: var(--theme-card-bg, #050b16);
+  box-shadow: 0 0 12px var(--theme-border), 0 0 45px var(--theme-glow, rgba(0,119,255,.35)), inset 0 0 25px rgba(0,0,0,.6);
+  animation: appear .6s ease; }
+@keyframes appear { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
 
-header p {
-  margin-top: 15px;
-  color: var(--muted);
-  letter-spacing: 3px;
-  font-size: 12px;
-}
+.product-content { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 25px; padding: 35px; }
 
-/* Layout */
-.container {
-  width: min(90%, 1100px);
-  margin-inline: auto;
-  padding-bottom: 60px;
-  position: relative;
-  z-index: 2;
-}
+/* display stage: spotlight + glass + pedestal */
+.image-container { position: relative; display: flex; justify-content: center; align-items: center; min-height: 360px; padding: 20px 20px 46px; border-radius: 16px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.2), transparent 55%), var(--theme-image-bg, #0a1220);
+  border: 1px solid var(--theme-border); box-shadow: inset 0 0 40px rgba(0,0,0,.7); overflow: hidden; }
+.image-container::before { content: ""; position: absolute; top: 0; left: 18%; right: 18%; height: 100%;
+  clip-path: polygon(35% 0, 65% 0, 100% 100%, 0 100%); background: linear-gradient(180deg, rgba(255,255,255,.2), transparent 80%); }
+.image-container::after { content: ""; position: absolute; left: 12%; right: 12%; bottom: 14px; height: 22px; border-radius: 6px;
+  background: linear-gradient(#e8d9b5, #8b7240); border-bottom: 3px solid var(--theme-accent); box-shadow: 0 8px 22px var(--theme-accent); }
+.art.photo { max-width: 100%; max-height: 330px; object-fit: contain; border-radius: 12px; transition: transform .4s ease; }
+.art.photo:hover { transform: scale(1.05); }
+.art { position: relative; width: 100%; max-width: 280px; filter: drop-shadow(0 0 10px var(--theme-accent)); animation: float 5s ease-in-out infinite; z-index: 1; }
+.img-missing { position: relative; z-index: 1; text-align: center; color: var(--theme-description); font-size: 13px; }
+@keyframes float { 50% { transform: translateY(-8px); } }
 
-.select-area {
-  display: flex;
-  justify-content: center;
-  margin: 45px auto;
-}
+.details h2 { margin-bottom: 12px; font: 700 34px/1.1 var(--serif); }
+.brand { margin-bottom: 14px; font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--theme-accent, var(--accent)); text-shadow: 0 0 10px var(--theme-accent); }
+.description { margin-bottom: 20px; line-height: 1.8; color: var(--theme-description, #a9bfd7); }
+.price { margin: 20px 0; font: 700 32px var(--serif); color: var(--theme-price, #fff); text-shadow: 0 0 14px var(--theme-accent); }
+.category { display: inline-block; padding: 8px 15px; border: 1px solid var(--theme-border, #168bff); border-radius: 20px; font-size: 11px; letter-spacing: 2px; color: var(--theme-accent, var(--accent)); box-shadow: 0 0 12px var(--theme-glow); }
 
-.select-wrapper {
-  width: min(100%, 340px);
-  padding: 12px;
-  background: linear-gradient(135deg, rgba(22, 139, 255, 0.2), rgba(5, 11, 22, 0.9));
-  border: 2px solid #168bff;
-  border-radius: 12px;
-  box-shadow: 0 0 35px rgba(0, 119, 255, 0.4);
-  backdrop-filter: blur(10px);
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
-}
+.json-section { padding: 25px 35px; background: var(--theme-json-bg, #020704); border-top: 1px solid var(--theme-border, #168bff); }
+.json-section h3 { margin-bottom: 15px; letter-spacing: 2px; color: var(--theme-accent, var(--accent)); }
+.json-explanation { margin-top: 10px; font-size: 12px; line-height: 1.6; color: var(--theme-description, #a9bfd7); }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13px; line-height: 1.7; color: var(--theme-json-text, #cbd5e1); }
 
-.select-wrapper:hover,
-.select-wrapper:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 50px rgba(0, 140, 255, 0.7);
-}
+/* ---------- Why JSON box ---------- */
+.why-json { width: 100%; max-width: 850px; padding: 26px 32px; border-radius: 18px; background: rgba(12,8,5,.88);
+  border: 2px dashed var(--theme-border); box-shadow: 0 0 22px var(--theme-glow); }
+.why-json h3 { font: 700 26px var(--serif); margin-bottom: 10px; color: var(--theme-accent); text-shadow: 0 0 12px var(--theme-accent); }
+.why-json p { line-height: 1.8; font-size: 14px; color: #e7dccb; margin-bottom: 10px; }
+.why-json strong { color: var(--theme-accent); }
 
-select {
-  width: 100%;
-  padding: 10px 15px;
-  color: #fff;
-  background: transparent;
-  border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 700;
-  text-align: center;
-  cursor: pointer;
-  outline: none;
-}
+footer { padding: 30px; text-align: center; color: #8d7a5e; font-size: 12px; letter-spacing: 2px; position: relative; z-index: 2; }
 
-select option {
-  background: #050b16;
-  color: #fff;
-}
-
-/* Product card */
-#product-display {
-  display: flex;
-  justify-content: center;
-  min-height: 400px;
-}
-
-.product-card {
-  width: 100%;
-  max-width: 850px;
-  border-radius: var(--card-radius);
-  overflow: hidden;
-  border: 1px solid var(--theme-border, #168bff);
-  background: var(--theme-card-bg, #050b16);
-  box-shadow: 0 0 30px var(--theme-glow, rgba(0, 119, 255, 0.35));
-  animation: appear 0.6s ease;
-}
-
-@keyframes appear {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.product-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 25px;
-  padding: 35px;
-}
-
-.image-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 350px;
-  padding: 20px;
-  border-radius: 16px;
-  background: var(--theme-image-bg, #0a1220);
-}
-
-.product-card img {
-  width: 100%;
-  max-height: 330px;
-  object-fit: contain;
-  transition: transform 0.4s ease;
-}
-
-.product-card img:hover {
-  transform: scale(1.06);
-}
-
-.details h2 {
-  margin-bottom: 12px;
-  font-size: 32px;
-}
-
-.brand {
-  margin-bottom: 18px;
-  font-size: 12px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--theme-accent, var(--accent));
-}
-
-.description {
-  margin-bottom: 20px;
-  line-height: 1.8;
-  color: var(--theme-description, #a9bfd7);
-}
-
-.price {
-  margin: 20px 0;
-  font-size: 27px;
-  font-weight: 700;
-  color: var(--theme-price, #fff);
-}
-
-.category {
-  display: inline-block;
-  padding: 8px 15px;
-  border: 1px solid var(--theme-border, #168bff);
-  border-radius: 20px;
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: var(--theme-accent, var(--accent));
-}
-
-/* JSON section */
-.json-section {
-  padding: 25px 35px;
-  background: var(--theme-json-bg, #020704);
-  border-top: 1px solid var(--theme-border, #168bff);
-}
-
-.json-section h3 {
-  margin-bottom: 15px;
-  letter-spacing: 2px;
-  color: var(--theme-accent, var(--accent));
-}
-
-.json-explanation {
-  margin-top: 10px;
-  font-size: 12px;
-  line-height: 1.6;
-  color: var(--theme-description, #a9bfd7);
-}
-
-pre {
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--theme-json-text, #cbd5e1);
-}
-
-footer {
-  padding: 30px;
-  text-align: center;
-  color: #54718e;
-  font-size: 12px;
-  letter-spacing: 2px;
-  position: relative;
-  z-index: 2;
-}
-
-/* Responsive */
+@media (max-width: 1000px) { .frame, .cone.c1, .cone.c3 { display: none; } }
 @media (max-width: 700px) {
-  .product-content {
-    grid-template-columns: 1fr;
-    padding: 20px;
-  }
-
-  .details h2 {
-    font-size: 26px;
-  }
-
-  .image-container {
-    min-height: 260px;
-  }
-
-  .json-section {
-    padding: 20px;
-  }
+  .product-content { grid-template-columns: 1fr; padding: 20px; }
+  .details h2 { font-size: 28px; }
+  .image-container { min-height: 280px; }
+  .json-section, .why-json { padding: 20px; }
+  .neon-sign { padding: 10px 18px; }
 }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; } }
 </style>
 </head>
 
 <body>
-  <div class="overhead-rig" aria-hidden="true">
-    <div class="lamp lamp--left"></div>
-    <div class="lamp lamp--right"></div>
+  <div class="boutique" aria-hidden="true">
+    <div class="track"></div>
+    <div class="pendant"></div><div class="pendant"></div><div class="pendant"></div><div class="pendant"></div>
+    <div class="cone c1"></div><div class="cone c2"></div><div class="cone c3"></div>
+    <div class="frame f1"></div><div class="frame f2"></div>
+    <div class="floor"></div>
   </div>
 
   <header>
-    <h1>Ultimate Luxury</h1>
+    <div class="neon-sign"><h1>Ultimate Luxury</h1></div>
     <p>THE ART OF EXCLUSIVE MASTERPIECES</p>
   </header>
 
   <main class="container">
     <div class="select-area">
       <label class="visually-hidden" for="product-select">Choose a luxury item</label>
-
       <div class="select-wrapper">
         <select id="product-select">
           <option value="perfume">1. Dark Green Perfume</option>
@@ -337,182 +175,107 @@ footer {
       </div>
     </div>
 
-    <div id="product-display" aria-live="polite">
-      Loading luxury collection...
-    </div>
+    <div id="product-display" aria-live="polite">Loading luxury collection...</div>
   </main>
 
-  <footer>
-    ULTIMATE LUXURY © 2026 | ALL RIGHTS RESERVED
-  </footer>
+  <footer>ULTIMATE LUXURY © 2026 | ALL RIGHTS RESERVED</footer>
 
 <script>
 const luxuryData = {
   perfume: {
     themeName: "Dark Green & Black Velvet",
-    theme: {
-      cardBg: "linear-gradient(145deg, #061a12, #020805)",
-      border: "#114a2f",
-      imageBg: "radial-gradient(circle, #0e3b26, #020805 70%)",
-      accent: "#2ee6a8",
-      price: "#5cdbb3",
-      description: "#9fdcc4",
-      jsonBg: "#020704",
-      jsonText: "#8ce8c4"
-    },
+    theme: { cardBg: "linear-gradient(145deg, #061a12, #020805)", border: "#17c985", imageBg: "radial-gradient(circle, #0e3b26, #020805 70%)",
+      accent: "#2ee6a8", price: "#5cdbb3", description: "#9fdcc4", jsonBg: "#020704", jsonText: "#8ce8c4" },
     brand: "Clive Christian",
     name: "No. 1 Imperial Majesty Perfume",
     price: "$215,000",
     category: "DARK GREEN / BLACK VELVET PERFUME",
     description: "Housed in a hand-crafted crystal bottle featuring an 18-karat gold collar and a 5-carat white diamond. A rich, opulent dark green and black theme celebrating ultimate olfactory rarity.",
-    image: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?auto=format&fit=crop&w=800&q=80",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8mcuzDDaPbKOffKS5ineE_UlRiYbJiMAvcmfhFErAEg&s=10",
     jsonUse: "JSON structures product data so JavaScript can dynamically build and inject this themed card without reloading the page."
   },
-
   car: {
     themeName: "Navy Blue & Rich Gold",
-    theme: {
-      cardBg: "linear-gradient(145deg, #091326, #03060f)",
-      border: "#c59b27",
-      imageBg: "radial-gradient(circle, #122240, #03060f 70%)",
-      accent: "#f3c654",
-      price: "#f7d779",
-      description: "#a9bfd7",
-      jsonBg: "#03060f",
-      jsonText: "#9dcaff"
-    },
+    theme: { cardBg: "linear-gradient(145deg, #091326, #03060f)", border: "#f0b429", imageBg: "radial-gradient(circle, #122240, #03060f 70%)",
+      accent: "#f3c654", price: "#f7d779", description: "#a9bfd7", jsonBg: "#03060f", jsonText: "#9dcaff" },
     brand: "Rolls-Royce",
     name: "Boat Tail Coachbuilt Navy Gold",
     price: "$28,000,000",
     category: "NAVY BLUE & RICH GOLD AUTOMOTIVE",
     description: "An ultra-exclusive marine-inspired masterpiece featuring bespoke dual-tone deep navy blue infused with bronze and gold flakes, paired with hand-crafted matching rear hosting suites.",
-    image: "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=800&q=80",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkoKRqCcUchlbcmgysMRXu1EWeUbWL3y7o1gqAQRhKac22g82DzHghgenQ&s=10",
     jsonUse: "JSON acts as a lightweight data source, allowing product details to be stored and rendered cleanly without hardcoding HTML."
   },
-
   watch: {
     themeName: "Royal Burgundy & Rose Gold",
-    theme: {
-      cardBg: "linear-gradient(145deg, #260a12, #0d0205)",
-      border: "#d9779c",
-      imageBg: "radial-gradient(circle, #4d1424, #0d0205 70%)",
-      accent: "#ff9ec4",
-      price: "#ffb3d1",
-      description: "#e6b8cc",
-      jsonBg: "#080103",
-      jsonText: "#f5c4d8"
-    },
+    theme: { cardBg: "linear-gradient(145deg, #260a12, #0d0205)", border: "#ff6fa5", imageBg: "radial-gradient(circle, #4d1424, #0d0205 70%)",
+      accent: "#ff9ec4", price: "#ffb3d1", description: "#e6b8cc", jsonBg: "#080103", jsonText: "#f5c4d8" },
     brand: "Patek Philippe",
     name: "Grand Master Chime Rose Gold",
     price: "$31,000,000",
     category: "BURGUNDY & ROSE GOLD HOROLOGY",
     description: "The most complicated wristwatch ever made by Patek Philippe featuring twenty complications across a double-faced reversible case wrapped in rich rose gold and deep burgundy accents.",
-    image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80",
+    image: "https://wristaficionado.com/cdn/shop/files/patek-philippe-grandmaster-chime-6300gr-001-white-gold-rose-gold-brown-dial-patek-philippe-1174736657.png?v=1773863756&width=1398",
     jsonUse: "JSON separates watch data from layout logic, making the presentation easier to maintain and update."
   },
-
   birkin: {
     themeName: "Snow White & Diamond Platinum",
-    theme: {
-      cardBg: "linear-gradient(145deg, #1f2229, #090a0d)",
-      border: "#94a3b8",
-      imageBg: "radial-gradient(circle, #333845, #090a0d 70%)",
-      accent: "#cbd5e1",
-      price: "#ffffff",
-      description: "#94a3b8",
-      jsonBg: "#050608",
-      jsonText: "#cbd5e1"
-    },
+    theme: { cardBg: "linear-gradient(145deg, #1f2229, #090a0d)", border: "#9fd8ff", imageBg: "radial-gradient(circle, #333845, #090a0d 70%)",
+      accent: "#cbe9ff", price: "#ffffff", description: "#a8b4c4", jsonBg: "#050608", jsonText: "#cbd5e1" },
     brand: "Hermès",
     name: "Himalaya Niloticus Crocodile Birkin",
     price: "$450,000",
     category: "SNOW WHITE & PLATINUM LEATHER",
     description: "Graduated dyeing echoing the majestic snow-capped Himalayas, fashioned from rare Niloticus crocodile skin adorned with 18-karat white gold hardware encrusted with over 240 diamonds.",
-    image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVelecaOfdedvOfzMVhS-ZvxIh5GMdrPdFbNDxBCmLmG2U0XHOxCCid1wb&s=10",
     jsonUse: "JSON enables structured key-value data management, allowing item properties and design values to be swapped instantly."
   },
-
   ralphlauren: {
     themeName: "Vintage Amber & Tuxedo Black",
-    theme: {
-      cardBg: "linear-gradient(145deg, #261c0c, #0a0703)",
-      border: "#d4af37",
-      imageBg: "radial-gradient(circle, #4a3517, #0a0703 70%)",
-      accent: "#f3e0aa",
-      price: "#faeab9",
-      description: "#d9cbaf",
-      jsonBg: "#050402",
-      jsonText: "#e6d7b8"
-    },
+    theme: { cardBg: "linear-gradient(145deg, #261c0c, #0a0703)", border: "#ffb938", imageBg: "radial-gradient(circle, #4a3517, #0a0703 70%)",
+      accent: "#f3e0aa", price: "#faeab9", description: "#d9cbaf", jsonBg: "#050402", jsonText: "#e6d7b8" },
     brand: "Ralph Lauren",
     name: "Purple Label Custom Bespoke Tuxedo Set",
     price: "$25,000",
     category: "AMBER & TUXEDO BLACK COUTURE",
     description: "Ralph Lauren's pinnacle of sartorial elegance, tailored in Italy from exclusive kid mohair and silk, finished with hand-stitched silk satin lapels and bespoke gold-trimmed inner linings.",
-    image: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=80",
+    image: "https://holtrenfrew.scene7.com/is/image/HoltRenfrew1/m_5001709341_07",
     jsonUse: "JSON organizes product records cleanly, enabling structured rendering without bloating the core HTML document."
   },
-
   ring: {
     themeName: "Electric Violet & Platinum",
-    theme: {
-      cardBg: "linear-gradient(145deg, #1b0c29, #07030a)",
-      border: "#a855f7",
-      imageBg: "radial-gradient(circle, #3b195c, #07030a 70%)",
-      accent: "#d8b4fe",
-      price: "#f3e8ff",
-      description: "#d8b4fe",
-      jsonBg: "#040106",
-      jsonText: "#e9d5ff"
-    },
+    theme: { cardBg: "linear-gradient(145deg, #1b0c29, #07030a)", border: "#b45cff", imageBg: "radial-gradient(circle, #3b195c, #07030a 70%)",
+      accent: "#d8b4fe", price: "#f3e8ff", description: "#d8b4fe", jsonBg: "#040106", jsonText: "#e9d5ff" },
     brand: "Graff Diamonds",
     name: "The Graff Lesedi La Rona Ring",
     price: "$40,000,000",
     category: "ELECTRIC VIOLET & PLATINUM JEWELRY",
     description: "An engineering marvel featuring a massive 302.37 carat square emerald-cut diamond of exceptional D color and clarity, set onto an understated hand-forged platinum band.",
-    image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80",
+    image: "https://imageio.forbes.com/blogs-images/robertanaas/files/2018/11/16.10.2018_TK0367-1200x1800.jpg?format=jpg&height=900&width=1600&fit=bounds",
     jsonUse: "JSON securely organizes prices, descriptions, and image links into a readable object for fast template rendering."
   },
-
   glasses: {
     themeName: "Midnight Obsidian & Brushed Titanium",
-    theme: {
-      cardBg: "linear-gradient(145deg, #1c1c1c, #050505)",
-      border: "#737373",
-      imageBg: "radial-gradient(circle, #383838, #050505 70%)",
-      accent: "#d4d4d4",
-      price: "#ffffff",
-      description: "#a3a3a3",
-      jsonBg: "#020202",
-      jsonText: "#d4d4d4"
-    },
+    theme: { cardBg: "linear-gradient(145deg, #1c1c1c, #050505)", border: "#ff4d6d", imageBg: "radial-gradient(circle, #383838, #050505 70%)",
+      accent: "#e5e5e5", price: "#ffffff", description: "#a3a3a3", jsonBg: "#020202", jsonText: "#d4d4d4" },
     brand: "Cartier Paris / Shamballa",
     name: "Diamond-Encrusted Platinum Aviators",
     price: "$25,000",
     category: "OBSIDIAN & TITANIUM EYEWEAR",
     description: "Custom handcrafted optical frames cut from solid Japanese titanium, plated in dark obsidian ruthenium and embellished with micro-pavé conflict-free diamonds along the bridge.",
-    image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80",
+    image: "https://i.ebayimg.com/images/g/3A8AAeSwKJpqRd6Z/s-l400.jpg",
     jsonUse: "JSON simplifies data updates, making it easy to scale items and modify descriptions without changing markup templates."
   },
-
   golfset: {
     themeName: "Radiant 24k Gold & Forest Emerald",
-    theme: {
-      cardBg: "linear-gradient(145deg, #1a2410, #040802)",
-      border: "#eab308",
-      imageBg: "radial-gradient(circle, #364d23, #040802 70%)",
-      accent: "#fde047",
-      price: "#fef08a",
-      description: "#bef264",
-      jsonBg: "#020501",
-      jsonText: "#fef08a"
-    },
+    theme: { cardBg: "linear-gradient(145deg, #1a2410, #040802)", border: "#ffd60a", imageBg: "radial-gradient(circle, #364d23, #040802 70%)",
+      accent: "#fde047", price: "#fef08a", description: "#bef264", jsonBg: "#020501", jsonText: "#fef08a" },
     brand: "Honma Golf / 24K Gold",
     name: "Honma Beres 5-Star 24K Gold Golf Set",
     price: "$75,000",
     category: "24K GOLD & EMERALD SPORTING SET",
     description: "Crafted by master artisans in Sakata, Japan, this complete set features shafts woven with actual 24-karat gold and platinum fibers, paired with precision-plated gold club heads.",
-    image: "https://images.unsplash.com/photo-1535131749006-b7f58c99034b?auto=format&fit=crop&w=800&q=80",
+    image: "https://us.honmagolf.com/cdn/shop/files/B10_5S_set_grande.jpg?v=1770062123",
     jsonUse: "JSON stores complex product specifications in a structured format that JavaScript can render dynamically."
   }
 };
@@ -522,16 +285,13 @@ const productSelect = document.getElementById("product-select");
 
 function escapeHTML(value) {
   return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+    .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
 }
 
 function applyTheme(theme) {
-  const root = productDisplay;
-
+  // Set on <body> so the neon sign, lamps and frames change colour too
+  const root = document.body;
   root.style.setProperty("--theme-card-bg", theme.cardBg);
   root.style.setProperty("--theme-border", theme.border);
   root.style.setProperty("--theme-image-bg", theme.imageBg);
@@ -540,23 +300,18 @@ function applyTheme(theme) {
   root.style.setProperty("--theme-description", theme.description);
   root.style.setProperty("--theme-json-bg", theme.jsonBg);
   root.style.setProperty("--theme-json-text", theme.jsonText);
-  root.style.setProperty("--theme-glow", `${theme.border}55`);
+  root.style.setProperty("--theme-glow", `${theme.border}66`);
+  root.style.setProperty("--neon", theme.border);
 }
 
 function createProductCard(data) {
   const card = document.createElement("article");
   card.className = "product-card";
-
   card.innerHTML = `
     <div class="product-content">
       <div class="image-container">
-        <img
-          src="${escapeHTML(data.image)}"
-          alt="${escapeHTML(`${data.brand} — ${data.name}`)}"
-          loading="lazy"
-        >
+        <img class="art photo" src="${escapeHTML(data.image)}" alt="${escapeHTML(`${data.brand} — ${data.name}`)}" loading="lazy" referrerpolicy="no-referrer">
       </div>
-
       <div class="details">
         <p class="brand">${escapeHTML(data.brand)}</p>
         <h2>${escapeHTML(data.name)}</h2>
@@ -565,33 +320,50 @@ function createProductCard(data) {
         <span class="category">${escapeHTML(data.category)}</span>
       </div>
     </div>
-
     <section class="json-section">
       <h3>JSON Data Structure</h3>
       <pre>${escapeHTML(JSON.stringify(data, null, 2))}</pre>
       <p class="json-explanation">${escapeHTML(data.jsonUse)}</p>
-    </section>
-  `;
-
+    </section>`;
+  const photo = card.querySelector("img.photo");
+  // If a site blocks direct loading (hotlink protection), retry once through a free image proxy
+  let retried = false;
+  photo.addEventListener("error", () => {
+    if (!retried) {
+      retried = true;
+      photo.src = "https://images.weserv.nl/?url=" + encodeURIComponent(data.image.replace(/^https?:\/\//, ""));
+      return;
+    }
+    const note = document.createElement("p");
+    note.className = "img-missing";
+    note.textContent = "Image unavailable. This link is blocked or expired. Try another image address.";
+    photo.replaceWith(note);
+  });
   return card;
+}
+
+function createWhyJsonBox() {
+  const box = document.createElement("section");
+  box.className = "why-json";
+  box.innerHTML = `
+    <h3>Why we use JSON</h3>
+    <p><strong>What it is:</strong> JSON is a simple way to write information as labels and values, like <em>"price": "$215,000"</em>. Almost every website and programming language can read it.</p>
+    <p><strong>Why it's good:</strong> It keeps your data separate from your design. To change a price, a description or add a new product, you edit one line of data and never touch the layout. It's also short, easy to read and easy to reuse.</p>
+    <p><strong>How it's used on this page:</strong> All 8 products live in one JSON-style object called <em>luxuryData</em>. When you pick an item in the menu, JavaScript finds that product, builds the card from its values and applies its colours. The code box above is that same product's data, printed with <em>JSON.stringify()</em>.</p>`;
+  return box;
 }
 
 function renderProduct(key) {
   const data = luxuryData[key];
-
   if (!data) {
     productDisplay.innerHTML = "<p>Item not found.</p>";
     return;
   }
-
   applyTheme(data.theme);
-  productDisplay.replaceChildren(createProductCard(data));
+  productDisplay.replaceChildren(createProductCard(data), createWhyJsonBox());
 }
 
-productSelect.addEventListener("change", (event) => {
-  renderProduct(event.target.value);
-});
-
+productSelect.addEventListener("change", (event) => renderProduct(event.target.value));
 renderProduct(productSelect.value);
 </script>
 </body>
