@@ -203,6 +203,77 @@
             align-items: center;
             margin-top: 10px;
         }
+
+        /* ===== CHERRY NOIR THEME (added) ===== */
+        :root {
+            --neon-bg: #0d0206;
+            --neon-panel: #1a060d;
+            --neon-cyan: #ff2d55;
+            --neon-pink: #ff8fb1;
+            --neon-green: #ffc2d6;
+            --neon-yellow: #ffc857;
+            --neon-text: #f7e1e8;
+            --neon-border: #4a1022;
+        }
+        
+        body {
+            background: radial-gradient(ellipse at 50% -10%, #5a0b22 0%, #1a040b 45%, var(--neon-bg) 100%) fixed;
+            min-height: 100vh;
+        }
+        
+        h1 {
+            text-shadow: 0 0 10px var(--neon-cyan), 0 0 28px rgba(255, 45, 85, 0.6);
+            animation: myNeonPulse 3.5s ease-in-out infinite;
+        }
+        
+        h1::before { content: "\1F352  "; }
+        h1::after { content: "  \1F352"; }
+        
+        @keyframes myNeonPulse {
+            0%, 100% { text-shadow: 0 0 10px var(--neon-cyan), 0 0 28px rgba(255, 45, 85, 0.6); }
+            50% { text-shadow: 0 0 16px var(--neon-cyan), 0 0 44px rgba(255, 45, 85, 0.9); }
+        }
+        
+        .panel {
+            border-color: #6b1530;
+            box-shadow: 0 0 22px rgba(255, 45, 85, 0.2), inset 0 0 30px rgba(255, 45, 85, 0.06);
+        }
+        
+        .panel h2 {
+            text-shadow: 0 0 8px rgba(255, 143, 177, 0.6);
+            border-bottom-color: #6b1530;
+        }
+        
+        button {
+            box-shadow: 0 0 6px rgba(255, 45, 85, 0.3);
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        
+        button:hover {
+            box-shadow: 0 0 18px var(--neon-cyan);
+        }
+        
+        .prediction-display {
+            text-shadow: 0 0 8px rgba(255, 194, 214, 0.6);
+        }
+        
+        canvas#myGameCanvas {
+            background: #0a0207;
+            box-shadow: 0 0 14px rgba(255, 200, 87, 0.35);
+            max-width: 100%;
+            height: auto;
+            aspect-ratio: 4 / 3;
+        }
+        
+        .stats-box {
+            border-color: #6b1530;
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            h1 { animation: none; }
+        }
     </style>
 </head>
 <body>
@@ -591,7 +662,7 @@
             }
         }
 
-        // Keyboard Event Listeners for Fallback
+
         window.addEventListener('keydown', (myEvent) => {
             myActiveKeys[myEvent.key] = true;
         });
@@ -603,7 +674,7 @@
         function myGameLoop() {
             if (!myGameRunning || myGamePaused) return;
 
-            // Determine Movement Direction (Classifier primary, fallback to Keyboard)
+          
             let myMoveX = 0;
             let myMoveY = 0;
 
@@ -613,7 +684,7 @@
                 if (myCurrentPrediction === 'LEFT') myMoveX -= myPlayerSpeed;
                 if (myCurrentPrediction === 'RIGHT') myMoveX += myPlayerSpeed;
             } else {
-                // Keyboard Fallback (Arrow Keys or WASD)
+              
                 if (myActiveKeys['ArrowUp'] || myActiveKeys['w'] || myActiveKeys['W']) myMoveY -= myPlayerSpeed;
                 if (myActiveKeys['ArrowDown'] || myActiveKeys['s'] || myActiveKeys['S']) myMoveY += myPlayerSpeed;
                 if (myActiveKeys['ArrowLeft'] || myActiveKeys['a'] || myActiveKeys['A']) myMoveX -= myPlayerSpeed;
@@ -623,13 +694,12 @@
             myPlayerX += myMoveX;
             myPlayerY += myMoveY;
 
-            // Boundaries
+
             if (myPlayerX < 10) myPlayerX = 10;
             if (myPlayerX > 390) myPlayerX = 390;
             if (myPlayerY < 10) myPlayerY = 10;
             if (myPlayerY > 290) myPlayerY = 290;
 
-            // Check Collision with Treasures
             for (let myI = 0; myI < myTreasures.length; myI++) {
                 let myT = myTreasures[myI];
                 if (!myT.collected) {
@@ -662,7 +732,7 @@
         function myDrawGame() {
             myGameCtx.clearRect(0, 0, 400, 300);
 
-            // Draw Grid lines (Neon aesthetic)
+
             myGameCtx.strokeStyle = '#121226';
             myGameCtx.lineWidth = 1;
             for (let myX = 0; myX < 400; myX += 20) {
@@ -678,7 +748,6 @@
                 myGameCtx.stroke();
             }
 
-            // Draw Treasures
             for (let myI = 0; myI < myTreasures.length; myI++) {
                 let myT = myTreasures[myI];
                 if (!myT.collected) {
@@ -692,7 +761,7 @@
                 }
             }
 
-            // Draw Player
+=
             myGameCtx.fillStyle = 'var(--neon-cyan)';
             myGameCtx.shadowColor = 'var(--neon-cyan)';
             myGameCtx.shadowBlur = 12;
@@ -700,8 +769,193 @@
             myGameCtx.shadowBlur = 0;
         }
 
-        // Initial setup draw
+
         myInitTreasures();
+        myDrawGame();
+
+       
+        function myGetColor(myVarName) {
+            return getComputedStyle(document.documentElement).getPropertyValue(myVarName).trim();
+        }
+        
+  
+        function myDrawGame() {
+            myGameCtx.clearRect(0, 0, 400, 300);
+        
+
+            myGameCtx.strokeStyle = '#2b0b16';
+            myGameCtx.lineWidth = 1;
+            for (let myX = 0; myX < 400; myX += 20) {
+                myGameCtx.beginPath();
+                myGameCtx.moveTo(myX, 0);
+                myGameCtx.lineTo(myX, 300);
+                myGameCtx.stroke();
+            }
+            for (let myY = 0; myY < 300; myY += 20) {
+                myGameCtx.beginPath();
+                myGameCtx.moveTo(0, myY);
+                myGameCtx.lineTo(400, myY);
+                myGameCtx.stroke();
+            }
+        
+
+            for (let myI = 0; myI < myTreasures.length; myI++) {
+                let myT = myTreasures[myI];
+                if (!myT.collected) {
+                    myGameCtx.fillStyle = myGetColor('--neon-yellow');
+                    myGameCtx.shadowColor = myGetColor('--neon-yellow');
+                    myGameCtx.shadowBlur = 10;
+                    myGameCtx.beginPath();
+                    myGameCtx.arc(myT.x, myT.y, 6, 0, Math.PI * 2);
+                    myGameCtx.fill();
+                    myGameCtx.shadowBlur = 0;
+                }
+            }
+        
+  
+            myGameCtx.fillStyle = myGetColor('--neon-cyan');
+            myGameCtx.shadowColor = myGetColor('--neon-cyan');
+            myGameCtx.shadowBlur = 12;
+            myGameCtx.fillRect(myPlayerX - myPlayerSize / 2, myPlayerY - myPlayerSize / 2, myPlayerSize, myPlayerSize);
+            myGameCtx.shadowBlur = 0;
+        }
+
+        function myGameLoop() {
+            if (!myGameRunning || myGamePaused) return;
+        
+            let myMoveX = 0;
+            let myMoveY = 0;
+        
+            if (myCameraStream && myCurrentConfidence > 40) {
+                if (myCurrentPrediction === 'UP') myMoveY -= myPlayerSpeed;
+                if (myCurrentPrediction === 'DOWN') myMoveY += myPlayerSpeed;
+                if (myCurrentPrediction === 'LEFT') myMoveX -= myPlayerSpeed;
+                if (myCurrentPrediction === 'RIGHT') myMoveX += myPlayerSpeed;
+            } else {
+                // Keyboard Fallback (Arrow Keys or WASD)
+                if (myActiveKeys['ArrowUp'] || myActiveKeys['w'] || myActiveKeys['W']) myMoveY -= myPlayerSpeed;
+                if (myActiveKeys['ArrowDown'] || myActiveKeys['s'] || myActiveKeys['S']) myMoveY += myPlayerSpeed;
+                if (myActiveKeys['ArrowLeft'] || myActiveKeys['a'] || myActiveKeys['A']) myMoveX -= myPlayerSpeed;
+                if (myActiveKeys['ArrowRight'] || myActiveKeys['d'] || myActiveKeys['D']) myMoveX += myPlayerSpeed;
+            }
+        
+            myPlayerX += myMoveX;
+            myPlayerY += myMoveY;
+        
+            // Boundaries
+            if (myPlayerX < 10) myPlayerX = 10;
+            if (myPlayerX > 390) myPlayerX = 390;
+            if (myPlayerY < 10) myPlayerY = 10;
+            if (myPlayerY > 290) myPlayerY = 290;
+        
+            for (let myI = 0; myI < myTreasures.length; myI++) {
+                let myT = myTreasures[myI];
+                if (!myT.collected) {
+                    let myDistSq = (myPlayerX - myT.x) * (myPlayerX - myT.x) + (myPlayerY - myT.y) * (myPlayerY - myT.y);
+                    if (myDistSq < (myPlayerSize + 8) * (myPlayerSize + 8)) {
+                        myT.collected = true;
+                        myCollectedCount++;
+                        document.getElementById('myTreasureCounter').innerText = myCollectedCount;
+                    }
+                }
+            }
+        
+            myDrawGame();
+        
+            if (myCollectedCount >= 3) {
+                myGameRunning = false;
+                myGamePaused = false;
+                myGameCtx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                myGameCtx.fillRect(0, 0, 400, 300);
+                myGameCtx.fillStyle = myGetColor('--neon-green');
+                myGameCtx.font = '20px Courier New';
+                myGameCtx.textAlign = 'center';
+                myGameCtx.fillText('VICTORY! ALL TREASURES FOUND!', 200, 150);
+                return;
+            }
+        
+            myGameLoopId = requestAnimationFrame(myGameLoop);
+        }
+        
+ 
+        function myStartGame() {
+            if (myGameRunning && !myGamePaused) return;
+            if (myTreasures.length === 0 || myCollectedCount >= 3) {
+                myResetGame();
+            }
+            myGameRunning = true;
+            myGamePaused = false;
+            myGameLoop();
+        }
+        
+        
+        function myLoadModel(myEvent) {
+            let myFile = myEvent.target.files[0];
+            if (!myFile) return;
+            let myReader = new FileReader();
+            myReader.onload = function(myLoadEvent) {
+                try {
+                    let myParsed = JSON.parse(myLoadEvent.target.result);
+                    if (myParsed && typeof myParsed === 'object') {
+                        let myCleaned = {};
+                        ['UP', 'DOWN', 'LEFT', 'RIGHT', 'NEUTRAL'].forEach(myClassName => {
+                            let myList = Array.isArray(myParsed[myClassName]) ? myParsed[myClassName] : [];
+                            myCleaned[myClassName] = myList.filter(mySample => Array.isArray(mySample) && mySample.length === 256);
+                        });
+                        myTrainingData = myCleaned;
+                        myUpdateSampleCounters();
+                        alert('Model successfully loaded!');
+                    }
+                } catch (myErr) {
+                    alert('Invalid model file format.');
+                }
+                myEvent.target.value = '';
+            };
+            myReader.readAsText(myFile);
+        }
+        
+       
+        function myStopCamera() {
+            if (myCameraStream) {
+                myCameraStream.getTracks().forEach(myTrack => myTrack.stop());
+                myCameraStream = null;
+                myVideoElement.srcObject = null;
+            }
+            if (myPredictionLoopId) {
+                cancelAnimationFrame(myPredictionLoopId);
+                myPredictionLoopId = null;
+            }
+            myCurrentPrediction = 'NEUTRAL';
+            myCurrentConfidence = 0;
+            myUpdatePredictionDisplay();
+        }
+        
+      
+        window.addEventListener('keydown', (myEvent) => {
+            let myTag = myEvent.target.tagName;
+            if (myTag === 'INPUT' || myTag === 'SELECT') return;
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(myEvent.key)) {
+                myEvent.preventDefault();
+            }
+        });
+        
+        window.addEventListener('keyup', (myEvent) => {
+            myActiveKeys[myEvent.key.toLowerCase()] = false;
+            myActiveKeys[myEvent.key.toUpperCase()] = false;
+        });
+        
+        window.addEventListener('blur', () => {
+            myActiveKeys = {};
+            myStopTraining();
+        });
+        
+
+        document.querySelectorAll('.training-grid button').forEach(myBtn => {
+            myBtn.addEventListener('pointercancel', myStopTraining);
+            myBtn.addEventListener('contextmenu', myEvent => myEvent.preventDefault());
+        });
+        
+
         myDrawGame();
     </script>
 </body>
