@@ -204,7 +204,7 @@
             margin-top: 10px;
         }
 
-        /* ===== CHERRY NOIR THEME (added) ===== */
+    
         :root {
             --neon-bg: #0d0206;
             --neon-panel: #1a060d;
@@ -281,7 +281,7 @@
     <h1>OFFLINE VISION QUEST</h1>
 
     <div class="container">
-        <!-- Panel 1: Camera & Training Lab -->
+      
         <div class="panel">
             <h2>Camera & Training Lab</h2>
             
@@ -330,7 +330,7 @@
             </div>
         </div>
 
-        <!-- Panel 2: Live Prediction & Game -->
+
         <div class="panel">
             <h2>Live Prediction & Treasure Game</h2>
 
@@ -359,7 +359,7 @@
     </div>
 
     <script>
-        // All custom variables and functions strictly use camelCase and prefix "my"
+   
         let myVideoElement = document.getElementById('myVideoElement');
         let myProcessingCanvas = document.getElementById('myProcessingCanvas');
         let myProcessingCtx = myProcessingCanvas.getContext('2d', { willReadFrequently: true });
@@ -394,7 +394,7 @@
         let myGameLoopId = null;
         let myActiveKeys = {};
 
-        // Camera Activation and Management
+     
         async function myActivateCamera() {
             myStopCamera();
             try {
@@ -422,7 +422,7 @@
             }
         }
 
-        // Feature Extraction (16x16 grayscale, 256 normalized values)
+ 
         function myExtractFeatures() {
             if (!myVideoElement.videoWidth) return null;
 
@@ -440,19 +440,19 @@
                 let myRed = myPixels[myOffset];
                 let myGreen = myPixels[myOffset + 1];
                 let myBlue = myPixels[myOffset + 2];
-                // Grayscale conversion and normalization between 0 and 1
+             
                 let myGray = (myRed * 0.299 + myGreen * 0.587 + myBlue * 0.114) / 255;
                 myFeatureVector[myIdx] = myGray;
             }
             return myFeatureVector;
         }
 
-        // Training Handlers
+      
         function myStartTraining(myClassName) {
             myActiveTrainingClass = myClassName;
             document.getElementById('myCurrentActiveTraining').innerText = 'Status: Training [' + myClassName + ']';
             
-            // Highlight button
+            
             document.querySelectorAll('.training-grid button').forEach(myBtn => myBtn.classList.remove('active-train'));
             let myActiveBtnElem = document.getElementById('myBtn' + myClassName);
             if (myActiveBtnElem) myActiveBtnElem.classList.add('active-train');
@@ -500,7 +500,7 @@
             myUpdateSampleCounters();
         }
 
-        // Model Import / Export JSON
+       
         function mySaveModel() {
             let myJsonData = JSON.stringify(myTrainingData);
             let myBlob = new Blob([myJsonData], { type: 'application/json' });
@@ -531,7 +531,7 @@
             myReader.readAsText(myFile);
         }
 
-        // k-NN Classifier Engine
+
         function myClassifyFrame() {
             let myFeatures = myExtractFeatures();
             if (!myFeatures) return;
@@ -560,7 +560,6 @@
                 return;
             }
 
-            // Sort ascending by distance
             myDistances.sort((myA, myB) => myA.distance - myB.distance);
 
             let myClassCounts = { 'UP': 0, 'DOWN': 0, 'LEFT': 0, 'RIGHT': 0, 'NEUTRAL': 0 };
@@ -582,7 +581,7 @@
                 }
             }
 
-            // Confidence calculation based on neighbor votes and inverse distance
+          
             let myConfidencePct = Math.round((myMaxCount / myNeighborLimit) * 100);
             myCurrentPrediction = myBestClass;
             myCurrentConfidence = myConfidencePct;
@@ -605,7 +604,7 @@
             myPredictionLoopId = requestAnimationFrame(myLoopStep);
         }
 
-        // Treasure Game Implementation
+      
         function myInitTreasures() {
             myTreasures = [];
             for (let myI = 0; myI < 3; myI++) {
@@ -832,7 +831,7 @@
                 if (myCurrentPrediction === 'LEFT') myMoveX -= myPlayerSpeed;
                 if (myCurrentPrediction === 'RIGHT') myMoveX += myPlayerSpeed;
             } else {
-                // Keyboard Fallback (Arrow Keys or WASD)
+           
                 if (myActiveKeys['ArrowUp'] || myActiveKeys['w'] || myActiveKeys['W']) myMoveY -= myPlayerSpeed;
                 if (myActiveKeys['ArrowDown'] || myActiveKeys['s'] || myActiveKeys['S']) myMoveY += myPlayerSpeed;
                 if (myActiveKeys['ArrowLeft'] || myActiveKeys['a'] || myActiveKeys['A']) myMoveX -= myPlayerSpeed;
@@ -842,7 +841,7 @@
             myPlayerX += myMoveX;
             myPlayerY += myMoveY;
         
-            // Boundaries
+     
             if (myPlayerX < 10) myPlayerX = 10;
             if (myPlayerX > 390) myPlayerX = 390;
             if (myPlayerY < 10) myPlayerY = 10;
