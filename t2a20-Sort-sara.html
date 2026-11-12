@@ -1,0 +1,494 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>t2a20-sort-Sara.html</title>
+
+<style>
+body {
+    background: linear-gradient(135deg, #063b40, #0b5555, #102f42);
+    background-size: 300% 300%;
+    animation: backgroundMove 10s infinite alternate;
+    color: #dffff8;
+    font-family: Arial;
+    text-align: center;
+    padding: 20px;
+}
+
+@keyframes backgroundMove {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+h1 {
+    color: #75fff0;
+    text-shadow: 0 0 15px #00ffe1, 0 0 30px #00ffe1;
+}
+
+h2 {
+    color: #ff70ce;
+    text-shadow: 0 0 12px #ff35bd;
+}
+
+.mainBox {
+    max-width: 850px;
+    margin: auto;
+    padding: 25px;
+    border: 2px solid #50ffe4;
+    border-radius: 25px;
+    background: rgba(0, 35, 42, 0.85);
+    box-shadow: 0 0 20px #00ffe1;
+    animation: glowing 3s infinite alternate;
+}
+
+@keyframes glowing {
+    from { box-shadow: 0 0 10px #00ffe1; }
+    to { box-shadow: 0 0 30px #ff35bd; }
+}
+
+button, input, select {
+    padding: 12px;
+    margin: 7px;
+    border-radius: 12px;
+    border: 2px solid #50ffe4;
+    background: #12464b;
+    color: white;
+}
+
+button {
+    background: linear-gradient(135deg, #ed36a9, #a829bc);
+    border-color: #ff70ce;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 0 10px #ff35bd;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px #ff35bd;
+}
+
+.section {
+    margin-top: 25px;
+    padding: 20px;
+    border: 1px solid #50ffe4;
+    border-radius: 18px;
+    background: rgba(15, 80, 78, 0.5);
+}
+
+#myDiv01 {
+    padding: 20px;
+    margin-top: 15px;
+    border: 1px solid #50ffe4;
+    border-radius: 12px;
+    min-height: 40px;
+    text-align: left;
+}
+
+.plantCard {
+    display: inline-block;
+    vertical-align: top;
+    width: 180px;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 15px;
+    border: 1px solid #ff70ce;
+    background: #16494b;
+    box-shadow: 0 0 12px #ff35bd;
+    animation: appear 0.6s ease;
+}
+
+.plantCard:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 0 25px #00ffe1;
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.plantEmoji {
+    font-size: 38px;
+}
+
+.footer {
+    color: #ff8bd8;
+    margin-top: 30px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="mainBox">
+
+<h1>🌿 Sara's Neon Botanical Garden 🌿</h1>
+<p>Grow, organize and watch your garden bloom!</p>
+<div style="font-size:35px;">🌷 🪴 🌸 🌱 🦋</div>
+
+
+
+
+<div class="section">
+
+<h2>🌱 My Random Garden Numbers</h2>
+
+<script>
+let myMax = 3     
+let myCards = new Array (myMax)
+</script>
+
+<input type=button value="Set random" onclick="{
+  for (let myLoop = 0; myLoop < myMax; myLoop++){
+  myCards[myLoop] = Math.floor(Math.random()*10)}
+  document.getElementById('myDiv01').innerHTML = 'Random numbers created! 🌱'
+}">
+
+<input type=button value="Show" onClick="{
+  let myTemp = '';
+  for (let myLoop = 0; myLoop < myMax; myLoop++){
+  myTemp += myLoop + ' = ' + myCards[myLoop] + '<br>'}
+  document.getElementById('myDiv01').innerHTML = myTemp
+}">
+
+<input type=button value="sort" onClick="{
+    let myTemp = 0
+    for (let myLoop = 0; myLoop < myMax; myLoop++){
+
+    //you do this stuff
+
+    for (let myLoop2 = 0; myLoop2 < myMax - 1; myLoop2++){
+        if (myCards[myLoop2] > myCards[myLoop2 + 1]){
+            myTemp = myCards[myLoop2]
+            myCards[myLoop2] = myCards[myLoop2 + 1]
+            myCards[myLoop2 + 1] = myTemp
+        }
+    }
+
+    }
+    document.getElementById('myDiv01').innerHTML =
+    '🌸 Sorted numbers: ' + myCards.join(' , ')
+}">
+
+<div id="myDiv01">Your numbers will appear here.</div>
+
+
+<h2>✨ Other Sorting Types</h2>
+
+<input type=button value="Selection Sort" onclick="{
+    for (let myLoop = 0; myLoop < myMax; myLoop++){
+        let myMin = myLoop;
+
+        for (let myLoop2 = myLoop + 1; myLoop2 < myMax; myLoop2++){
+            if (myCards[myLoop2] < myCards[myMin]){
+                myMin = myLoop2;
+            }
+        }
+
+        let myTemp = myCards[myLoop];
+        myCards[myLoop] = myCards[myMin];
+        myCards[myMin] = myTemp;
+    }
+
+    document.getElementById('myDiv01').innerHTML =
+    '🌿 Selection sorted: ' + myCards.join(' , ');
+}">
+
+<input type=button value="Insertion Sort" onclick="{
+    for (let myLoop = 1; myLoop < myMax; myLoop++){
+        let myTemp = myCards[myLoop];
+        let myLoop2 = myLoop - 1;
+
+        while (myLoop2 >= 0 && myCards[myLoop2] > myTemp){
+            myCards[myLoop2 + 1] = myCards[myLoop2];
+            myLoop2--;
+        }
+
+        myCards[myLoop2 + 1] = myTemp;
+    }
+
+    document.getElementById('myDiv01').innerHTML =
+    '🌷 Insertion sorted: ' + myCards.join(' , ');
+}">
+
+</div>
+
+
+
+
+<div class="section">
+
+<h2>🌍 My Garden Location</h2>
+
+<input type=text id="gardenLocation" placeholder="Enter your city">
+
+<select id="plantMonth">
+<option value="">Choose planting month</option>
+<option>January</option>
+<option>February</option>
+<option>March</option>
+<option>April</option>
+<option>May</option>
+<option>June</option>
+<option>July</option>
+<option>August</option>
+<option>September</option>
+<option>October</option>
+<option>November</option>
+<option>December</option>
+</select>
+
+<button onclick="showGardenInfo()">Save Garden Details</button>
+
+<p id="gardenInfo">Your garden details will appear here.</p>
+
+</div>
+
+
+
+
+<div class="section">
+
+<h2> Add Plants To My Garden</h2>
+
+<input type=text id="plantName" placeholder="Enter plant name">
+
+<select id="plantEmoji">
+<option value="🌷">Tulip</option>
+<option value="🌻">Sunflower</option>
+<option value="🌹">Rose</option>
+<option value="🌱">Seedling</option>
+<option value="🌵">Cactus</option>
+<option value="🌿">Herb</option>
+<option value="🍓">Strawberry</option>
+<option value="🍅">Tomato</option>
+</select>
+
+<button onclick="addPlant()">Add Plant +</button>
+
+<div id="plantGarden">
+Your plants will appear here! 
+</div>
+
+</div>
+
+
+<div class="section">
+
+<h2>🪴 Planting Tracker</h2>
+
+<div id="plantTracker">No plants planted yet.</div>
+
+<h2 id="progressText">0 plants planted!</h2>
+
+<div style="width:100%; background:#16494b; border-radius:20px;">
+<div id="progressBar" style="
+width:0%;
+height:18px;
+background:linear-gradient(90deg,#00ffe1,#ff35bd);
+border-radius:20px;
+transition:0.5s;">
+</div>
+</div>
+
+</div>
+
+
+
+<div class="section">
+<h2>Watering Station</h2>
+
+<h1 id="waterCount">💧 0</h1>
+
+<button onclick="waterPlants()">Water My Plants</button>
+
+<button onclick="resetWater()">Reset Counter</button>
+
+<p id="waterMessage">Your plants are waiting for water!</p>
+
+</div>
+
+
+<div class="footer">
+ Grow with love. Bloom with confidence. 
+<br><br>
+Designed by Sara | 2026
+</div>
+
+</div>
+
+
+
+
+<script>
+
+let myPlants = [];
+let myWater = 0;
+
+
+
+
+function showGardenInfo(){
+
+    let myLocation = document.getElementById('gardenLocation').value;
+    let myMonth = document.getElementById('plantMonth').value;
+
+    if(myLocation == '' || myMonth == ''){
+        alert('Please enter your location and planting month!');
+        return;
+    }
+
+    document.getElementById('gardenInfo').innerHTML =
+    '🌍 Location: ' + myLocation +
+    '<br>🌷 Planting month: ' + myMonth;
+
+}
+
+
+
+
+function addPlant(){
+
+    let myName = document.getElementById('plantName').value;
+    let myEmoji = document.getElementById('plantEmoji').value;
+
+    if(myName == ''){
+        alert('Enter a plant name!');
+        return;
+    }
+
+    myPlants.push({
+        name: myName,
+        emoji: myEmoji,
+        planted: false
+    });
+
+    document.getElementById('plantName').value = '';
+
+    showPlants();
+    updateProgress();
+
+}
+
+
+
+
+function showPlants(){
+
+    let myTemp = '';
+
+    for(let myLoop = 0; myLoop < myPlants.length; myLoop++){
+
+        myTemp += '<div class="plantCard">';
+        myTemp += '<div class="plantEmoji">' + myPlants[myLoop].emoji + '</div>';
+        myTemp += '<h3>' + myPlants[myLoop].name + '</h3>';
+
+        myTemp += '<p>' +
+        (myPlants[myLoop].planted ? '🌱 Planted!' : 'Not planted yet') +
+        '</p>';
+
+        myTemp += '<button onclick="markPlanted(' + myLoop + ')">Mark Planted</button>';
+
+        myTemp += '<button onclick="removePlant(' + myLoop + ')">Remove</button>';
+
+        myTemp += '</div>';
+    }
+
+    document.getElementById('plantGarden').innerHTML =
+    myTemp || 'Your garden is waiting for plants! 🌱';
+
+    let myTracker = '';
+
+    for(let myLoop = 0; myLoop < myPlants.length; myLoop++){
+        if(myPlants[myLoop].planted){
+            myTracker += myPlants[myLoop].emoji + ' ' +
+            myPlants[myLoop].name + '<br>';
+        }
+    }
+
+    document.getElementById('plantTracker').innerHTML =
+    myTracker || 'No plants planted yet.';
+}
+
+
+
+function markPlanted(myLoop){
+
+    myPlants[myLoop].planted = !myPlants[myLoop].planted;
+
+    showPlants();
+    updateProgress();
+
+}
+
+
+
+
+function removePlant(myLoop){
+
+    myPlants.splice(myLoop, 1);
+
+    showPlants();
+    updateProgress();
+
+}
+
+
+
+function updateProgress(){
+
+    let myPlanted = 0;
+
+    for(let myLoop = 0; myLoop < myPlants.length; myLoop++){
+        if(myPlants[myLoop].planted){
+            myPlanted++;
+        }
+    }
+
+    let myPercentage = myPlants.length == 0 ? 0 :
+    Math.round((myPlanted / myPlants.length) * 100);
+
+    document.getElementById('progressText').innerHTML =
+    myPlanted + ' out of ' + myPlants.length +
+    ' plants planted! ' + myPercentage + '%';
+
+    document.getElementById('progressBar').style.width =
+    myPercentage + '%';
+
+}
+
+
+
+
+function waterPlants(){
+
+    myWater++;
+
+    document.getElementById('waterCount').innerHTML =
+    '💧 ' + myWater;
+
+    document.getElementById('waterMessage').innerHTML =
+    '🌸 Your garden has been watered ' + myWater + ' times!';
+
+}
+
+
+
+function resetWater(){
+
+    myWater = 0;
+
+    document.getElementById('waterCount').innerHTML = '💧 0';
+
+    document.getElementById('waterMessage').innerHTML =
+    'Water counter reset!';
+
+}
+
+</script>
+
+</body>
+</html>
