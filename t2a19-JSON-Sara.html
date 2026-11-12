@@ -33,10 +33,9 @@ body {
 }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
-/* ---------- Boutique set (pure CSS drawings) ---------- */
+
 .boutique { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
 
-/* ceiling track light + pendant lamps */
 .track { position: absolute; top: 0; left: 0; right: 0; height: 10px; background: linear-gradient(#3a2e22, #17110c); border-bottom: 1px solid #c9a050; }
 .pendant { position: absolute; top: 0; width: 2px; background: #c9a050; }
 .pendant::after {
@@ -49,19 +48,17 @@ body {
 .pendant:nth-child(3) { left: 50%; height: 40px; }
 .pendant:nth-child(4) { left: 86%; height: 80px; }
 
-/* spotlight cones */
 .cone { position: absolute; top: 10px; width: 320px; height: 70vh; clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
   background: linear-gradient(180deg, rgba(255,235,190,.22), transparent 85%); opacity: .7; }
 .cone.c1 { left: 6%; } .cone.c2 { left: calc(50% - 160px); } .cone.c3 { right: 6%; }
 
-/* wall picture frames with neon outline */
 .frame { position: absolute; top: 24%; width: 110px; height: 150px; border: 6px solid #b8902f; outline: 2px solid var(--neon);
   outline-offset: 6px; box-shadow: 0 0 22px var(--neon), inset 0 0 30px rgba(0,0,0,.8);
   background: radial-gradient(circle at 50% 35%, rgba(255,255,255,.12), #0b0806 70%); transition: all .6s ease; }
 .frame::after { content: ""; position: absolute; left: 22%; right: 22%; bottom: 22%; height: 38%; border: 2px solid var(--neon); border-radius: 50% 50% 8px 8px; opacity: .6; }
 .frame.f1 { left: 2.5%; } .frame.f2 { right: 2.5%; }
 
-/* marble floor */
+
 .floor { position: absolute; left: 0; right: 0; bottom: 0; height: 22vh;
   background:
     linear-gradient(180deg, rgba(0,0,0,.7), transparent 40%),
@@ -69,7 +66,7 @@ body {
     linear-gradient(180deg, #2a2119, #0d0906);
   border-top: 2px solid #b8902f; box-shadow: 0 -20px 60px -20px var(--neon); }
 
-/* ---------- Header with neon sign ---------- */
+
 header { padding: 80px 20px 10px; text-align: center; position: relative; z-index: 2; }
 .neon-sign { display: inline-block; padding: 14px 38px; border: 3px solid var(--neon); border-radius: 18px;
   box-shadow: 0 0 14px var(--neon), inset 0 0 14px var(--neon), 0 0 60px rgba(255,255,255,.08);
@@ -79,7 +76,7 @@ header h1 { font-family: var(--serif); font-size: clamp(30px, 5.5vw, 62px); font
 header p { margin-top: 18px; color: var(--muted); letter-spacing: 4px; font-size: 12px; }
 @keyframes flicker { 0%,18%,22%,62%,64%,100% { opacity: 1; } 20%,63% { opacity: .78; } }
 
-/* ---------- Layout ---------- */
+
 .container { width: min(90%, 1100px); margin-inline: auto; padding-bottom: 80px; position: relative; z-index: 2; }
 .select-area { display: flex; justify-content: center; margin: 40px auto; }
 .select-wrapper { width: min(100%, 360px); padding: 10px; background: rgba(10,7,5,.8); border: 2px solid var(--neon); border-radius: 50px;
@@ -88,7 +85,7 @@ header p { margin-top: 18px; color: var(--muted); letter-spacing: 4px; font-size
 select { width: 100%; padding: 10px 15px; color: #fff; background: transparent; border: none; font: 600 15px var(--sans); text-align: center; cursor: pointer; outline: none; }
 select option { background: #120d0a; color: #fff; }
 
-/* ---------- Product card ---------- */
+
 #product-display { display: flex; flex-direction: column; align-items: center; gap: 30px; min-height: 400px; }
 .product-card { width: 100%; max-width: 850px; border-radius: var(--card-radius); overflow: hidden; position: relative;
   border: 2px solid var(--theme-border, #168bff); background: var(--theme-card-bg, #050b16);
@@ -98,7 +95,7 @@ select option { background: #120d0a; color: #fff; }
 
 .product-content { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 25px; padding: 35px; }
 
-/* display stage: spotlight + glass + pedestal */
+
 .image-container { position: relative; display: flex; justify-content: center; align-items: center; min-height: 360px; padding: 20px 20px 46px; border-radius: 16px;
   background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,.2), transparent 55%), var(--theme-image-bg, #0a1220);
   border: 1px solid var(--theme-border); box-shadow: inset 0 0 40px rgba(0,0,0,.7); overflow: hidden; }
@@ -123,7 +120,6 @@ select option { background: #120d0a; color: #fff; }
 .json-explanation { margin-top: 10px; font-size: 12px; line-height: 1.6; color: var(--theme-description, #a9bfd7); }
 pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13px; line-height: 1.7; color: var(--theme-json-text, #cbd5e1); }
 
-/* ---------- Why JSON box ---------- */
 .why-json { width: 100%; max-width: 850px; padding: 26px 32px; border-radius: 18px; background: rgba(12,8,5,.88);
   border: 2px dashed var(--theme-border); box-shadow: 0 0 22px var(--theme-glow); }
 .why-json h3 { font: 700 26px var(--serif); margin-bottom: 10px; color: var(--theme-accent); text-shadow: 0 0 12px var(--theme-accent); }
@@ -290,7 +286,7 @@ function escapeHTML(value) {
 }
 
 function applyTheme(theme) {
-  // Set on <body> so the neon sign, lamps and frames change colour too
+
   const root = document.body;
   root.style.setProperty("--theme-card-bg", theme.cardBg);
   root.style.setProperty("--theme-border", theme.border);
@@ -326,7 +322,7 @@ function createProductCard(data) {
       <p class="json-explanation">${escapeHTML(data.jsonUse)}</p>
     </section>`;
   const photo = card.querySelector("img.photo");
-  // If a site blocks direct loading (hotlink protection), retry once through a free image proxy
+  
   let retried = false;
   photo.addEventListener("error", () => {
     if (!retried) {
