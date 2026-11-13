@@ -1,19 +1,54 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>t2a20-sort-Sara.html</title>
 
 <style>
+:root {
+    --teal-deep: #05302f;
+    --teal: #0b5555;
+    --ink: #102f42;
+    --mint: #75fff0;
+    --aqua: #50ffe4;
+    --pink: #ff70ce;
+    --magenta: #ff35bd;
+    --text: #e4fffa;
+    --muted: #9fd8d0;
+    --glass: rgba(6, 40, 46, 0.62);
+    --glass-light: rgba(18, 85, 84, 0.38);
+    --font: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
 body {
     background: linear-gradient(135deg, #063b40, #0b5555, #102f42);
     background-size: 300% 300%;
     animation: backgroundMove 10s infinite alternate;
-    color: #dffff8;
-    font-family: Arial;
+    color: var(--text);
+    font-family: var(--font);
+    line-height: 1.5;
     text-align: center;
-    padding: 20px;
+    padding: 24px 16px 48px;
+    margin: 0;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
 }
+
+
+body::before, body::after {
+    content: "";
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(90px);
+    z-index: -1;
+    pointer-events: none;
+}
+body::before { width: 380px; height: 380px; background: rgba(255, 53, 189, 0.22); top: -80px; left: -100px; }
+body::after  { width: 420px; height: 420px; background: rgba(0, 255, 225, 0.18); bottom: -120px; right: -120px; }
 
 @keyframes backgroundMove {
     0% { background-position: 0% 50%; }
@@ -21,82 +56,133 @@ body {
 }
 
 h1 {
-    color: #75fff0;
-    text-shadow: 0 0 15px #00ffe1, 0 0 30px #00ffe1;
+    color: var(--mint);
+    font-size: clamp(28px, 5vw, 44px);
+    letter-spacing: 0.5px;
+    margin: 6px 0 4px;
+    text-shadow: 0 0 15px #00ffe1, 0 0 30px rgba(0, 255, 225, 0.6);
 }
 
 h2 {
-    color: #ff70ce;
+    color: var(--pink);
+    font-size: 1.35rem;
+    margin: 0 0 14px;
     text-shadow: 0 0 12px #ff35bd;
 }
 
+h3 { margin: 6px 0 8px; font-size: 1.05rem; }
+
+p { color: var(--muted); }
+
 .mainBox {
-    max-width: 850px;
+    max-width: 880px;
     margin: auto;
-    padding: 25px;
-    border: 2px solid #50ffe4;
-    border-radius: 25px;
-    background: rgba(0, 35, 42, 0.85);
-    box-shadow: 0 0 20px #00ffe1;
+    padding: 30px;
+    border: 1px solid rgba(80, 255, 228, 0.55);
+    border-radius: 28px;
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 0 20px #00ffe1, inset 0 1px 0 rgba(255, 255, 255, 0.12);
     animation: glowing 3s infinite alternate;
 }
 
 @keyframes glowing {
-    from { box-shadow: 0 0 10px #00ffe1; }
-    to { box-shadow: 0 0 30px #ff35bd; }
+    from { box-shadow: 0 0 10px #00ffe1, inset 0 1px 0 rgba(255, 255, 255, 0.12); }
+    to { box-shadow: 0 0 30px #ff35bd, inset 0 1px 0 rgba(255, 255, 255, 0.12); }
 }
 
 button, input, select {
-    padding: 12px;
-    margin: 7px;
-    border-radius: 12px;
-    border: 2px solid #50ffe4;
-    background: #12464b;
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 12px 16px;
+    margin: 6px;
+    border-radius: 14px;
+    border: 1.5px solid var(--aqua);
+    background: rgba(18, 70, 75, 0.85);
     color: white;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.25s;
 }
 
-button {
+input[type=text], select { min-width: 180px; }
+input::placeholder { color: #8fcfc6; }
+
+input:focus-visible, select:focus-visible, button:focus-visible {
+    border-color: var(--mint);
+    box-shadow: 0 0 0 3px rgba(117, 255, 240, 0.35);
+}
+
+select option { background: #0e3a3e; color: white; }
+
+button, input[type=button] {
     background: linear-gradient(135deg, #ed36a9, #a829bc);
-    border-color: #ff70ce;
+    border-color: var(--pink);
     cursor: pointer;
     font-weight: bold;
     box-shadow: 0 0 10px #ff35bd;
     transition: 0.3s;
 }
 
-button:hover {
-    transform: scale(1.08);
+button:hover, input[type=button]:hover {
+    transform: scale(1.06) translateY(-1px);
     box-shadow: 0 0 25px #ff35bd;
 }
 
+button:active, input[type=button]:active { transform: scale(0.97); }
+
 .section {
-    margin-top: 25px;
-    padding: 20px;
-    border: 1px solid #50ffe4;
-    border-radius: 18px;
-    background: rgba(15, 80, 78, 0.5);
+    margin-top: 26px;
+    padding: 24px;
+    border: 1px solid rgba(80, 255, 228, 0.6);
+    border-radius: 20px;
+    background: var(--glass-light);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 #myDiv01 {
-    padding: 20px;
-    margin-top: 15px;
-    border: 1px solid #50ffe4;
-    border-radius: 12px;
+    padding: 18px 20px;
+    margin-top: 16px;
+    border: 1px solid rgba(80, 255, 228, 0.6);
+    border-radius: 14px;
+    background: rgba(0, 25, 30, 0.45);
     min-height: 40px;
     text-align: left;
+}
+
+    
+.bars {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 12px;
+    min-height: 130px;
+    margin-top: 16px;
+}
+
+.bar {
+    width: 56px;
+    border-radius: 12px 12px 4px 4px;
+    background: linear-gradient(180deg, var(--magenta), #00ffe1);
+    box-shadow: 0 0 14px rgba(0, 255, 225, 0.45);
+    color: #022;
+    font-weight: bold;
+    padding-top: 6px;
+    transition: height 0.5s ease;
 }
 
 .plantCard {
     display: inline-block;
     vertical-align: top;
-    width: 180px;
-    padding: 15px;
+    width: 190px;
+    padding: 16px;
     margin: 10px;
-    border-radius: 15px;
-    border: 1px solid #ff70ce;
-    background: #16494b;
+    border-radius: 18px;
+    border: 1px solid var(--pink);
+    background: linear-gradient(160deg, rgba(26, 82, 84, 0.95), rgba(14, 52, 60, 0.95));
     box-shadow: 0 0 12px #ff35bd;
     animation: appear 0.6s ease;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .plantCard:hover {
@@ -104,18 +190,63 @@ button:hover {
     box-shadow: 0 0 25px #00ffe1;
 }
 
+.plantCard.done { border-color: var(--aqua); }
+.plantCard button { padding: 8px 12px; font-size: 0.82rem; margin: 3px; }
+
 @keyframes appear {
     from { opacity: 0; transform: translateY(15px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 .plantEmoji {
-    font-size: 38px;
+    font-size: 42px;
+    filter: drop-shadow(0 0 10px rgba(255, 112, 206, 0.6));
+    animation: sway 4s ease-in-out infinite alternate;
+    transform-origin: bottom center;
 }
+
+@keyframes sway {
+    from { transform: rotate(-4deg); }
+    to { transform: rotate(4deg); }
+}
+
+
+.track { width: 100%; background: #16494b; border-radius: 20px; overflow: hidden; border: 1px solid rgba(80, 255, 228, 0.4); }
+
+.tank {
+    width: 100%;
+    max-width: 420px;
+    height: 14px;
+    margin: 0 auto 10px;
+    border-radius: 20px;
+    background: rgba(0, 20, 30, 0.6);
+    border: 1px solid rgba(80, 255, 228, 0.5);
+    overflow: hidden;
+}
+#waterLevel {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #2bb8ff, #00ffe1);
+    transition: width 0.4s ease;
+}
+
+#waterCount { margin: 6px 0 10px; font-size: 2.2rem; }
 
 .footer {
     color: #ff8bd8;
-    margin-top: 30px;
+    margin-top: 32px;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 560px) {
+    .mainBox { padding: 18px; border-radius: 22px; }
+    .section { padding: 16px; }
+    .plantCard { width: 100%; max-width: 280px; }
+    input[type=text], select { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 
 </style>
@@ -139,12 +270,23 @@ button:hover {
 <script>
 let myMax = 3     
 let myCards = new Array (myMax)
+
+
+function drawBars(){
+    let myBars = '';
+    for (let myLoop = 0; myLoop < myMax; myLoop++){
+        if (myCards[myLoop] === undefined) { continue; }
+        myBars += '<div class="bar" style="height:' + (myCards[myLoop] * 11 + 34) + 'px">' + myCards[myLoop] + '</div>';
+    }
+    document.getElementById('myBars').innerHTML = myBars;
+}
 </script>
 
 <input type=button value="Set random" onclick="{
   for (let myLoop = 0; myLoop < myMax; myLoop++){
   myCards[myLoop] = Math.floor(Math.random()*10)}
   document.getElementById('myDiv01').innerHTML = 'Random numbers created! 🌱'
+  drawBars()
 }">
 
 <input type=button value="Show" onClick="{
@@ -152,6 +294,7 @@ let myCards = new Array (myMax)
   for (let myLoop = 0; myLoop < myMax; myLoop++){
   myTemp += myLoop + ' = ' + myCards[myLoop] + '<br>'}
   document.getElementById('myDiv01').innerHTML = myTemp
+  drawBars()
 }">
 
 <input type=button value="sort" onClick="{
@@ -171,12 +314,14 @@ let myCards = new Array (myMax)
     }
     document.getElementById('myDiv01').innerHTML =
     '🌸 Sorted numbers: ' + myCards.join(' , ')
+    drawBars()
 }">
 
 <div id="myDiv01">Your numbers will appear here.</div>
+<div class="bars" id="myBars"></div>
 
 
-<h2>✨ Other Sorting Types</h2>
+<h2 style="margin-top:22px;">✨ Other Sorting Types</h2>
 
 <input type=button value="Selection Sort" onclick="{
     for (let myLoop = 0; myLoop < myMax; myLoop++){
@@ -195,6 +340,7 @@ let myCards = new Array (myMax)
 
     document.getElementById('myDiv01').innerHTML =
     '🌿 Selection sorted: ' + myCards.join(' , ');
+    drawBars();
 }">
 
 <input type=button value="Insertion Sort" onclick="{
@@ -212,6 +358,7 @@ let myCards = new Array (myMax)
 
     document.getElementById('myDiv01').innerHTML =
     '🌷 Insertion sorted: ' + myCards.join(' , ');
+    drawBars();
 }">
 
 </div>
@@ -252,7 +399,7 @@ let myCards = new Array (myMax)
 
 <div class="section">
 
-<h2> Add Plants To My Garden</h2>
+<h2>🌼 Add Plants To My Garden</h2>
 
 <input type=text id="plantName" placeholder="Enter plant name">
 
@@ -282,9 +429,9 @@ Your plants will appear here!
 
 <div id="plantTracker">No plants planted yet.</div>
 
-<h2 id="progressText">0 plants planted!</h2>
+<h2 id="progressText" style="margin-top:16px;">0 plants planted!</h2>
 
-<div style="width:100%; background:#16494b; border-radius:20px;">
+<div class="track">
 <div id="progressBar" style="
 width:0%;
 height:18px;
@@ -302,6 +449,8 @@ transition:0.5s;">
 <h2>Watering Station</h2>
 
 <h1 id="waterCount">💧 0</h1>
+
+<div class="tank"><div id="waterLevel"></div></div>
 
 <button onclick="waterPlants()">Water My Plants</button>
 
@@ -382,7 +531,7 @@ function showPlants(){
 
     for(let myLoop = 0; myLoop < myPlants.length; myLoop++){
 
-        myTemp += '<div class="plantCard">';
+        myTemp += '<div class="plantCard' + (myPlants[myLoop].planted ? ' done' : '') + '">';
         myTemp += '<div class="plantEmoji">' + myPlants[myLoop].emoji + '</div>';
         myTemp += '<h3>' + myPlants[myLoop].name + '</h3>';
 
@@ -473,6 +622,9 @@ function waterPlants(){
     document.getElementById('waterMessage').innerHTML =
     '🌸 Your garden has been watered ' + myWater + ' times!';
 
+    document.getElementById('waterLevel').style.width =
+    Math.min(myWater * 10, 100) + '%';
+
 }
 
 
@@ -486,7 +638,14 @@ function resetWater(){
     document.getElementById('waterMessage').innerHTML =
     'Water counter reset!';
 
+    document.getElementById('waterLevel').style.width = '0%';
+
 }
+
+
+document.getElementById('plantName').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') { addPlant(); }
+});
 
 </script>
 
