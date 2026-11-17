@@ -1,18 +1,354 @@
-<h1 align=center>t2a21-spy-by-sara.html</h1>
-<textarea id="myArea01" rows=4 cols=70>Hello how are you </textarea><br> 
-<input type=button value="encrypt" onClick="{ 
-  let myTemp = '' 
-  myString = document.getElementById('myArea01').value.toLowerCase().split('')
-  for(let myLoop=0; myLoop < myString.length; myLoop++){ 
-    myTemp = myString[myLoop]
-    if (myString[myLoop] == 'e') {myTemp = 'f'}
-    if (myString[myLoop] == 'h') {myTemp = 'i'}
-    myString[myLoop] = myTemp 
-  } 
-  document.getElementById('myArea02').value = myString.join('')}"> <br><br> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>t2a21-spy-by-fred</title>
+<meta name="color-scheme" content="dark">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#020b1a;--bg2:#06243a;--bg3:#0b0a2e;
+  --cyan:#2cf6ff;--teal:#19ffc6;--violet:#a45cff;--pink:#ff4fd8;
+  --text:#d9fbff;--panel:rgba(4,22,40,.62);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;min-height:100vh;color:var(--text);
+  font-family:'Rajdhani','Trebuchet MS',sans-serif;font-size:18px;
+  background:
+    radial-gradient(ellipse at 20% 10%,rgba(164,92,255,.28),transparent 55%),
+    radial-gradient(ellipse at 85% 30%,rgba(44,246,255,.22),transparent 50%),
+    linear-gradient(180deg,var(--bg3),var(--bg2) 55%,var(--bg1));
+  background-attachment:fixed;overflow-x:hidden;
+}
+#spores{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.scene{position:fixed;left:0;right:0;bottom:0;width:100%;height:46vh;z-index:0;pointer-events:none}
+.mount{position:fixed;top:4vh;right:6vw;width:min(34vw,360px);z-index:0;pointer-events:none;animation:drift 9s ease-in-out infinite}
+.mount2{top:14vh;left:5vw;right:auto;width:min(22vw,230px);animation-duration:12s;animation-delay:-4s;opacity:.8}
+@keyframes drift{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+@keyframes pulse{0%,100%{opacity:.75}50%{opacity:1}}
+@keyframes sweep{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+main{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 18px 52vh}
+.banner{text-align:center;margin-bottom:34px}
+.banner .kicker{font-family:'Orbitron','Trebuchet MS',sans-serif;letter-spacing:.5em;font-size:12px;color:var(--teal);text-shadow:0 0 12px var(--teal)}
+.banner .title{
+  font-family:'Orbitron','Trebuchet MS',sans-serif;font-weight:800;font-size:clamp(26px,6vw,52px);margin:8px 0 6px;
+  background:linear-gradient(90deg,var(--cyan),var(--violet),var(--pink),var(--teal),var(--cyan));
+  background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:sweep 8s linear infinite;filter:drop-shadow(0 0 14px rgba(44,246,255,.55));
+}
+.banner .sub{color:#8fdcf0;letter-spacing:.12em}
+.panel{
+  position:relative;margin:0 0 30px;padding:26px 24px 28px;border-radius:22px;
+  background:var(--panel);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(44,246,255,.45);
+  box-shadow:0 0 0 1px rgba(164,92,255,.25),0 0 28px rgba(44,246,255,.28),0 0 70px rgba(164,92,255,.18),inset 0 0 40px rgba(25,255,198,.06);
+  overflow:hidden;
+}
+.panel::before{
+  content:"";position:absolute;left:-10%;right:-10%;top:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--cyan),var(--pink),var(--cyan),transparent);
+  box-shadow:0 0 14px var(--cyan);animation:pulse 3s ease-in-out infinite;
+}
+.panel::after{
+  content:"";position:absolute;right:-60px;bottom:-60px;width:180px;height:180px;border-radius:50%;
+  background:radial-gradient(circle,rgba(25,255,198,.28),transparent 65%);pointer-events:none;
+}
+.tag{
+  display:inline-block;font-family:'Orbitron','Trebuchet MS',sans-serif;font-size:12px;letter-spacing:.28em;
+  color:#031018;background:linear-gradient(90deg,var(--teal),var(--cyan));padding:5px 14px;border-radius:999px;
+  margin-bottom:16px;box-shadow:0 0 16px rgba(25,255,198,.7);
+}
+.panel h1{
+  font-family:'Orbitron','Trebuchet MS',sans-serif;font-weight:500;font-size:clamp(16px,3.6vw,26px);
+  color:var(--cyan);text-shadow:0 0 6px var(--cyan),0 0 22px rgba(44,246,255,.8);margin:6px 0 20px;word-break:break-word;
+}
+.panel h2{
+  font-family:'Orbitron','Trebuchet MS',sans-serif;font-weight:500;font-size:clamp(16px,3.2vw,22px);
+  color:var(--pink);text-shadow:0 0 6px var(--pink),0 0 20px rgba(255,79,216,.7);margin:6px 0 8px;
+}
+.panel p.note{margin:0 0 16px;color:#9ad7e6}
+.panel textarea,.panel input[type=text],.panel input[type=number]{
+  width:100%;max-width:100%;font-family:'Rajdhani','Trebuchet MS',sans-serif;font-size:19px;color:var(--text);
+  background:rgba(1,10,22,.75);border:1px solid rgba(44,246,255,.5);border-radius:12px;padding:12px 14px;outline:none;
+  box-shadow:inset 0 0 18px rgba(44,246,255,.12),0 0 10px rgba(44,246,255,.18);
+  transition:box-shadow .25s,border-color .25s;resize:vertical;
+}
+.panel textarea:focus,.panel input[type=text]:focus,.panel input[type=number]:focus{
+  border-color:var(--teal);box-shadow:inset 0 0 18px rgba(25,255,198,.2),0 0 24px rgba(25,255,198,.55);
+}
+.panel input[type=button]{
+  font-family:'Orbitron','Trebuchet MS',sans-serif;font-size:14px;letter-spacing:.2em;text-transform:uppercase;color:#031018;
+  padding:12px 26px;border:0;border-radius:999px;cursor:pointer;
+  background:linear-gradient(90deg,var(--cyan),var(--teal));
+  box-shadow:0 0 18px rgba(44,246,255,.75),0 0 40px rgba(25,255,198,.35);
+  transition:transform .15s,box-shadow .2s,filter .2s;
+}
+.panel input[type=button]:hover{transform:translateY(-2px) scale(1.04);filter:brightness(1.15);box-shadow:0 0 28px var(--cyan),0 0 60px rgba(25,255,198,.6)}
+.panel input[type=button]:active{transform:scale(.97)}
+.panel input[type=button].alt{background:linear-gradient(90deg,var(--violet),var(--pink));box-shadow:0 0 18px rgba(164,92,255,.8),0 0 40px rgba(255,79,216,.35)}
+.panel input[type=button].alt:hover{box-shadow:0 0 28px var(--pink),0 0 60px rgba(164,92,255,.6)}
+.row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:4px 0 14px}
+.row label{color:var(--teal);letter-spacing:.1em;text-shadow:0 0 8px rgba(25,255,198,.6)}
+.row input[type=number]{width:110px}
+.row input[type=text]{flex:1;min-width:180px}
+.row input[type=checkbox]{width:20px;height:20px;accent-color:var(--teal)}
+footer{position:relative;z-index:1;text-align:center;padding:0 0 30px;color:#6fb8cc;letter-spacing:.2em;font-size:13px}
+</style>
+</head>
+<body>
+<canvas id="spores"></canvas>
 
-<textarea id="myArea02" rows=4 cols=70></textarea><br>
-<input type=button value="decrypt" onClick="{ 
-  alert('sorry, you have to do this!') }"> <br><br> 
+<svg class="mount" viewBox="0 0 360 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="mg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b4b6e"/><stop offset="1" stop-color="#061a30"/></linearGradient>
+    <radialGradient id="mglow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#2cf6ff" stop-opacity=".5"/><stop offset="1" stop-color="#2cf6ff" stop-opacity="0"/></radialGradient>
+  </defs>
+  <ellipse cx="180" cy="150" rx="170" ry="110" fill="url(#mglow)"/>
+  <path d="M60 150 L110 70 L130 90 L160 40 L200 110 L230 85 L290 150 Q180 175 60 150 Z" fill="url(#mg)" stroke="#2cf6ff" stroke-width="1.5" opacity=".95"/>
+  <path d="M110 70 L118 150 M160 40 L165 150 M200 110 L205 155 M230 85 L240 152" stroke="#19ffc6" stroke-width="1" opacity=".5"/>
+  <path d="M120 165 Q150 190 140 230 M170 170 Q185 200 175 245 M225 165 Q205 195 215 235" stroke="#19ffc6" stroke-width="2" fill="none" opacity=".7" stroke-linecap="round"/>
+  <circle cx="140" cy="232" r="3" fill="#19ffc6"/><circle cx="175" cy="247" r="3" fill="#2cf6ff"/><circle cx="215" cy="237" r="3" fill="#ff4fd8"/>
+</svg>
+
+<svg class="mount mount2" viewBox="0 0 360 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M40 160 L100 80 L135 115 L175 50 L230 130 L290 160 Q170 185 40 160 Z" fill="#0e3556" stroke="#a45cff" stroke-width="2" opacity=".9"/>
+  <path d="M130 175 Q150 205 142 245 M190 178 Q205 210 196 250" stroke="#a45cff" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"/>
+</svg>
+
+<svg class="scene" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <linearGradient id="gnd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#062b3a"/><stop offset="1" stop-color="#01070f"/></linearGradient>
+    <radialGradient id="canopy" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#a45cff" stop-opacity=".95"/><stop offset=".55" stop-color="#2cf6ff" stop-opacity=".5"/><stop offset="1" stop-color="#2cf6ff" stop-opacity="0"/></radialGradient>
+    <radialGradient id="bulb" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#19ffc6"/><stop offset="1" stop-color="#19ffc6" stop-opacity="0"/></radialGradient>
+  </defs>
+  <path d="M0 330 Q200 270 380 320 T760 310 T1200 300 L1200 420 L0 420 Z" fill="url(#gnd)"/>
+  <ellipse cx="900" cy="130" rx="260" ry="130" fill="url(#canopy)"/>
+  <path d="M900 330 C905 260 890 220 880 190 C870 165 850 150 820 140 M900 330 C895 270 910 225 925 195 C940 170 965 155 1000 148 M900 330 C900 260 898 200 900 150" stroke="#12354f" stroke-width="16" fill="none" stroke-linecap="round"/>
+  <path d="M900 330 C905 260 890 220 880 190 C870 165 850 150 820 140 M900 330 C895 270 910 225 925 195 C940 170 965 155 1000 148 M900 330 C900 260 898 200 900 150" stroke="#2cf6ff" stroke-width="2" fill="none" stroke-linecap="round" opacity=".8"/>
+  <g stroke="#a45cff" stroke-width="1.6" fill="none" opacity=".9">
+    <path d="M820 140 Q780 150 760 190 M820 140 Q800 110 770 105 M1000 148 Q1050 150 1075 185 M1000 148 Q1030 110 1065 108 M900 150 Q880 105 860 80 M900 150 Q925 100 950 82"/>
+  </g>
+  <g fill="#19ffc6" opacity=".95">
+    <circle cx="760" cy="190" r="4"/><circle cx="770" cy="105" r="4"/><circle cx="1075" cy="185" r="4"/><circle cx="1065" cy="108" r="4"/><circle cx="860" cy="80" r="4"/><circle cx="950" cy="82" r="4"/>
+  </g>
+  <g>
+    <path d="M120 340 Q110 280 140 240 Q170 280 160 340 Z" fill="#0b3a52" stroke="#19ffc6" stroke-width="1.5"/>
+    <circle cx="140" cy="240" r="26" fill="url(#bulb)"/>
+    <path d="M210 345 Q215 290 190 262 Q250 285 240 345 Z" fill="#0b3550" stroke="#2cf6ff" stroke-width="1.5"/>
+    <circle cx="198" cy="268" r="20" fill="url(#bulb)"/>
+    <path d="M330 350 Q320 305 345 280 Q372 310 362 350 Z" fill="#0b3a52" stroke="#a45cff" stroke-width="1.5"/>
+    <circle cx="345" cy="280" r="22" fill="url(#bulb)"/>
+    <path d="M560 335 Q548 290 575 262 Q604 292 592 335 Z" fill="#0b3a52" stroke="#19ffc6" stroke-width="1.5"/>
+    <circle cx="575" cy="262" r="24" fill="url(#bulb)"/>
+    <path d="M660 330 Q672 285 650 258 Q700 280 690 330 Z" fill="#0b3550" stroke="#ff4fd8" stroke-width="1.5"/>
+    <circle cx="656" cy="262" r="18" fill="url(#bulb)"/>
+  </g>
+  <g stroke="#19ffc6" stroke-width="2" fill="none" stroke-linecap="round" opacity=".85">
+    <path d="M30 360 Q20 320 40 295 M50 360 Q58 325 80 305 M440 365 Q430 330 450 308 M470 365 Q480 335 500 318 M1110 350 Q1100 315 1120 290 M1140 350 Q1150 320 1170 305"/>
+  </g>
+</svg>
+
+<main>
+  <div class="banner">
+    <div class="kicker">t2a21-spy-sara.html</div>
+    <div class="title">Spy Code Console</div>
+  </div>
+
+  <section class="panel" id="original">
+    <span class="tag">VERSION ONE &middot; ORIGINAL</span>
+<h1 align=center>t2a21-spy-by-fred.html</h1>
+<textarea id="myArea01" rows=4 cols=70>Hello how are you</textarea><br> 
+
+
+<input type=button value="encrypt" onclick="{
+   let myTemp = ''
+   myString = document.getElementById('myArea01').value.toLowerCase().split('')
+   for (let myLoop=0;   myLoop < myString.length; myLoop++){
+      myTemp = myString[myLoop]
+      if (myString[myLoop] == 'e') {myTemp  = 'f'} 
+      if (myString[myLoop] == 'h') {myTemp  = 'i'} 
+      myString[myLoop] = myTemp
+   }
+   document.getElementById('myArea02').value = myString.join('')
+}"><br><br>
+
+
+
+<textarea id="myArea02" rows=4 cols=70></textarea><br> 
+
+<input type=button value="decrypt" onclick="{
+   alert('Sorry, you have to do this!')
+}"><br><br>
+
 
 <textarea id="myArea03" rows=4 cols=70></textarea><br>
+  </section>
+
+  <section class="panel" id="v2">
+    <span class="tag">VERSION TWO &middot; SHIFT CIPHER</span>
+    <h2>Eywa Shift</h2>
+    <p class="note">Every letter slides along the alphabet by the key you choose. The original swaps are a shift of one for two letters; this version shifts them all and decrypts for real.</p>
+    <textarea id="shiftIn" rows="4">Hello how are you</textarea>
+    <div class="row">
+      <label for="shiftKey">Shift key</label>
+      <input type="number" id="shiftKey" value="1" min="-25" max="25">
+      <input type="button" value="encrypt" id="shiftEnc">
+      <input type="button" class="alt" value="decrypt" id="shiftDec">
+    </div>
+    <textarea id="shiftOut" rows="4" placeholder="Result appears here"></textarea>
+  </section>
+
+  <section class="panel" id="v3">
+    <span class="tag">VERSION THREE &middot; CUSTOM RULES</span>
+    <h2>Rule Weaver</h2>
+    <p class="note">Write your own swap rules as pairs such as e:f,h:i. This is the original idea made flexible, and the reverse map makes decrypting work.</p>
+    <textarea id="ruleIn" rows="4">Hello how are you</textarea>
+    <div class="row">
+      <label for="ruleSet">Rules</label>
+      <input type="text" id="ruleSet" value="e:f,h:i,o:x">
+    </div>
+    <div class="row">
+      <input type="button" value="encrypt" id="ruleEnc">
+      <input type="button" class="alt" value="decrypt" id="ruleDec">
+    </div>
+    <textarea id="ruleOut" rows="4" placeholder="Result appears here"></textarea>
+  </section>
+
+  <section class="panel" id="v4">
+    <span class="tag">VERSION FOUR &middot; MIRROR CODE</span>
+    <h2>Mirror Spirit</h2>
+    <p class="note">The alphabet is flipped so a becomes z and b becomes y. Optionally the word order is reversed as a second layer of secrecy.</p>
+    <textarea id="mirIn" rows="4">Hello how are you</textarea>
+    <div class="row">
+      <input type="checkbox" id="mirRev">
+      <label for="mirRev">Also reverse word order</label>
+    </div>
+    <div class="row">
+      <input type="button" value="encrypt" id="mirEnc">
+      <input type="button" class="alt" value="decrypt" id="mirDec">
+    </div>
+    <textarea id="mirOut" rows="4" placeholder="Result appears here"></textarea>
+  </section>
+</main>
+<footer>t2a21 &middot; spy by fred</footer>
+
+<script>
+(function(){
+  var c=document.getElementById('spores');
+  var x=c.getContext('2d');
+  var w=0,h=0,dots=[];
+  var cols=['44,246,255','25,255,198','164,92,255','255,79,216'];
+  function size(){
+    var r=window.devicePixelRatio||1;
+    w=window.innerWidth;h=window.innerHeight;
+    c.width=w*r;c.height=h*r;
+    x.setTransform(r,0,0,r,0,0);
+  }
+  function make(){
+    dots=[];
+    var n=Math.min(90,Math.floor(w/14));
+    for(var i=0;i<n;i++){
+      dots.push({
+        x:Math.random()*w,y:Math.random()*h,
+        r:Math.random()*2.6+.6,
+        vx:(Math.random()-.5)*.25,vy:-(Math.random()*.4+.1),
+        p:Math.random()*6.28,s:Math.random()*.02+.008,
+        k:cols[Math.floor(Math.random()*cols.length)]
+      });
+    }
+  }
+  function tick(){
+    x.clearRect(0,0,w,h);
+    for(var i=0;i<dots.length;i++){
+      var d=dots[i];
+      d.x+=d.vx+Math.sin(d.p)*.3;d.y+=d.vy;d.p+=d.s;
+      if(d.y<-10){d.y=h+10;d.x=Math.random()*w}
+      if(d.x<-10)d.x=w+10;
+      if(d.x>w+10)d.x=-10;
+      var a=.35+Math.sin(d.p*3)*.3;
+      var g=x.createRadialGradient(d.x,d.y,0,d.x,d.y,d.r*6);
+      g.addColorStop(0,'rgba('+d.k+','+a+')');
+      g.addColorStop(1,'rgba('+d.k+',0)');
+      x.fillStyle=g;
+      x.beginPath();x.arc(d.x,d.y,d.r*6,0,6.2832);x.fill();
+    }
+    requestAnimationFrame(tick);
+  }
+  size();make();tick();
+  window.addEventListener('resize',function(){size();make()});
+
+  function norm(n){n=parseInt(n,10);if(isNaN(n))n=0;return((n%26)+26)%26}
+  function shift(t,n){
+    var out='';
+    for(var i=0;i<t.length;i++){
+      var k=t.charCodeAt(i);
+      if(k>=97&&k<=122)out+=String.fromCharCode((k-97+n)%26+97);
+      else if(k>=65&&k<=90)out+=String.fromCharCode((k-65+n)%26+65);
+      else out+=t.charAt(i);
+    }
+    return out;
+  }
+  document.getElementById('shiftEnc').onclick=function(){
+    var n=norm(document.getElementById('shiftKey').value);
+    document.getElementById('shiftOut').value=shift(document.getElementById('shiftIn').value,n);
+  };
+  document.getElementById('shiftDec').onclick=function(){
+    var n=norm(document.getElementById('shiftKey').value);
+    document.getElementById('shiftOut').value=shift(document.getElementById('shiftIn').value,(26-n)%26);
+  };
+
+  function rules(){
+    var f={},r={};
+    var parts=document.getElementById('ruleSet').value.toLowerCase().split(',');
+    for(var i=0;i<parts.length;i++){
+      var p=parts[i].split(':');
+      if(p.length===2){
+        var a=p[0].trim(),b=p[1].trim();
+        if(a.length===1&&b.length===1){f[a]=b;r[b]=a}
+      }
+    }
+    return{f:f,r:r};
+  }
+  function apply(t,m){
+    var s=t.toLowerCase().split('');
+    for(var i=0;i<s.length;i++){if(m.hasOwnProperty(s[i]))s[i]=m[s[i]]}
+    return s.join('');
+  }
+  document.getElementById('ruleEnc').onclick=function(){
+    document.getElementById('ruleOut').value=apply(document.getElementById('ruleIn').value,rules().f);
+  };
+  document.getElementById('ruleDec').onclick=function(){
+    document.getElementById('ruleOut').value=apply(document.getElementById('ruleIn').value,rules().r);
+  };
+
+  function mirror(t){
+    var out='';
+    for(var i=0;i<t.length;i++){
+      var k=t.charCodeAt(i);
+      if(k>=97&&k<=122)out+=String.fromCharCode(219-k);
+      else if(k>=65&&k<=90)out+=String.fromCharCode(155-k);
+      else out+=t.charAt(i);
+    }
+    return out;
+  }
+  function flip(t){return t.split(/(\s+)/).reverse().join('')}
+  document.getElementById('mirEnc').onclick=function(){
+    var t=mirror(document.getElementById('mirIn').value);
+    if(document.getElementById('mirRev').checked)t=flip(t);
+    document.getElementById('mirOut').value=t;
+  };
+  document.getElementById('mirDec').onclick=function(){
+    var t=document.getElementById('mirIn').value;
+    if(document.getElementById('mirRev').checked)t=flip(t);
+    document.getElementById('mirOut').value=mirror(t);
+  };
+})();
+</script>
+</body>
+</html>
