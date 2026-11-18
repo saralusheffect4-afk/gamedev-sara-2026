@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>t2a22 Local Storage Fred</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --water:#27d3ff;
+  --earth:#4dff88;
+  --fire:#ff5a2b;
+  --air:#e8f4ff;
+  --void:#05060f;
+  --panel:rgba(14,18,40,.72);
+  --edge:rgba(255,255,255,.12);
+  --accent:var(--water);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  padding:48px clamp(16px,5vw,72px) 96px;
+  color:var(--air);
+  font-family:'Rajdhani',system-ui,sans-serif;
+  font-size:18px;
+  line-height:1.5;
+  background:
+    radial-gradient(1100px 600px at 10% -10%,rgba(39,211,255,.22),transparent 60%),
+    radial-gradient(900px 600px at 95% 10%,rgba(255,90,43,.2),transparent 60%),
+    radial-gradient(900px 700px at 50% 120%,rgba(77,255,136,.16),transparent 60%),
+    var(--void);
+  background-attachment:fixed;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20% 30%,rgba(255,255,255,.7),transparent),
+    radial-gradient(1px 1px at 70% 60%,rgba(255,255,255,.6),transparent),
+    radial-gradient(1.5px 1.5px at 40% 80%,rgba(255,255,255,.5),transparent),
+    radial-gradient(1px 1px at 85% 20%,rgba(255,255,255,.6),transparent);
+  background-size:420px 420px;
+  animation:drift 90s linear infinite;
+  opacity:.7;
+}
+@keyframes drift{to{background-position:420px 840px}}
+h2{
+  margin:0 0 8px;
+  font-family:'Cinzel',serif;
+  font-weight:900;
+  font-size:clamp(28px,5vw,56px);
+  letter-spacing:.04em;
+  background:linear-gradient(100deg,var(--water),var(--air) 35%,var(--fire) 70%,var(--earth));
+  background-size:300% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  animation:flow 9s ease-in-out infinite;
+  filter:drop-shadow(0 0 18px rgba(39,211,255,.55));
+}
+@keyframes flow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+body>input[type=text],body>input[type=button],input#myText1{
+  font-family:'Rajdhani',sans-serif;
+  font-size:18px;
+}
+input#myText1{
+  width:min(100%,640px);
+  padding:14px 18px;
+  margin:10px 0 14px;
+  color:var(--air);
+  background:rgba(5,8,22,.8);
+  border:1px solid var(--water);
+  border-radius:14px;
+  outline:none;
+  box-shadow:0 0 0 1px rgba(39,211,255,.2),0 0 22px rgba(39,211,255,.35),inset 0 0 18px rgba(39,211,255,.12);
+  transition:box-shadow .25s,border-color .25s;
+}
+input#myText1:focus{
+  border-color:var(--air);
+  box-shadow:0 0 0 2px rgba(232,244,255,.5),0 0 34px rgba(39,211,255,.8),inset 0 0 22px rgba(39,211,255,.25);
+}
+input#myText1::placeholder{color:rgba(232,244,255,.45)}
+input[type=button]{
+  cursor:pointer;
+  padding:12px 26px;
+  margin:4px 8px 4px 0;
+  font-weight:600;
+  letter-spacing:.06em;
+  color:var(--air);
+  background:linear-gradient(135deg,rgba(39,211,255,.25),rgba(255,90,43,.25));
+  border:1px solid rgba(255,255,255,.35);
+  border-radius:999px;
+  text-shadow:0 0 10px rgba(255,255,255,.7);
+  box-shadow:0 0 16px rgba(39,211,255,.45),0 0 30px rgba(255,90,43,.25);
+  transition:transform .15s,box-shadow .25s;
+}
+input[type=button]:hover{
+  transform:translateY(-2px) scale(1.03);
+  box-shadow:0 0 26px rgba(39,211,255,.85),0 0 48px rgba(255,90,43,.5);
+}
+input[type=button]:active{transform:scale(.97)}
+:focus-visible{outline:2px solid var(--air);outline-offset:3px}
+.tag{
+  margin:0 0 34px;
+  color:rgba(232,244,255,.65);
+  letter-spacing:.2em;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));
+  gap:28px;
+  margin-top:56px;
+}
+.panel{
+  position:relative;
+  padding:28px;
+  background:var(--panel);
+  border:1px solid var(--edge);
+  border-radius:26px;
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:0 0 0 1px rgba(255,255,255,.04),0 20px 60px rgba(0,0,0,.55);
+  isolation:isolate;
+}
+.panel::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  z-index:-1;
+  border-radius:28px;
+  background:conic-gradient(from var(--spin,0deg),var(--water),var(--earth),var(--fire),var(--air),var(--water));
+  filter:blur(14px);
+  opacity:.45;
+  animation:spin 8s linear infinite;
+}
+@property --spin{syntax:'<angle>';initial-value:0deg;inherits:false}
+@keyframes spin{to{--spin:360deg}}
+.panel h3{
+  margin:0 0 4px;
+  font-family:'Cinzel',serif;
+  font-size:26px;
+  letter-spacing:.05em;
+  text-shadow:0 0 16px var(--accent);
+}
+.panel p.sub{margin:0 0 18px;color:rgba(232,244,255,.6)}
+.elements{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 16px}
+.el{
+  cursor:pointer;
+  padding:9px 18px;
+  font:600 16px 'Rajdhani',sans-serif;
+  letter-spacing:.08em;
+  color:var(--air);
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--c);
+  border-radius:999px;
+  transition:box-shadow .2s,background .2s,transform .15s;
+}
+.el[data-e=water]{--c:var(--water)}
+.el[data-e=earth]{--c:var(--earth)}
+.el[data-e=fire]{--c:var(--fire)}
+.el[data-e=air]{--c:var(--air)}
+.el:hover{transform:translateY(-2px)}
+.el.on{
+  background:color-mix(in srgb,var(--c) 28%,transparent);
+  box-shadow:0 0 18px var(--c),inset 0 0 14px color-mix(in srgb,var(--c) 40%,transparent);
+  text-shadow:0 0 10px var(--c);
+}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row input[type=text],.row textarea,.search{
+  flex:1 1 220px;
+  padding:13px 16px;
+  font:500 18px 'Rajdhani',sans-serif;
+  color:var(--air);
+  background:rgba(5,8,22,.8);
+  border:1px solid var(--accent);
+  border-radius:14px;
+  outline:none;
+  box-shadow:0 0 18px color-mix(in srgb,var(--accent) 40%,transparent),inset 0 0 14px color-mix(in srgb,var(--accent) 12%,transparent);
+  transition:box-shadow .25s,border-color .25s;
+}
+.row textarea{min-height:120px;resize:vertical;width:100%}
+.row input:focus,.row textarea:focus,.search:focus{
+  border-color:var(--air);
+  box-shadow:0 0 30px var(--accent),inset 0 0 20px color-mix(in srgb,var(--accent) 25%,transparent);
+}
+.btn{
+  cursor:pointer;
+  padding:12px 24px;
+  font:600 17px 'Rajdhani',sans-serif;
+  letter-spacing:.07em;
+  color:var(--air);
+  background:color-mix(in srgb,var(--accent) 22%,transparent);
+  border:1px solid var(--accent);
+  border-radius:999px;
+  text-shadow:0 0 10px var(--accent);
+  box-shadow:0 0 16px color-mix(in srgb,var(--accent) 55%,transparent);
+  transition:transform .15s,box-shadow .25s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 0 30px var(--accent)}
+.btn.ghost{background:transparent;--accent:rgba(232,244,255,.6)}
+.meter{
+  position:relative;
+  height:14px;
+  margin:20px 0 6px;
+  overflow:hidden;
+  background:rgba(255,255,255,.07);
+  border-radius:999px;
+  box-shadow:inset 0 0 10px rgba(0,0,0,.6);
+}
+.meter i{
+  display:block;
+  height:100%;
+  width:0;
+  border-radius:inherit;
+  background:linear-gradient(90deg,var(--water),var(--earth),var(--fire));
+  box-shadow:0 0 18px var(--water),0 0 30px var(--earth);
+  transition:width .6s cubic-bezier(.2,.9,.2,1);
+}
+.stat{display:flex;justify-content:space-between;color:rgba(232,244,255,.7);font-size:16px}
+.filters{display:flex;gap:8px;margin:14px 0 6px;flex-wrap:wrap}
+.filters .btn{padding:7px 16px;font-size:15px}
+.filters .btn.on{background:color-mix(in srgb,var(--accent) 45%,transparent);box-shadow:0 0 24px var(--accent)}
+ul.list{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:12px}
+ul.list li{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 16px;
+  background:rgba(255,255,255,.04);
+  border:1px solid color-mix(in srgb,var(--c) 70%,transparent);
+  border-left:5px solid var(--c);
+  border-radius:16px;
+  box-shadow:0 0 16px color-mix(in srgb,var(--c) 30%,transparent);
+  animation:pop .35s cubic-bezier(.2,.9,.2,1);
+}
+@keyframes pop{from{opacity:0;transform:scale(.94) translateY(8px)}to{opacity:1;transform:none}}
+ul.list li[data-e=water]{--c:var(--water)}
+ul.list li[data-e=earth]{--c:var(--earth)}
+ul.list li[data-e=fire]{--c:var(--fire)}
+ul.list li[data-e=air]{--c:var(--air)}
+ul.list li span.t{flex:1;word-break:break-word}
+ul.list li.done span.t{text-decoration:line-through;opacity:.45}
+.check{
+  appearance:none;
+  -webkit-appearance:none;
+  flex:none;
+  width:26px;
+  height:26px;
+  cursor:pointer;
+  border:2px solid var(--c);
+  border-radius:50%;
+  box-shadow:0 0 12px var(--c);
+  transition:background .2s,box-shadow .2s;
+}
+.check:checked{background:var(--c);box-shadow:0 0 22px var(--c),inset 0 0 8px #fff}
+.x{
+  flex:none;
+  cursor:pointer;
+  width:34px;
+  height:34px;
+  font:600 20px 'Rajdhani',sans-serif;
+  color:var(--air);
+  background:transparent;
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:50%;
+  transition:box-shadow .2s,border-color .2s;
+}
+.x:hover{border-color:var(--fire);box-shadow:0 0 16px var(--fire)}
+.entry{display:block;padding:16px 18px}
+.entry header{display:flex;justify-content:space-between;gap:10px;font-size:15px;color:rgba(232,244,255,.65)}
+.entry strong{color:var(--c);text-shadow:0 0 10px var(--c);letter-spacing:.08em}
+.entry p{margin:8px 0 10px;white-space:pre-wrap;word-break:break-word}
+.entry footer{display:flex;gap:8px}
+.entry footer .x{width:auto;padding:0 14px;border-radius:999px;font-size:15px}
+.empty{
+  padding:22px;
+  text-align:center;
+  color:rgba(232,244,255,.5);
+  border:1px dashed rgba(255,255,255,.2);
+  border-radius:16px;
+}
+.autosave{margin:8px 0 0;font-size:15px;color:var(--earth);text-shadow:0 0 10px var(--earth);min-height:22px}
+.mark{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  padding:10px 18px;
+  color:var(--air);
+  background:rgba(5,8,22,.85);
+  border:1px solid var(--water);
+  border-radius:999px;
+  box-shadow:0 0 24px var(--water);
+  opacity:0;
+  transform:translateY(16px);
+  pointer-events:none;
+  transition:opacity .3s,transform .3s;
+  z-index:20;
+}
+.mark.show{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  *,*::before{animation:none!important;transition:none!important}
+}
+@media(max-width:560px){
+  body{font-size:16px}
+  .panel{padding:20px}
+}
+</style>
+</head>
+
+<h2>t2a22-local-storage-fred.html</h2>
+
+Use local storage to make a to-do list
+
+<body onload="{
+   myStorage = localStorage.getItem('myStoredText')
+   if(myStorage  != null){
+      document.getElementById('myText1').value = myStorage 
+    }
+}">
+
+<body onunload="{
+   localstorage.setItem('myStoredText',document.getElementById('myText1').value)
+}">   
+
+Text example: <input id="myText1" type=text size=70 value="" placeholder="Write here to store"><br>
+
+<input type="button" value="Store Text" onClick="{
+   localStorage.setItem('myStoredText', document.getElementById('myText1').value)
+   alert(document.getElementById('myText1').value + ' \nHas been stored')
+   document.getElementById('myText1').value = ''
+}">
+
+<input type="button" value="Retrieve Text" onClick="{
+   document.getElementById('myText1').value = localStorage.getItem('myStoredText')
+}">
+
+<p class="tag">Four nations. One balance. Every word you keep is saved in this browser.</p>
+
+<div class="grid">
+
+<section class="panel" id="questPanel">
+  <h3>Quest Scroll</h3>
+  <p class="sub">Track your training. Tasks stay saved after you close the page.</p>
+  <div class="elements" id="questElements">
+    <button type="button" class="el on" data-e="water">Water</button>
+    <button type="button" class="el" data-e="earth">Earth</button>
+    <button type="button" class="el" data-e="fire">Fire</button>
+    <button type="button" class="el" data-e="air">Air</button>
+  </div>
+  <div class="row">
+    <input type="text" id="questInput" placeholder="Add a quest, then press Enter" maxlength="120">
+    <button type="button" class="btn" id="questAdd">Add quest</button>
+  </div>
+  <div class="meter"><i id="questBar"></i></div>
+  <div class="stat"><span id="questCount">0 of 0 complete</span><span id="questPct">0%</span></div>
+  <div class="filters" id="questFilters">
+    <button type="button" class="btn on" data-f="all">All</button>
+    <button type="button" class="btn" data-f="open">Open</button>
+    <button type="button" class="btn" data-f="done">Done</button>
+    <button type="button" class="btn ghost" id="questClear">Clear finished</button>
+  </div>
+  <ul class="list" id="questList"></ul>
+</section>
+
+<section class="panel" id="journalPanel">
+  <h3>Spirit Journal</h3>
+  <p class="sub">Write an entry, choose its element, and search your past entries.</p>
+  <div class="elements" id="journalElements">
+    <button type="button" class="el" data-e="water">Water</button>
+    <button type="button" class="el" data-e="earth">Earth</button>
+    <button type="button" class="el on" data-e="fire">Fire</button>
+    <button type="button" class="el" data-e="air">Air</button>
+  </div>
+  <div class="row">
+    <textarea id="journalText" placeholder="What did you learn today?" maxlength="600"></textarea>
+  </div>
+  <div class="autosave" id="journalAuto"></div>
+  <div class="row" style="margin-top:12px">
+    <button type="button" class="btn" id="journalSave">Save entry</button>
+    <button type="button" class="btn ghost" id="journalWipe">Delete all entries</button>
+    <input type="text" class="search" id="journalSearch" placeholder="Search entries">
+  </div>
+  <ul class="list" id="journalList"></ul>
+</section>
+
+</div>
+
+<div class="mark" id="mark"></div>
+
+<script>
+(function(){
+  var ACCENTS={water:'#27d3ff',earth:'#4dff88',fire:'#ff5a2b',air:'#e8f4ff'};
+  var NAMES={water:'Water',earth:'Earth',fire:'Fire',air:'Air'};
+  var markEl=document.getElementById('mark');
+  var markTimer;
+
+  function flash(msg){
+    markEl.textContent=msg;
+    markEl.classList.add('show');
+    clearTimeout(markTimer);
+    markTimer=setTimeout(function(){markEl.classList.remove('show')},1800);
+  }
+
+  function read(key,fallback){
+    try{
+      var raw=localStorage.getItem(key);
+      return raw===null?fallback:JSON.parse(raw);
+    }catch(e){
+      return fallback;
+    }
+  }
+
+  function write(key,value){
+    try{
+      localStorage.setItem(key,JSON.stringify(value));
+      return true;
+    }catch(e){
+      flash('Storage is unavailable');
+      return false;
+    }
+  }
+
+  function uid(){
+    return Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+  }
+
+  function pickElement(containerId,onChange){
+    var box=document.getElementById(containerId);
+    box.addEventListener('click',function(ev){
+      var b=ev.target.closest('.el');
+      if(!b)return;
+      box.querySelectorAll('.el').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on');
+      onChange(b.dataset.e);
+    });
+  }
+
+  var quests=read('avatarQuests',[]);
+  var questElement='water';
+  var questFilter='all';
+  var questList=document.getElementById('questList');
+  var questInput=document.getElementById('questInput');
+  var questPanel=document.getElementById('questPanel');
+
+  function setAccent(panel,e){
+    panel.style.setProperty('--accent',ACCENTS[e]);
+  }
+
+  setAccent(questPanel,questElement);
+  pickElement('questElements',function(e){
+    questElement=e;
+    setAccent(questPanel,e);
+  });
+
+  function renderQuests(){
+    questList.innerHTML='';
+    var shown=quests.filter(function(q){
+      if(questFilter==='open')return !q.done;
+      if(questFilter==='done')return q.done;
+      return true;
+    });
+    if(!shown.length){
+      var empty=document.createElement('li');
+      empty.className='empty';
+      empty.style.display='block';
+      empty.textContent=quests.length?'Nothing matches this filter.':'The scroll is blank. Add your first quest above.';
+      questList.appendChild(empty);
+    }
+    shown.forEach(function(q){
+      var li=document.createElement('li');
+      li.dataset.e=q.e;
+      if(q.done)li.className='done';
+
+      var cb=document.createElement('input');
+      cb.type='checkbox';
+      cb.className='check';
+      cb.checked=q.done;
+      cb.setAttribute('aria-label','Mark quest complete');
+      cb.addEventListener('change',function(){
+        q.done=cb.checked;
+        write('avatarQuests',quests);
+        renderQuests();
+      });
+
+      var t=document.createElement('span');
+      t.className='t';
+      t.textContent=q.text;
+
+      var tag=document.createElement('span');
+      tag.textContent=NAMES[q.e];
+      tag.style.color='var(--c)';
+      tag.style.textShadow='0 0 10px var(--c)';
+      tag.style.fontSize='14px';
+
+      var del=document.createElement('button');
+      del.type='button';
+      del.className='x';
+      del.textContent='x';
+      del.setAttribute('aria-label','Delete quest');
+      del.addEventListener('click',function(){
+        quests=quests.filter(function(z){return z.id!==q.id});
+        write('avatarQuests',quests);
+        renderQuests();
+      });
+
+      li.appendChild(cb);
+      li.appendChild(t);
+      li.appendChild(tag);
+      li.appendChild(del);
+      questList.appendChild(li);
+    });
+
+    var done=quests.filter(function(q){return q.done}).length;
+    var pct=quests.length?Math.round(done/quests.length*100):0;
+    document.getElementById('questBar').style.width=pct+'%';
+    document.getElementById('questCount').textContent=done+' of '+quests.length+' complete';
+    document.getElementById('questPct').textContent=pct+'%';
+  }
+
+  function addQuest(){
+    var v=questInput.value.trim();
+    if(!v){
+      flash('Type a quest first');
+      questInput.focus();
+      return;
+    }
+    quests.unshift({id:uid(),text:v,e:questElement,done:false});
+    write('avatarQuests',quests);
+    questInput.value='';
+    renderQuests();
+    flash('Quest added');
+  }
+
+  document.getElementById('questAdd').addEventListener('click',addQuest);
+  questInput.addEventListener('keydown',function(ev){
+    if(ev.key==='Enter')addQuest();
+  });
+
+  document.getElementById('questFilters').addEventListener('click',function(ev){
+    var b=ev.target.closest('[data-f]');
+    if(!b)return;
+    questFilter=b.dataset.f;
+    this.querySelectorAll('[data-f]').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');
+    renderQuests();
+  });
+
+  document.getElementById('questClear').addEventListener('click',function(){
+    var before=quests.length;
+    quests=quests.filter(function(q){return !q.done});
+    write('avatarQuests',quests);
+    renderQuests();
+    flash(before-quests.length+' finished quests cleared');
+  });
+
+  renderQuests();
+
+  var entries=read('avatarJournal',[]);
+  var journalElement='fire';
+  var journalPanel=document.getElementById('journalPanel');
+  var journalText=document.getElementById('journalText');
+  var journalList=document.getElementById('journalList');
+  var journalSearch=document.getElementById('journalSearch');
+  var journalAuto=document.getElementById('journalAuto');
+  var draftTimer;
+
+  setAccent(journalPanel,journalElement);
+  pickElement('journalElements',function(e){
+    journalElement=e;
+    setAccent(journalPanel,e);
+  });
+
+  var draft=read('avatarJournalDraft','');
+  if(draft){
+    journalText.value=draft;
+    journalAuto.textContent='Draft restored';
+  }
+
+  journalText.addEventListener('input',function(){
+    clearTimeout(draftTimer);
+    journalAuto.textContent='Writing... '+journalText.value.length+' of 600';
+    draftTimer=setTimeout(function(){
+      write('avatarJournalDraft',journalText.value);
+      journalAuto.textContent='Draft saved automatically';
+    },500);
+  });
+
+  function stamp(ms){
+    return new Date(ms).toLocaleString([],{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+  }
+
+  function renderJournal(){
+    var term=journalSearch.value.trim().toLowerCase();
+    journalList.innerHTML='';
+    var shown=entries.filter(function(en){
+      return !term||en.text.toLowerCase().indexOf(term)!==-1||NAMES[en.e].toLowerCase().indexOf(term)!==-1;
+    });
+    if(!shown.length){
+      var empty=document.createElement('li');
+      empty.className='empty';
+      empty.style.display='block';
+      empty.textContent=entries.length?'No entries match your search.':'No entries yet. Write one above and save it.';
+      journalList.appendChild(empty);
+      return;
+    }
+    shown.forEach(function(en){
+      var li=document.createElement('li');
+      li.className='entry';
+      li.dataset.e=en.e;
+
+      var head=document.createElement('header');
+      var who=document.createElement('strong');
+      who.textContent=NAMES[en.e];
+      var when=document.createElement('span');
+      when.textContent=stamp(en.at);
+      head.appendChild(who);
+      head.appendChild(when);
+
+      var p=document.createElement('p');
+      p.textContent=en.text;
+
+      var foot=document.createElement('footer');
+      var edit=document.createElement('button');
+      edit.type='button';
+      edit.className='x';
+      edit.textContent='Edit';
+      edit.addEventListener('click',function(){
+        journalText.value=en.text;
+        journalElement=en.e;
+        setAccent(journalPanel,en.e);
+        document.querySelectorAll('#journalElements .el').forEach(function(b){
+          b.classList.toggle('on',b.dataset.e===en.e);
+        });
+        entries=entries.filter(function(z){return z.id!==en.id});
+        write('avatarJournal',entries);
+        write('avatarJournalDraft',en.text);
+        renderJournal();
+        journalText.focus();
+        flash('Entry moved back to the editor');
+      });
+      var del=document.createElement('button');
+      del.type='button';
+      del.className='x';
+      del.textContent='Delete';
+      del.addEventListener('click',function(){
+        entries=entries.filter(function(z){return z.id!==en.id});
+        write('avatarJournal',entries);
+        renderJournal();
+        flash('Entry deleted');
+      });
+      foot.appendChild(edit);
+      foot.appendChild(del);
+
+      li.appendChild(head);
+      li.appendChild(p);
+      li.appendChild(foot);
+      journalList.appendChild(li);
+    });
+  }
+
+  document.getElementById('journalSave').addEventListener('click',function(){
+    var v=journalText.value.trim();
+    if(!v){
+      flash('Write something first');
+      journalText.focus();
+      return;
+    }
+    entries.unshift({id:uid(),text:v,e:journalElement,at:Date.now()});
+    write('avatarJournal',entries);
+    journalText.value='';
+    try{localStorage.removeItem('avatarJournalDraft')}catch(e){}
+    journalAuto.textContent='';
+    renderJournal();
+    flash('Entry saved');
+  });
+
+  document.getElementById('journalWipe').addEventListener('click',function(){
+    if(!entries.length){
+      flash('There are no entries to delete');
+      return;
+    }
+    if(confirm('Delete all '+entries.length+' journal entries?')){
+      entries=[];
+      write('avatarJournal',entries);
+      renderJournal();
+      flash('Journal cleared');
+    }
+  });
+
+  journalSearch.addEventListener('input',renderJournal);
+
+  renderJournal();
+})();
+</script>
+</body>
+</html>
