@@ -4,650 +4,505 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>t2a20-sort-Sara.html</title>
-
 <style>
-:root {
-    --teal-deep: #05302f;
-    --teal: #0b5555;
-    --ink: #102f42;
-    --mint: #75fff0;
-    --aqua: #50ffe4;
-    --pink: #ff70ce;
-    --magenta: #ff35bd;
-    --text: #e4fffa;
-    --muted: #9fd8d0;
-    --glass: rgba(6, 40, 46, 0.62);
-    --glass-light: rgba(18, 85, 84, 0.38);
-    --font: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+:root{
+  --night:#040a16; --pine:#0f3d2b; --moss:#4ade80; --fire:#ff9d3c; --ember:#ff5a1f;
+  --moon:#f3f0d6; --text:#e6f3e8; --muted:#8fb5a0;
+  --glass:rgba(7,24,22,.74); --edge:rgba(120,230,160,.3);
+  --serif:"Palatino Linotype",Palatino,Georgia,serif;
+  --sans:"Trebuchet MS","Segoe UI",system-ui,sans-serif;
 }
+*{box-sizing:border-box}
+html{background:var(--night)}
+body{margin:0;min-height:100vh;padding:20px 16px 240px;color:var(--text);font-family:var(--sans);line-height:1.5;background:transparent}
 
-* { box-sizing: border-box; }
+.sky{position:fixed;inset:0;z-index:-3;overflow:hidden;pointer-events:none;
+  background:linear-gradient(180deg,#02060f 0%,#071a2e 50%,#0d3a33 100%)}
+.sky canvas{position:absolute;inset:0}
+.aurora{position:absolute;left:-10%;right:-10%;top:4%;height:38%;filter:blur(46px);opacity:.38;mix-blend-mode:screen;
+  background:linear-gradient(90deg,transparent,#2dd4a0,#3b82f6,#a3e635,transparent);animation:drift 20s ease-in-out infinite alternate}
+.aurora.b{top:14%;opacity:.25;background:linear-gradient(90deg,transparent,#a78bfa,#34d399,#22d3ee,transparent);animation-duration:27s;animation-direction:alternate-reverse}
+@keyframes drift{from{transform:translateX(-5%) skewY(-3deg)}to{transform:translateX(5%) skewY(3deg)}}
+.forest{position:fixed;left:0;right:0;bottom:0;height:230px;z-index:-1;pointer-events:none}
+.forest svg{width:100%;height:100%;display:block}
 
-body {
-    background: linear-gradient(135deg, #063b40, #0b5555, #102f42);
-    background-size: 300% 300%;
-    animation: backgroundMove 10s infinite alternate;
-    color: var(--text);
-    font-family: var(--font);
-    line-height: 1.5;
-    text-align: center;
-    padding: 24px 16px 48px;
-    margin: 0;
-    min-height: 100vh;
-    position: relative;
-    overflow-x: hidden;
-}
+h1{display:table;margin:0 auto 4px;padding:4px 16px;font-size:.9rem;font-weight:normal;color:var(--muted);
+  border:1px solid var(--edge);border-radius:999px;background:rgba(0,0,0,.3);letter-spacing:.4px}
 
+.camp{max-width:940px;margin:0 auto}
+.hero{text-align:center;padding:14px 0 6px}
+.hero svg{width:96px;height:64px}
+.hero h2{margin:6px 0 0;font:700 clamp(2rem,6vw,3.2rem)/1.1 var(--serif);color:var(--moon);text-shadow:0 0 28px rgba(255,157,60,.5)}
+.hero p{margin:8px auto 0;color:var(--muted);max-width:46ch}
 
-body::before, body::after {
-    content: "";
-    position: fixed;
-    border-radius: 50%;
-    filter: blur(90px);
-    z-index: -1;
-    pointer-events: none;
-}
-body::before { width: 380px; height: 380px; background: rgba(255, 53, 189, 0.22); top: -80px; left: -100px; }
-body::after  { width: 420px; height: 420px; background: rgba(0, 255, 225, 0.18); bottom: -120px; right: -120px; }
+.panel{margin-top:22px;padding:24px;border-radius:22px;background:var(--glass);border:1px solid var(--edge);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 14px 44px rgba(0,0,0,.45)}
+.panel h3{margin:0 0 6px;font:700 1.3rem var(--serif);color:var(--moss)}
+.panel .sub{margin:0 0 16px;color:var(--muted);font-size:.92rem}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
 
-@keyframes backgroundMove {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 100% 50%; }
-}
+input[type=button]{font:inherit;font-weight:bold;cursor:pointer;color:#06210f;padding:11px 18px;border-radius:12px;border:0;
+  background:linear-gradient(180deg,#6ef0a0,#2fb867);box-shadow:0 3px 0 #1a7a42,0 6px 14px rgba(0,0,0,.35);
+  transition:transform .15s,box-shadow .15s,filter .15s}
+input[type=button]:hover{transform:translateY(-2px);filter:brightness(1.08)}
+input[type=button]:active{transform:translateY(2px);box-shadow:0 1px 0 #1a7a42}
+input[type=button].fire{background:linear-gradient(180deg,#ffc069,#ff8a2b);box-shadow:0 3px 0 #b3540c,0 6px 14px rgba(0,0,0,.35)}
+input[type=button]:disabled{opacity:.45;cursor:not-allowed;transform:none}
+:focus-visible{outline:3px solid var(--moon);outline-offset:2px}
+label{color:var(--muted);font-size:.9rem}
+input[type=range]{accent-color:var(--moss);width:130px}
 
-h1 {
-    color: var(--mint);
-    font-size: clamp(28px, 5vw, 44px);
-    letter-spacing: 0.5px;
-    margin: 6px 0 4px;
-    text-shadow: 0 0 15px #00ffe1, 0 0 30px rgba(0, 255, 225, 0.6);
-}
+#myDiv01{margin-top:16px;padding:14px 18px;min-height:50px;text-align:left;border-radius:14px;background:rgba(0,0,0,.38);
+  border:1px solid var(--edge);font-family:Consolas,monospace}
 
-h2 {
-    color: var(--pink);
-    font-size: 1.35rem;
-    margin: 0 0 14px;
-    text-shadow: 0 0 12px #ff35bd;
-}
+.stage{position:relative;margin-top:16px;padding:22px 10px 0;border-radius:16px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(2,8,18,.7),rgba(15,61,43,.55));border:1px solid var(--edge);transition:box-shadow .6s}
+.stage.glow{box-shadow:inset 0 -60px 90px -30px rgba(255,120,40,.45)}
+.bars{display:flex;align-items:flex-end;justify-content:center;gap:8px;height:240px;position:relative;z-index:1}
+.bar{flex:0 1 58px;min-width:18px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.tree{width:100%;background:linear-gradient(180deg,#8cf5b0,#1b7a46);transition:height .3s ease;
+  clip-path:polygon(50% 0,92% 38%,70% 38%,100% 70%,64% 70%,64% 100%,36% 100%,36% 70%,0 70%,30% 38%,8% 38%)}
+.bar span{margin-top:6px;font-weight:bold;font-size:.95rem}
+.bar.cmp .tree{background:linear-gradient(180deg,#ffe08a,var(--fire));filter:drop-shadow(0 0 10px var(--fire))}
+.bar.done .tree{background:linear-gradient(180deg,#d4ffe2,#3ccf78)}
+.hint{align-self:center;color:var(--muted);margin:0}
 
-h3 { margin: 6px 0 8px; font-size: 1.05rem; }
+.fire-svg{position:absolute;left:14px;bottom:4px;width:78px;height:78px;z-index:0}
+.fire-svg .flames{opacity:0;transform-origin:50% 100%;transition:opacity .5s}
+.fire-svg.lit .flames{opacity:1;animation:flicker .45s ease-in-out infinite alternate}
+.fire-svg.lit .glow{opacity:1}
+.fire-svg .glow{opacity:0;transition:opacity .6s}
+@keyframes flicker{from{transform:scale(1,1) skewX(-3deg)}to{transform:scale(1.08,1.15) skewX(3deg)}}
 
-p { color: var(--muted); }
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.stat{padding:12px;border-radius:14px;text-align:center;background:rgba(0,0,0,.35);border:1px solid var(--edge)}
+.stat b{display:block;font:700 1.5rem var(--serif);color:var(--moon)}
+.stat small{color:var(--muted)}
+#algoInfo{margin:14px 0 0;padding:12px 16px;border-left:3px solid var(--fire);background:rgba(0,0,0,.3);border-radius:0 12px 12px 0;color:var(--text)}
 
-.mainBox {
-    max-width: 880px;
-    margin: auto;
-    padding: 30px;
-    border: 1px solid rgba(80, 255, 228, 0.55);
-    border-radius: 28px;
-    background: var(--glass);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
-    box-shadow: 0 0 20px #00ffe1, inset 0 1px 0 rgba(255, 255, 255, 0.12);
-    animation: glowing 3s infinite alternate;
-}
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:16px}
+.lane{padding:12px;border-radius:14px;background:rgba(0,0,0,.35);border:1px solid var(--edge)}
+.lane.win{border-color:var(--fire);box-shadow:0 0 18px rgba(255,157,60,.35)}
+.lane header{display:flex;justify-content:space-between;align-items:baseline}
+.lane h4{margin:0;font:700 1rem var(--serif);color:var(--moon)}
+.rank{color:var(--fire);font-weight:bold}
+.laneBars{display:flex;align-items:flex-end;gap:2px;height:96px;margin:8px 0}
+.laneBars i{flex:1;border-radius:3px 3px 0 0;background:linear-gradient(180deg,#8cf5b0,#1b7a46)}
+.laneBars i.c{background:linear-gradient(180deg,#ffe08a,var(--fire))}
+.laneBars i.d{background:linear-gradient(180deg,#d4ffe2,#3ccf78)}
+.lane small{color:var(--muted)}
 
-@keyframes glowing {
-    from { box-shadow: 0 0 10px #00ffe1, inset 0 1px 0 rgba(255, 255, 255, 0.12); }
-    to { box-shadow: 0 0 30px #ff35bd, inset 0 1px 0 rgba(255, 255, 255, 0.12); }
-}
-
-button, input, select {
-    font-family: inherit;
-    font-size: 0.95rem;
-    padding: 12px 16px;
-    margin: 6px;
-    border-radius: 14px;
-    border: 1.5px solid var(--aqua);
-    background: rgba(18, 70, 75, 0.85);
-    color: white;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s, transform 0.25s;
-}
-
-input[type=text], select { min-width: 180px; }
-input::placeholder { color: #8fcfc6; }
-
-input:focus-visible, select:focus-visible, button:focus-visible {
-    border-color: var(--mint);
-    box-shadow: 0 0 0 3px rgba(117, 255, 240, 0.35);
-}
-
-select option { background: #0e3a3e; color: white; }
-
-button, input[type=button] {
-    background: linear-gradient(135deg, #ed36a9, #a829bc);
-    border-color: var(--pink);
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 0 10px #ff35bd;
-    transition: 0.3s;
-}
-
-button:hover, input[type=button]:hover {
-    transform: scale(1.06) translateY(-1px);
-    box-shadow: 0 0 25px #ff35bd;
-}
-
-button:active, input[type=button]:active { transform: scale(0.97); }
-
-.section {
-    margin-top: 26px;
-    padding: 24px;
-    border: 1px solid rgba(80, 255, 228, 0.6);
-    border-radius: 20px;
-    background: var(--glass-light);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-}
-
-#myDiv01 {
-    padding: 18px 20px;
-    margin-top: 16px;
-    border: 1px solid rgba(80, 255, 228, 0.6);
-    border-radius: 14px;
-    background: rgba(0, 25, 30, 0.45);
-    min-height: 40px;
-    text-align: left;
-}
-
-    
-.bars {
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    gap: 12px;
-    min-height: 130px;
-    margin-top: 16px;
-}
-
-.bar {
-    width: 56px;
-    border-radius: 12px 12px 4px 4px;
-    background: linear-gradient(180deg, var(--magenta), #00ffe1);
-    box-shadow: 0 0 14px rgba(0, 255, 225, 0.45);
-    color: #022;
-    font-weight: bold;
-    padding-top: 6px;
-    transition: height 0.5s ease;
-}
-
-.plantCard {
-    display: inline-block;
-    vertical-align: top;
-    width: 190px;
-    padding: 16px;
-    margin: 10px;
-    border-radius: 18px;
-    border: 1px solid var(--pink);
-    background: linear-gradient(160deg, rgba(26, 82, 84, 0.95), rgba(14, 52, 60, 0.95));
-    box-shadow: 0 0 12px #ff35bd;
-    animation: appear 0.6s ease;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.plantCard:hover {
-    transform: translateY(-7px);
-    box-shadow: 0 0 25px #00ffe1;
-}
-
-.plantCard.done { border-color: var(--aqua); }
-.plantCard button { padding: 8px 12px; font-size: 0.82rem; margin: 3px; }
-
-@keyframes appear {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.plantEmoji {
-    font-size: 42px;
-    filter: drop-shadow(0 0 10px rgba(255, 112, 206, 0.6));
-    animation: sway 4s ease-in-out infinite alternate;
-    transform-origin: bottom center;
-}
-
-@keyframes sway {
-    from { transform: rotate(-4deg); }
-    to { transform: rotate(4deg); }
-}
-
-
-.track { width: 100%; background: #16494b; border-radius: 20px; overflow: hidden; border: 1px solid rgba(80, 255, 228, 0.4); }
-
-.tank {
-    width: 100%;
-    max-width: 420px;
-    height: 14px;
-    margin: 0 auto 10px;
-    border-radius: 20px;
-    background: rgba(0, 20, 30, 0.6);
-    border: 1px solid rgba(80, 255, 228, 0.5);
-    overflow: hidden;
-}
-#waterLevel {
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(90deg, #2bb8ff, #00ffe1);
-    transition: width 0.4s ease;
-}
-
-#waterCount { margin: 6px 0 10px; font-size: 2.2rem; }
-
-.footer {
-    color: #ff8bd8;
-    margin-top: 32px;
-    font-size: 0.95rem;
-}
-
-@media (max-width: 560px) {
-    .mainBox { padding: 18px; border-radius: 22px; }
-    .section { padding: 16px; }
-    .plantCard { width: 100%; max-width: 280px; }
-    input[type=text], select { width: 100%; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation: none !important; transition: none !important; }
-}
-
+.footer{text-align:center;color:var(--muted);margin-top:30px;font-size:.92rem}
+@media(max-width:600px){.panel{padding:16px}.bars{gap:4px}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
-
 <body>
 
-<div class="mainBox">
+<div class="sky"><div class="aurora"></div><div class="aurora b"></div><canvas id="skyCv"></canvas></div>
+<div class="forest"><svg id="forestSvg" viewBox="0 0 1200 230" preserveAspectRatio="xMidYMax slice"></svg></div>
 
-<h1>🌿 Sara's Neon Botanical Garden 🌿</h1>
-<p>Grow, organize and watch your garden bloom!</p>
-<div style="font-size:35px;">🌷 🪴 🌸 🌱 🦋</div>
+<div class="camp">
 
-
-
-
-<div class="section">
-
-<h2>🌱 My Random Garden Numbers</h2>
+<h1 align=center>t2a20-sort-fred.html</h1>
 
 <script>
-let myMax = 3     
-let myCards = new Array (myMax)
-
-
-function drawBars(){
-    let myBars = '';
-    for (let myLoop = 0; myLoop < myMax; myLoop++){
-        if (myCards[myLoop] === undefined) { continue; }
-        myBars += '<div class="bar" style="height:' + (myCards[myLoop] * 11 + 34) + 'px">' + myCards[myLoop] + '</div>';
-    }
-    document.getElementById('myBars').innerHTML = myBars;
-}
+   let myMax = 3      // 52 when working
+   let myCards = new Array(myMax)  
 </script>
 
-<input type=button value="Set random" onclick="{
-  for (let myLoop = 0; myLoop < myMax; myLoop++){
-  myCards[myLoop] = Math.floor(Math.random()*10)}
-  document.getElementById('myDiv01').innerHTML = 'Random numbers created! 🌱'
-  drawBars()
+<input type=button value="Set Random" onclick="{
+  for ( let myLoop = 0;   myLoop < myMax;  myLoop++){
+     myCards[myLoop] = Math.floor(Math.random()*10)
+  }
 }">
 
-<input type=button value="Show" onClick="{
-  let myTemp = '';
-  for (let myLoop = 0; myLoop < myMax; myLoop++){
-  myTemp += myLoop + ' = ' + myCards[myLoop] + '<br>'}
-  document.getElementById('myDiv01').innerHTML = myTemp
-  drawBars()
-}">
+<div class="hero">
+  <svg viewBox="0 0 96 64" aria-hidden="true">
+    <polygon points="48,4 92,60 4,60" fill="#d9a441"/>
+    <polygon points="48,4 92,60 56,60" fill="#b07f22"/>
+    <polygon points="48,28 66,60 30,60" fill="#2a1a0a"/>
+    <line x1="48" y1="4" x2="48" y2="0" stroke="#f3f0d6" stroke-width="2"/>
+  </svg>
+  <h2>Sara's Campfire Sorter</h2>
+  <p>Roll the numbers, then watch the forest put every tree in order.</p>
+</div>
 
-<input type=button value="sort" onClick="{
-    let myTemp = 0
-    for (let myLoop = 0; myLoop < myMax; myLoop++){
-
-    //you do this stuff
-
-    for (let myLoop2 = 0; myLoop2 < myMax - 1; myLoop2++){
-        if (myCards[myLoop2] > myCards[myLoop2 + 1]){
+<div class="panel">
+  <h3>Sorting Camp</h3>
+  <p class="sub">Your original buttons, plus live statistics and five animated algorithms.</p>
+  <div class="row">
+    <input type=button value="Set random" onclick="{
+      for (let myLoop = 0; myLoop < myMax; myLoop++){
+        myCards[myLoop] = Math.floor(Math.random()*10)}
+      say('Random numbers created.'); drawBars()
+    }">
+    <input type=button value="Show" onClick="{
+      let myTemp = '';
+      for (let myLoop = 0; myLoop < myMax; myLoop++){
+        myTemp += myLoop + ' = ' + myCards[myLoop] + '<br>'}
+      say(myTemp); drawBars()
+    }">
+    <input type=button class="fire" value="sort" onClick="{
+      let myTemp = 0
+      for (let myLoop = 0; myLoop < myMax; myLoop++){
+        for (let myLoop2 = 0; myLoop2 < myMax - 1; myLoop2++){
+          if (myCards[myLoop2] > myCards[myLoop2 + 1]){
             myTemp = myCards[myLoop2]
             myCards[myLoop2] = myCards[myLoop2 + 1]
             myCards[myLoop2 + 1] = myTemp
+          }
         }
-    }
+      }
+      say('Sorted numbers: ' + myCards.join(' , '))
+      drawBars([], true); setLit(true)
+    }">
+  </div>
 
-    }
-    document.getElementById('myDiv01').innerHTML =
-    '🌸 Sorted numbers: ' + myCards.join(' , ')
-    drawBars()
-}">
+  <div class="row" style="margin-top:12px">
+    <label for="sizeRange">Trees: <b id="sizeVal">3</b></label>
+    <input type="range" id="sizeRange" min="3" max="12" value="3">
+    <label for="speedRange">Speed</label>
+    <input type="range" id="speedRange" min="1" max="10" value="6">
+  </div>
 
-<div id="myDiv01">Your numbers will appear here.</div>
-<div class="bars" id="myBars"></div>
+  <div id="myDiv01">Your numbers will appear here.</div>
 
+  <div class="stage" id="stage">
+    <div class="bars" id="myBars"></div>
+    <svg class="fire-svg" id="fireSvg" viewBox="0 0 78 78" aria-hidden="true">
+      <defs><radialGradient id="fg"><stop offset="0" stop-color="#ff9d3c" stop-opacity=".7"/><stop offset="1" stop-color="#ff5a1f" stop-opacity="0"/></radialGradient></defs>
+      <circle class="glow" cx="39" cy="50" r="38" fill="url(#fg)"/>
+      <g class="flames">
+        <path d="M39 12 C52 30 56 40 50 54 L28 54 C22 40 30 30 39 12Z" fill="#ff5a1f"/>
+        <path d="M39 26 C47 38 49 45 45 54 L33 54 C29 45 33 38 39 26Z" fill="#ffb347"/>
+        <path d="M39 40 C43 46 43 50 41 54 L37 54 C35 50 36 46 39 40Z" fill="#fff0b3"/>
+      </g>
+      <rect x="10" y="56" width="58" height="8" rx="4" fill="#5b3a1e" transform="rotate(-8 39 60)"/>
+      <rect x="10" y="56" width="58" height="8" rx="4" fill="#7a4e28" transform="rotate(8 39 60)"/>
+    </svg>
+  </div>
 
-<h2 style="margin-top:22px;">✨ Other Sorting Types</h2>
+  <div class="stats">
+    <div class="stat"><b id="stA">None</b><small>Algorithm</small></div>
+    <div class="stat"><b id="stC">0</b><small>Comparisons</small></div>
+    <div class="stat"><b id="stW">0</b><small>Writes</small></div>
+    <div class="stat"><b id="stT">0</b><small>Milliseconds</small></div>
+  </div>
 
-<input type=button value="Selection Sort" onclick="{
-    for (let myLoop = 0; myLoop < myMax; myLoop++){
-        let myMin = myLoop;
-
-        for (let myLoop2 = myLoop + 1; myLoop2 < myMax; myLoop2++){
-            if (myCards[myLoop2] < myCards[myMin]){
-                myMin = myLoop2;
-            }
-        }
-
-        let myTemp = myCards[myLoop];
-        myCards[myLoop] = myCards[myMin];
-        myCards[myMin] = myTemp;
-    }
-
-    document.getElementById('myDiv01').innerHTML =
-    '🌿 Selection sorted: ' + myCards.join(' , ');
-    drawBars();
-}">
-
-<input type=button value="Insertion Sort" onclick="{
-    for (let myLoop = 1; myLoop < myMax; myLoop++){
-        let myTemp = myCards[myLoop];
-        let myLoop2 = myLoop - 1;
-
-        while (myLoop2 >= 0 && myCards[myLoop2] > myTemp){
-            myCards[myLoop2 + 1] = myCards[myLoop2];
-            myLoop2--;
-        }
-
-        myCards[myLoop2 + 1] = myTemp;
-    }
-
-    document.getElementById('myDiv01').innerHTML =
-    '🌷 Insertion sorted: ' + myCards.join(' , ');
-    drawBars();
-}">
-
+  <h3 style="margin-top:24px">Animated Sorting Types</h3>
+  <div class="row">
+    <input type=button class="fire" value="Bubble Sort" onclick="runSort('bubble')">
+    <input type=button class="fire" value="Selection Sort" onclick="runSort('selection')">
+    <input type=button class="fire" value="Insertion Sort" onclick="runSort('insertion')">
+    <input type=button class="fire" value="Merge Sort" onclick="runSort('merge')">
+    <input type=button class="fire" value="Quick Sort" onclick="runSort('quick')">
+  </div>
+  <p id="algoInfo">Pick an algorithm to see how it works and how it scales.</p>
 </div>
 
-
-
-
-<div class="section">
-
-<h2>🌍 My Garden Location</h2>
-
-<input type=text id="gardenLocation" placeholder="Enter your city">
-
-<select id="plantMonth">
-<option value="">Choose planting month</option>
-<option>January</option>
-<option>February</option>
-<option>March</option>
-<option>April</option>
-<option>May</option>
-<option>June</option>
-<option>July</option>
-<option>August</option>
-<option>September</option>
-<option>October</option>
-<option>November</option>
-<option>December</option>
-</select>
-
-<button onclick="showGardenInfo()">Save Garden Details</button>
-
-<p id="gardenInfo">Your garden details will appear here.</p>
-
+<div class="panel">
+  <h3>Sort Race</h3>
+  <p class="sub">All five algorithms sort the same 24 random values at once. Every lane takes the same number of steps per frame, so the algorithm that needs the fewest steps finishes first.</p>
+  <div class="row">
+    <input type=button value="Start Race" onclick="startRace()">
+    <input type=button class="fire" value="New Data" onclick="newRaceData()">
+    <label for="raceSpeed">Race speed</label>
+    <input type="range" id="raceSpeed" min="1" max="8" value="2">
+  </div>
+  <div class="lanes" id="lanes"></div>
 </div>
 
-
-
-
-<div class="section">
-
-<h2>🌼 Add Plants To My Garden</h2>
-
-<input type=text id="plantName" placeholder="Enter plant name">
-
-<select id="plantEmoji">
-<option value="🌷">Tulip</option>
-<option value="🌻">Sunflower</option>
-<option value="🌹">Rose</option>
-<option value="🌱">Seedling</option>
-<option value="🌵">Cactus</option>
-<option value="🌿">Herb</option>
-<option value="🍓">Strawberry</option>
-<option value="🍅">Tomato</option>
-</select>
-
-<button onclick="addPlant()">Add Plant +</button>
-
-<div id="plantGarden">
-Your plants will appear here! 
+<div class="footer">Sleep under the stars. Sort with confidence.<br>Designed by Sara | 2026</div>
 </div>
-
-</div>
-
-
-<div class="section">
-
-<h2>🪴 Planting Tracker</h2>
-
-<div id="plantTracker">No plants planted yet.</div>
-
-<h2 id="progressText" style="margin-top:16px;">0 plants planted!</h2>
-
-<div class="track">
-<div id="progressBar" style="
-width:0%;
-height:18px;
-background:linear-gradient(90deg,#00ffe1,#ff35bd);
-border-radius:20px;
-transition:0.5s;">
-</div>
-</div>
-
-</div>
-
-
-
-<div class="section">
-<h2>Watering Station</h2>
-
-<h1 id="waterCount">💧 0</h1>
-
-<div class="tank"><div id="waterLevel"></div></div>
-
-<button onclick="waterPlants()">Water My Plants</button>
-
-<button onclick="resetWater()">Reset Counter</button>
-
-<p id="waterMessage">Your plants are waiting for water!</p>
-
-</div>
-
-
-<div class="footer">
- Grow with love. Bloom with confidence. 
-<br><br>
-Designed by Sara | 2026
-</div>
-
-</div>
-
-
-
 
 <script>
+function say(html){ document.getElementById('myDiv01').innerHTML = html }
 
-let myPlants = [];
-let myWater = 0;
-
-
-
-
-function showGardenInfo(){
-
-    let myLocation = document.getElementById('gardenLocation').value;
-    let myMonth = document.getElementById('plantMonth').value;
-
-    if(myLocation == '' || myMonth == ''){
-        alert('Please enter your location and planting month!');
-        return;
-    }
-
-    document.getElementById('gardenInfo').innerHTML =
-    '🌍 Location: ' + myLocation +
-    '<br>🌷 Planting month: ' + myMonth;
-
+function setLit(on){
+  document.getElementById('fireSvg').classList.toggle('lit', on)
+  document.getElementById('stage').classList.toggle('glow', on)
 }
 
-
-
-
-function addPlant(){
-
-    let myName = document.getElementById('plantName').value;
-    let myEmoji = document.getElementById('plantEmoji').value;
-
-    if(myName == ''){
-        alert('Enter a plant name!');
-        return;
-    }
-
-    myPlants.push({
-        name: myName,
-        emoji: myEmoji,
-        planted: false
-    });
-
-    document.getElementById('plantName').value = '';
-
-    showPlants();
-    updateProgress();
-
+function drawBars(cmp, done){
+  cmp = cmp || []
+  let html = ''
+  for (let i = 0; i < myMax; i++){
+    if (myCards[i] === undefined) continue
+    let cls = 'bar' + (cmp.indexOf(i) > -1 ? ' cmp' : '') + (done ? ' done' : '')
+    html += '<div class="' + cls + '"><div class="tree" style="height:' + (myCards[i] * 18 + 30) + 'px"></div><span>' + myCards[i] + '</span></div>'
+  }
+  document.getElementById('myBars').innerHTML = html || '<p class="hint">Press Set random to plant the first trees.</p>'
 }
 
+document.querySelector('input[value="Set Random"]').addEventListener('click', function(){
+  say('Random numbers created.'); setLit(false); drawBars()
+})
+document.querySelectorAll('input[value="Set random"]').forEach(function(b){
+  b.addEventListener('click', function(){ setLit(false) })
+})
 
+document.getElementById('sizeRange').addEventListener('input', function(e){
+  myMax = parseInt(e.target.value)
+  myCards = new Array(myMax)
+  document.getElementById('sizeVal').textContent = myMax
+  say('New camp size: ' + myMax + ' trees. Press Set random.')
+  setLit(false); drawBars()
+})
 
-
-function showPlants(){
-
-    let myTemp = '';
-
-    for(let myLoop = 0; myLoop < myPlants.length; myLoop++){
-
-        myTemp += '<div class="plantCard' + (myPlants[myLoop].planted ? ' done' : '') + '">';
-        myTemp += '<div class="plantEmoji">' + myPlants[myLoop].emoji + '</div>';
-        myTemp += '<h3>' + myPlants[myLoop].name + '</h3>';
-
-        myTemp += '<p>' +
-        (myPlants[myLoop].planted ? '🌱 Planted!' : 'Not planted yet') +
-        '</p>';
-
-        myTemp += '<button onclick="markPlanted(' + myLoop + ')">Mark Planted</button>';
-
-        myTemp += '<button onclick="removePlant(' + myLoop + ')">Remove</button>';
-
-        myTemp += '</div>';
+function* bubble(a, s){
+  const n = a.length
+  for (let i = 0; i < n; i++)
+    for (let j = 0; j < n - 1 - i; j++){
+      s.c++; yield [j, j + 1]
+      if (a[j] > a[j + 1]){ [a[j], a[j + 1]] = [a[j + 1], a[j]]; s.w++; yield [j, j + 1] }
     }
+}
+function* selection(a, s){
+  const n = a.length
+  for (let i = 0; i < n; i++){
+    let m = i
+    for (let j = i + 1; j < n; j++){ s.c++; yield [m, j]; if (a[j] < a[m]) m = j }
+    if (m !== i){ [a[i], a[m]] = [a[m], a[i]]; s.w++; yield [i, m] }
+  }
+}
+function* insertion(a, s){
+  for (let i = 1; i < a.length; i++){
+    const t = a[i]
+    let j = i - 1
+    while (j >= 0){
+      s.c++; yield [j, j + 1]
+      if (a[j] > t){ a[j + 1] = a[j]; s.w++; j-- } else break
+    }
+    a[j + 1] = t; s.w++; yield [j + 1]
+  }
+}
+function* merge(a, s){
+  function* ms(l, r){
+    if (r - l < 1) return
+    const m = (l + r) >> 1
+    yield* ms(l, m); yield* ms(m + 1, r)
+    const L = a.slice(l, m + 1), R = a.slice(m + 1, r + 1)
+    let i = 0, j = 0, k = l
+    while (i < L.length && j < R.length){
+      s.c++; yield [l + i, m + 1 + j]
+      a[k++] = L[i] <= R[j] ? L[i++] : R[j++]; s.w++; yield [k - 1]
+    }
+    while (i < L.length){ a[k++] = L[i++]; s.w++; yield [k - 1] }
+    while (j < R.length){ a[k++] = R[j++]; s.w++; yield [k - 1] }
+  }
+  yield* ms(0, a.length - 1)
+}
+function* quick(a, s){
+  function* qs(l, r){
+    if (l >= r) return
+    const p = a[r]
+    let i = l
+    for (let j = l; j < r; j++){
+      s.c++; yield [j, r]
+      if (a[j] < p){ [a[i], a[j]] = [a[j], a[i]]; s.w++; yield [i, j]; i++ }
+    }
+    [a[i], a[r]] = [a[r], a[i]]; s.w++; yield [i, r]
+    yield* qs(l, i - 1); yield* qs(i + 1, r)
+  }
+  yield* qs(0, a.length - 1)
+}
 
-    document.getElementById('plantGarden').innerHTML =
-    myTemp || 'Your garden is waiting for plants! 🌱';
+const ALG = {
+  bubble:    {name: 'Bubble Sort',    fn: bubble,    info: 'Swaps neighbours that are out of order, pass after pass. Time O(n&sup2;), extra space O(1).'},
+  selection: {name: 'Selection Sort', fn: selection, info: 'Finds the smallest remaining value on every pass. Time O(n&sup2;), extra space O(1).'},
+  insertion: {name: 'Insertion Sort', fn: insertion, info: 'Slides each value back into the sorted part. Time O(n&sup2;), best case O(n), space O(1).'},
+  merge:     {name: 'Merge Sort',     fn: merge,     info: 'Splits in half, sorts each half, then merges them. Time O(n log n), extra space O(n).'},
+  quick:     {name: 'Quick Sort',     fn: quick,     info: 'Partitions around a pivot, then sorts each side. Average O(n log n), worst O(n&sup2;), space O(log n).'}
+}
 
-    let myTracker = '';
+let busy = false
+const sleep = ms => new Promise(r => setTimeout(r, ms))
+const delay = () => 560 - document.getElementById('speedRange').value * 50
 
-    for(let myLoop = 0; myLoop < myPlants.length; myLoop++){
-        if(myPlants[myLoop].planted){
-            myTracker += myPlants[myLoop].emoji + ' ' +
-            myPlants[myLoop].name + '<br>';
+function lock(on){
+  busy = on
+  document.querySelectorAll('input[type=button]').forEach(b => b.disabled = on)
+  document.getElementById('sizeRange').disabled = on
+}
+
+function showStats(name, s, t0){
+  document.getElementById('stA').textContent = name
+  document.getElementById('stC').textContent = s.c
+  document.getElementById('stW').textContent = s.w
+  document.getElementById('stT').textContent = Math.round(performance.now() - t0)
+}
+
+async function runSort(key){
+  if (busy) return
+  for (let i = 0; i < myMax; i++){
+    if (myCards[i] === undefined){ say('Press Set random first.'); return }
+  }
+  lock(true); setLit(false)
+  const alg = ALG[key], s = {c: 0, w: 0}, t0 = performance.now()
+  document.getElementById('algoInfo').innerHTML = '<b>' + alg.name + '.</b> ' + alg.info
+  for (const hl of alg.fn(myCards, s)){
+    drawBars(hl); showStats(alg.name, s, t0)
+    await sleep(delay())
+  }
+  showStats(alg.name, s, t0)
+  say(alg.name + ' sorted: ' + myCards.join(' , ') + ' &mdash; the campfire is lit.')
+  drawBars([], true); setLit(true); lock(false)
+}
+
+const RACE_N = 24
+const ordinals = ['1st', '2nd', '3rd', '4th', '5th']
+let lanes = [], raceFrame = null
+
+function buildLanes(){
+  const box = document.getElementById('lanes')
+  box.innerHTML = ''
+  Object.keys(ALG).forEach(function(k){
+    const el = document.createElement('div')
+    el.className = 'lane'
+    el.innerHTML = '<header><h4>' + ALG[k].name + '</h4><span class="rank"></span></header><div class="laneBars"></div><small></small>'
+    box.appendChild(el)
+    lanes.push({key: k, el: el, bars: el.querySelector('.laneBars'), info: el.querySelector('small'), rank: el.querySelector('.rank')})
+  })
+}
+
+function renderLane(l, hl, done){
+  let html = ''
+  for (let i = 0; i < l.arr.length; i++){
+    const cls = done ? 'd' : (hl && hl.indexOf(i) > -1 ? 'c' : '')
+    html += '<i class="' + cls + '" style="height:' + l.arr[i] + '%"></i>'
+  }
+  l.bars.innerHTML = html
+  l.info.textContent = l.s.c + ' comparisons, ' + l.s.w + ' writes'
+}
+
+function newRaceData(){
+  if (busy) return
+  const data = Array.from({length: RACE_N}, () => 5 + Math.floor(Math.random() * 95))
+  lanes.forEach(function(l){
+    l.arr = data.slice(); l.s = {c: 0, w: 0}; l.done = false; l.hl = []
+    l.rank.textContent = ''; l.el.classList.remove('win')
+    renderLane(l, [])
+  })
+}
+
+function startRace(){
+  if (busy) return
+  newRaceData()
+  lock(true)
+  lanes.forEach(l => l.gen = ALG[l.key].fn(l.arr, l.s))
+  let place = 0
+  function tick(){
+    const per = parseInt(document.getElementById('raceSpeed').value)
+    let active = 0
+    lanes.forEach(function(l){
+      if (l.done) return
+      for (let n = 0; n < per; n++){
+        const r = l.gen.next()
+        if (r.done){
+          l.done = true
+          l.rank.textContent = ordinals[place]
+          if (place === 0) l.el.classList.add('win')
+          place++
+          renderLane(l, [], true)
+          return
         }
+        l.hl = r.value
+      }
+      renderLane(l, l.hl)
+      active++
+    })
+    if (active) raceFrame = requestAnimationFrame(tick)
+    else lock(false)
+  }
+  raceFrame = requestAnimationFrame(tick)
+}
+
+buildLanes()
+newRaceData()
+drawBars()
+
+;(function(){
+  const svg = document.getElementById('forestSvg')
+  function pines(color, n, hMin, hMax, w, base){
+    let out = ''
+    for (let i = 0; i < n; i++){
+      const x = (i + Math.random() * .8) * (1200 / n), h = hMin + Math.random() * (hMax - hMin), q = w * (.8 + Math.random() * .5)
+      const p = [[x, base - h], [x + q * .5, base - h * .55], [x + q * .25, base - h * .55], [x + q * .7, base - h * .2],
+        [x + q * .3, base - h * .2], [x + q * .3, base], [x - q * .3, base], [x - q * .3, base - h * .2],
+        [x - q * .7, base - h * .2], [x - q * .25, base - h * .55], [x - q * .5, base - h * .55]]
+      out += '<polygon fill="' + color + '" points="' + p.map(a => a.join(',')).join(' ') + '"/>'
     }
+    return out
+  }
+  svg.innerHTML =
+    '<polygon fill="#0a2230" points="0,230 0,150 120,90 230,140 380,70 520,135 680,60 820,130 960,85 1100,140 1200,100 1200,230"/>' +
+    pines('#0c3324', 36, 70, 120, 34, 230) +
+    pines('#0a2a1d', 26, 90, 160, 46, 230) +
+    pines('#05160e', 18, 120, 215, 62, 238)
+})()
 
-    document.getElementById('plantTracker').innerHTML =
-    myTracker || 'No plants planted yet.';
-}
+;(function(){
+  const cv = document.getElementById('skyCv'), cx = cv.getContext('2d')
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  let W, H, stars = [], flies = [], shots = []
 
+  function size(){
+    W = cv.width = innerWidth; H = cv.height = innerHeight
+    stars = Array.from({length: Math.round(W * H / 4200)}, () => ({
+      x: Math.random() * W, y: Math.random() * H * .8, r: Math.random() * 1.6 + .4,
+      p: Math.random() * 6.28, s: .5 + Math.random() * 1.8, hue: Math.random() < .2 ? '190,220,255' : Math.random() < .2 ? '255,230,190' : '255,255,255'
+    }))
+    flies = Array.from({length: 28}, () => ({
+      x: Math.random() * W, y: H * (.5 + Math.random() * .42),
+      vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .25, p: Math.random() * 6.28
+    }))
+  }
 
+  function frame(t){
+    cx.clearRect(0, 0, W, H)
+    const mx = W - Math.max(90, W * .12), my = 110
+    const g = cx.createRadialGradient(mx, my, 10, mx, my, 150)
+    g.addColorStop(0, 'rgba(243,240,214,.35)'); g.addColorStop(1, 'rgba(243,240,214,0)')
+    cx.fillStyle = g; cx.beginPath(); cx.arc(mx, my, 150, 0, 6.28); cx.fill()
+    cx.fillStyle = '#f3f0d6'; cx.beginPath(); cx.arc(mx, my, 34, 0, 6.28); cx.fill()
+    cx.fillStyle = 'rgba(150,150,120,.28)'
+    ;[[-10, -8, 8], [10, 6, 6], [-2, 14, 5]].forEach(c => { cx.beginPath(); cx.arc(mx + c[0], my + c[1], c[2], 0, 6.28); cx.fill() })
 
-function markPlanted(myLoop){
+    stars.forEach(function(s){
+      const a = .3 + .7 * (.5 + .5 * Math.sin(t / 1000 * s.s + s.p))
+      cx.fillStyle = 'rgba(' + s.hue + ',' + a + ')'
+      cx.beginPath(); cx.arc(s.x, s.y, s.r, 0, 6.28); cx.fill()
+      if (s.r > 1.5){
+        cx.strokeStyle = 'rgba(' + s.hue + ',' + a * .5 + ')'; cx.lineWidth = .6
+        cx.beginPath(); cx.moveTo(s.x - 5, s.y); cx.lineTo(s.x + 5, s.y); cx.moveTo(s.x, s.y - 5); cx.lineTo(s.x, s.y + 5); cx.stroke()
+      }
+    })
 
-    myPlants[myLoop].planted = !myPlants[myLoop].planted;
+    if (!still && Math.random() < .006) shots.push({x: Math.random() * W * .8, y: Math.random() * H * .35, vx: 8 + Math.random() * 5, vy: 3 + Math.random() * 3, l: 1})
+    shots = shots.filter(s => s.l > 0)
+    shots.forEach(function(s){
+      const lg = cx.createLinearGradient(s.x, s.y, s.x - s.vx * 8, s.y - s.vy * 8)
+      lg.addColorStop(0, 'rgba(255,255,255,' + s.l + ')'); lg.addColorStop(1, 'rgba(255,255,255,0)')
+      cx.strokeStyle = lg; cx.lineWidth = 2
+      cx.beginPath(); cx.moveTo(s.x, s.y); cx.lineTo(s.x - s.vx * 8, s.y - s.vy * 8); cx.stroke()
+      s.x += s.vx; s.y += s.vy; s.l -= .02
+    })
 
-    showPlants();
-    updateProgress();
+    flies.forEach(function(f){
+      if (!still){ f.x += f.vx + Math.sin(t / 900 + f.p) * .25; f.y += f.vy + Math.cos(t / 1100 + f.p) * .2 }
+      if (f.x < 0) f.x = W; if (f.x > W) f.x = 0; if (f.y < H * .45) f.y = H * .9; if (f.y > H) f.y = H * .5
+      const a = .35 + .65 * (.5 + .5 * Math.sin(t / 500 + f.p))
+      const fg = cx.createRadialGradient(f.x, f.y, 0, f.x, f.y, 9)
+      fg.addColorStop(0, 'rgba(220,255,120,' + a + ')'); fg.addColorStop(1, 'rgba(220,255,120,0)')
+      cx.fillStyle = fg; cx.beginPath(); cx.arc(f.x, f.y, 9, 0, 6.28); cx.fill()
+    })
+    if (!still) requestAnimationFrame(frame)
+  }
 
-}
-
-
-
-
-function removePlant(myLoop){
-
-    myPlants.splice(myLoop, 1);
-
-    showPlants();
-    updateProgress();
-
-}
-
-
-
-function updateProgress(){
-
-    let myPlanted = 0;
-
-    for(let myLoop = 0; myLoop < myPlants.length; myLoop++){
-        if(myPlants[myLoop].planted){
-            myPlanted++;
-        }
-    }
-
-    let myPercentage = myPlants.length == 0 ? 0 :
-    Math.round((myPlanted / myPlants.length) * 100);
-
-    document.getElementById('progressText').innerHTML =
-    myPlanted + ' out of ' + myPlants.length +
-    ' plants planted! ' + myPercentage + '%';
-
-    document.getElementById('progressBar').style.width =
-    myPercentage + '%';
-
-}
-
-
-
-
-function waterPlants(){
-
-    myWater++;
-
-    document.getElementById('waterCount').innerHTML =
-    '💧 ' + myWater;
-
-    document.getElementById('waterMessage').innerHTML =
-    '🌸 Your garden has been watered ' + myWater + ' times!';
-
-    document.getElementById('waterLevel').style.width =
-    Math.min(myWater * 10, 100) + '%';
-
-}
-
-
-
-function resetWater(){
-
-    myWater = 0;
-
-    document.getElementById('waterCount').innerHTML = '💧 0';
-
-    document.getElementById('waterMessage').innerHTML =
-    'Water counter reset!';
-
-    document.getElementById('waterLevel').style.width = '0%';
-
-}
-
-
-document.getElementById('plantName').addEventListener('keydown', function(e){
-    if (e.key === 'Enter') { addPlant(); }
-});
-
+  size(); requestAnimationFrame(frame)
+  addEventListener('resize', function(){ size(); if (still) requestAnimationFrame(frame) })
+})()
 </script>
-
 </body>
 </html>
