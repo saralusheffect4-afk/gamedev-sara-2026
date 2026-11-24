@@ -1,64 +1,166 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>moving objects</title>
-<title>objects</title>
+<title>Browser Hack by Sara</title>
+
 <style>
-:root{--gold:#dfc184;--gold2:#fceea7;--red:#c8102e;--dred:#5a0000;--ink:#0b0b0b;
-padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{
+--gold:#dfc184;
+--gold2:#fceea7;
+--red:#c8102e;
+--dred:#5a0000;
+--ink:#0b0b0b;
+}
+
 *{box-sizing:border-box}
-body{margin:0;padding:24px;color:#f2ebd9;font-family:'Times New Roman',Georgia,serif;
-background:radial-gradient(circle at 20% 0,#2a0505,#0b0b0b 55%,#1a0000);min-height:100%}
-#fx{position:fixed;inset:0;z-index:0;pointer-events:none}
-.container{position:relative;z-index:1;max-width:1080px;margin:auto;background:rgba(17,17,17,.92);padding:30px;
-border-radius:18px;border:2px solid var(--gold);animation:pulse 4s ease-in-out infinite}
-@keyframes pulse{50%{box-shadow:0 0 35px rgba(223,193,132,.45),0 0 70px rgba(200,16,46,.4)}
-0%,100%{box-shadow:0 0 18px rgba(223,193,132,.2),0 0 40px rgba(200,16,46,.2)}}
-h1{margin:0 0 6px;text-align:center;padding:24px;border-radius:12px;letter-spacing:4px;color:var(--gold2);
-background:linear-gradient(135deg,#8b0000,#3a0101);border:1px solid var(--gold);
-text-shadow:0 0 10px gold,0 0 24px crimson;position:relative;overflow:hidden}
-h1::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;
-background:linear-gradient(100deg,transparent,rgba(255,235,160,.35),transparent);animation:shine 4s infinite}
-@keyframes shine{to{left:130%}}
-.neon{text-align:center;font-size:1.3rem;color:var(--red);letter-spacing:6px;text-transform:uppercase;
-text-shadow:0 0 6px #ff2040,0 0 18px #ff2040;animation:flick 3s infinite;margin:14px 0}
-@keyframes flick{0%,19%,22%,62%,64%,100%{opacity:1}20%,63%{opacity:.4}}
-h3{color:var(--gold);text-shadow:0 0 8px rgba(223,193,132,.5)}
-p,.note{line-height:1.7;color:#dcd0bc}
-.note{background:#161313;border-left:4px solid var(--red);padding:14px 18px;border-radius:8px}
-input[type=button]{background:linear-gradient(135deg,#a40000,#660000);color:var(--gold2);border:1px solid var(--gold);
-padding:10px 14px;margin:4px;border-radius:8px;cursor:pointer;font-weight:bold;font-family:inherit;
-box-shadow:0 0 8px rgba(220,20,60,.45);transition:.25s;position:relative;overflow:hidden}
-input[type=button]:hover{background:linear-gradient(135deg,var(--gold),#b28c51);color:#0b0b0b;
-transform:translateY(-2px);box-shadow:0 0 18px var(--gold),0 0 30px rgba(255,215,0,.6)}
-input[type=button]:active{transform:scale(.95)}
-input[type=button].on{outline:2px solid #ff2040;box-shadow:0 0 18px #ff2040}
-textarea,input[type=text]{width:100%;padding:12px;border:1px solid var(--gold);border-radius:8px;background:#1a1a1a;
-color:var(--gold2);font-family:monospace;box-shadow:inset 0 0 8px #000;margin:4px 0}
-textarea:focus,input[type=text]:focus{outline:none;box-shadow:0 0 14px var(--gold)}
-.stage{position:relative;height:300px;border:1px solid var(--gold);border-radius:14px;overflow:hidden;margin:16px 0;
-background:linear-gradient(#1a0000,#050505 70%,#2a0a0a);box-shadow:inset 0 0 30px #000}
-.road{position:absolute;bottom:0;left:0;right:0;height:42px;background:repeating-linear-gradient(90deg,var(--gold) 0 40px,transparent 40px 80px) center/100% 3px no-repeat,#111;
-animation:road 1s linear infinite;background-position:0 50%}
-@keyframes road{to{background-position:-80px 50%}}
-#move1{position:absolute;left:20px;top:70px;width:400px;height:200px;object-fit:cover;border-radius:12px;
-border:3px solid var(--gold);box-shadow:0 0 18px rgba(220,20,60,.7),0 0 30px rgba(223,193,132,.4);transition:box-shadow .3s}
-#move1:hover{box-shadow:0 0 25px #ff1a1a,0 0 40px var(--gold)}
-#vml{position:absolute;right:10px;top:8px;width:220px;height:110px;opacity:.9}
-.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.stat{color:var(--gold);font-size:.9rem;margin-left:auto}
-.back{font-size:25px!important}
-.grid{display:flex;flex-wrap:wrap}
+
+body{
+margin:0;
+padding:24px;
+color:#f2ebd9;
+font-family:'Times New Roman',Georgia,serif;
+background:radial-gradient(circle at 20% 0,#2a0505,#0b0b0b 55%,#1a0000);
+min-height:100%;
+}
+
+.container{
+position:relative;
+max-width:1080px;
+margin:auto;
+background:rgba(17,17,17,.92);
+padding:30px;
+border-radius:18px;
+border:2px solid var(--gold);
+}
+
+h1{
+margin:0 0 6px;
+text-align:center;
+padding:24px;
+border-radius:12px;
+letter-spacing:4px;
+color:var(--gold2);
+background:linear-gradient(135deg,#8b0000,#3a0101);
+border:1px solid var(--gold);
+text-shadow:0 0 10px gold,0 0 24px crimson;
+}
+
+.neon{
+text-align:center;
+font-size:1.3rem;
+color:var(--red);
+letter-spacing:6px;
+text-transform:uppercase;
+text-shadow:0 0 6px #ff2040,0 0 18px #ff2040;
+margin:14px 0;
+}
+
+h3{
+color:var(--gold);
+text-shadow:0 0 8px rgba(223,193,132,.5);
+}
+
+p,.note{
+line-height:1.7;
+color:#dcd0bc;
+}
+
+.note{
+background:#161313;
+border-left:4px solid var(--red);
+padding:14px 18px;
+border-radius:8px;
+}
+
+input[type=button]{
+background:linear-gradient(135deg,#a40000,#660000);
+color:var(--gold2);
+border:1px solid var(--gold);
+padding:10px 14px;
+margin:4px;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+font-family:inherit;
+box-shadow:0 0 8px rgba(220,20,60,.45);
+}
+
+input[type=button]:hover{
+background:linear-gradient(135deg,var(--gold),#b28c51);
+color:#0b0b0b;
+}
+
+textarea,input[type=text]{
+width:100%;
+padding:12px;
+border:1px solid var(--gold);
+border-radius:8px;
+background:#1a1a1a;
+color:var(--gold2);
+font-family:monospace;
+margin:4px 0;
+}
+
+textarea:focus,input[type=text]:focus{
+outline:none;
+box-shadow:0 0 14px var(--gold);
+}
+
+.stage{
+position:relative;
+height:300px;
+border:2px solid var(--gold);
+border-radius:14px;
+overflow:hidden;
+margin:16px 0;
+background:#111;
+box-shadow:0 0 15px rgba(223,193,132,.2);
+}
+
+#myPic1{
+position:absolute;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+width:90%;
+height:90%;
+object-fit:contain;
+border-radius:8px;
+}
+
+.bar{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+align-items:center;
+}
+
+.stat{
+color:var(--gold);
+font-size:.9rem;
+margin-left:auto;
+}
+
+.back{
+font-size:25px!important;
+}
+
+.grid{
+display:flex;
+flex-wrap:wrap;
+}
 </style>
+
 <script>
 document.name="myDocument"
 window.name="myWindow"
 document.cookie = "cookieName=fred"
 
 var splitIndex = 0;
-var splitArray = new Array();
+var splitArray = [];
 
 function splits(string,text) {
     var strLength = string.length, txtLength = text.length;
@@ -70,17 +172,24 @@ function splits(string,text) {
     if (i+txtLength < strLength) splits(string.substring(i+txtLength,strLength),text);
     return;
 }
+
 function join(arrayName) {
     var temp = '';
     for (var i=0; i<splitIndex; i++) temp += arrayName[i] + '\n';
     if (escape(temp.substring(0,1)) == '%0A') return temp.substring(1,temp.length);
     else return temp;
 }
+
 function sort(arrayName) {
     for (var i=0; i<(splitIndex-1); i++)
         for (var j=i+1; j<splitIndex; j++)
-            if (arrayName[j] < arrayName[i]) { var dummy = arrayName[i]; arrayName[i] = arrayName[j]; arrayName[j] = dummy; }
+            if (arrayName[j] < arrayName[i]) {
+                var dummy = arrayName[i];
+                arrayName[i] = arrayName[j];
+                arrayName[j] = dummy;
+            }
 }
+
 function sorttext() {
     split(document.myForm.myTextarea.value,'\n');
     sort(splitArray);
@@ -93,132 +202,138 @@ function split(string,text) {
 }
 
 var AC, soundOn = true;
+
 function beep(f, d){
   if(!soundOn) return;
-  try{ AC = AC || new (window.AudioContext||window.webkitAudioContext)();
-    var o=AC.createOscillator(), g=AC.createGain(); o.type='triangle'; o.frequency.value=f||440;
-    g.gain.value=.05; o.connect(g); g.connect(AC.destination); o.start(); g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(d||.15)); o.stop(AC.currentTime+(d||.15)); }catch(e){}
+  try{
+    AC = AC || new (window.AudioContext||window.webkitAudioContext)();
+    var o=AC.createOscillator(), g=AC.createGain();
+    o.type='triangle';
+    o.frequency.value=f||440;
+    g.gain.value=.05;
+    o.connect(g);
+    g.connect(AC.destination);
+    o.start();
+    g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(d||.15));
+    o.stop(AC.currentTime+(d||.15));
+  }catch(e){}
 }
-
 
 function myObjectData(myObject){
  window.status = 'Please Wait'
  document.myForm.myText1.value = ''
  document.myForm.myTextarea.value = ''
  beep(300+Math.random()*400);
+
  if(myObject===undefined||myObject===null){
    document.myForm.myText1.value='(not available in this browser)';
    document.myForm.myTextarea.value='This object does not exist here. Try another button. Note: Objects will not work until a real instance is on the page!';
-   document.getElementById('count').textContent='0 members'; return; }
+   document.getElementById('count').textContent='0 members';
+   return;
+ }
+
  var nm = myObject.name || (myObject.constructor && myObject.constructor.name) || myObject.id || 'object';
  var out = [], myLoop = 0;
+
  for (var prop in myObject){
     myLoop+=1;
-    var v; try{ v = String(myObject[prop]).replace(/\s+/g,' ').slice(0,160);}catch(e){ v='[Not accessible]'; }
+    var v;
+    try{
+      v = String(myObject[prop]).replace(/\s+/g,' ').slice(0,160);
+    }catch(e){
+      v='[Not accessible]';
+    }
     out.push(nm+'.'+prop+'='+v);
     if (myLoop % 3 == 1){ window.status += '.'}
  }
- document.myForm.myText1.value = window.name + '.' + nm  
+
+ document.myForm.myText1.value = window.name + '.' + nm;
  document.myForm.myTextarea.value = out.join('\n');
- window.status += 'Loaded '
- sorttext()
- window.status += 'Sorted.'
+ window.status += 'Loaded ';
+ sorttext();
+ window.status += 'Sorted.';
  document.getElementById('count').textContent = myLoop+' members';
 }
 
-
-document.counter=0  
-var anim=null;
-function moreAnimations(){
-  document.counter+=1
-  var p=document.getElementById('myPic1')
-  p.style.left=(p.offsetLeft+2)+'px'
-  p.style.top=(p.offsetTop+1)+'px'
-  if ((document.counter>10) && (document.counter<20)){
-      p.style.height=(parseInt(p.style.height||p.offsetHeight)+10)+'px'
-  }
+function toggleSound(b){
+soundOn=!soundOn;
+b.value=soundOn?'Sound: ON':'Sound: OFF';
+beep(600);
 }
 
-function driveCar(){
-  var st=document.getElementById('stage'), p=document.getElementById('myPic1'), dir=1;
-  if(anim){cancelAnimationFrame(anim);anim=null;document.getElementById('goBtn').classList.remove('on');return;}
-  document.getElementById('goBtn').classList.add('on'); beep(120,.4);
-  (function loop(){
-    var max=st.clientWidth-p.offsetWidth-10;
-    p.style.left=Math.max(0,Math.min(max,p.offsetLeft+3*dir))+'px';
-    p.style.top=(70+Math.sin(Date.now()/250)*20)+'px';
-    if(p.offsetLeft>=max||p.offsetLeft<=0) dir=-dir;
-    anim=requestAnimationFrame(loop);
-  })();
-}
 function resetCar(){
-  if(anim){cancelAnimationFrame(anim);anim=null;document.getElementById('goBtn').classList.remove('on');}
-  var p=document.getElementById('myPic1'); document.counter=0;
-  p.style.left='20px'; p.style.top='70px'; p.style.height='200px';
-  document.myForm.myTextarea.value=''; document.myForm.myText1.value=''; document.getElementById('count').textContent='0 members';
-}
-function toggleSound(b){soundOn=!soundOn;b.value=soundOn?'Sound: ON':'Sound: OFF';beep(600)}
-function copyOut(){var t=document.myForm.myTextarea;t.select();try{document.execCommand('copy')}catch(e){}beep(900)}
-function filterOut(q){
-  var all=(window._full||(window._full=document.myForm.myTextarea.value)).split('\n');
-  document.myForm.myTextarea.value=q?all.filter(function(l){return l.toLowerCase().indexOf(q.toLowerCase())>-1}).join('\n'):all.join('\n');
+document.myForm.myTextarea.value='';
+document.myForm.myText1.value='';
+document.getElementById('count').textContent='0 members';
 }
 
-function chromeObj(){return window.chrome}
+function copyOut(){
+var t=document.myForm.myTextarea;
+t.select();
+try{document.execCommand('copy')}catch(e){}
+beep(900);
+}
+
+function filterOut(q){
+var all=(window._full||(window._full=document.myForm.myTextarea.value)).split('\n');
+document.myForm.myTextarea.value=q?all.filter(function(l){
+return l.toLowerCase().indexOf(q.toLowerCase())>-1
+}).join('\n'):all.join('\n');
+}
+
+function chromeObj(){
+return window.chrome;
+}
 </script>
 </head>
 
 <body bgcolor="#81F7F3">
-<canvas id="fx"></canvas>
+
 <div class="container">
 
 <h1><b>Browser Hack by Sara</b></h1>
+
 <br>
+
 <div class="neon">Object Sort base</div>
 
 <h3>Instructions t2a17-Hackbrowser</h3>
+
 <div class="note">
-Use the first 15 buttons to decide on what words to enter for the last 5 buttons to gain
-interesting information from your present web browser. Note: The results may be different on
-Chrome, Safari, IE or phonegap. Those differences may be useful when programming. Also note:
-Objects will not work until a real instance of the object is on the web page!
+
 </div>
+
 <br><br>
 
 <div class="stage" id="stage">
 
-  <svg id="vml" viewBox="0 0 220 110" fill="none" stroke-linecap="round">
-    <circle cx="170" cy="40" r="26" stroke="#ff2040" stroke-width="3" style="filter:drop-shadow(0 0 6px #ff2040)"/>
-    <path d="M10 95 Q60 20 110 60 T210 30" stroke="#dfc184" stroke-width="3" style="filter:drop-shadow(0 0 6px gold)">
-      <animate attributeName="stroke-dasharray" values="0 400;400 0" dur="3s" repeatCount="indefinite"/></path>
-    <polygon points="30,20 40,45 65,45 45,60 52,85 30,70 8,85 15,60 -5,45 20,45" stroke="#ff2040" stroke-width="2" transform="translate(20 0) scale(.6)"/>
-  </svg>
-  <img id="myPic1" style="left:20px;top:70px" height="200"
-   src="https://i.pinimg.com/originals/b0/e3/f5/b0e3f5543ae4e3d48630bdcb2707c6f4.jpg"
-   alt="Red sports car"
-   onerror="this.onerror=null;this.src='data:image/svg+xml,'+encodeURIComponent('<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 200%22><rect width=%22400%22 height=%22200%22 fill=%22%23120000%22/><path d=%22M30 130 Q40 90 110 80 L170 55 Q230 45 270 80 L350 95 Q380 105 375 135 Z%22 fill=%22%23c8102e%22 stroke=%22%23dfc184%22 stroke-width=%223%22/><path d=%22M135 82 L175 62 Q215 56 245 82 Z%22 fill=%22%23222%22/><circle cx=%2294%22 cy=%22138%22 r=%2230%22 fill=%22%23111%22 stroke=%22%23dfc184%22 stroke-width=%224%22/><circle cx=%22305%22 cy=%22138%22 r=%2230%22 fill=%22%23111%22 stroke=%22%23dfc184%22 stroke-width=%224%22/><text x=%22200%22 y=%22185%22 fill=%22%23dfc184%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2218%22>PORSCHE</text></svg>')">
-  <div class="road"></div>
+<img id="myPic1"
+src="https://i.pinimg.com/originals/b0/e3/f5/b0e3f5543ae4e3d48630bdcb2707c6f4.jpg"
+alt="Red sports car"
+onerror="this.onerror=null;this.src='data:image/svg+xml,'+encodeURIComponent('<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 200%22><rect width=%22400%22 height=%22200%22 fill=%22%23120000%22/><path d=%22M30 130 Q40 90 110 80 L170 55 Q230 45 270 80 L350 95 Q380 105 375 135 Z%22 fill=%22%23c8102e%22 stroke=%22%23dfc184%22 stroke-width=%223%22/><path d=%22M135 82 L175 62 Q215 56 245 82 Z%22 fill=%22%23222%22/><circle cx=%2294%22 cy=%22138%22 r=%2230%22 fill=%22%23111%22 stroke=%22%23dfc184%22 stroke-width=%224%22/><circle cx=%22305%22 cy=%22138%22 r=%2230%22 fill=%22%23111%22 stroke=%22%23dfc184%22 stroke-width=%224%22/><text x=%22200%22 y=%22185%22 fill=%22%23dfc184%22 text-anchor=%22middle%22 font-family=%22serif%22 font-size=%2218%22>PORSCHE</text></svg>')">
+
 </div>
 
 <div class="bar">
-  <input type="button" id="goBtn" value="Drive" onclick="driveCar()">
-  <input type="button" value="Nudge (moreAnimations)" onclick="moreAnimations()">
-  <input type="button" value="Reset" onclick="resetCar()">
-  <input type="button" value="Sound: ON" onclick="toggleSound(this)">
+<input type="button" value="Sound: ON" onclick="toggleSound(this)">
+<input type="button" value="Reset" onclick="resetCar()">
 </div>
 
 <form name="myForm2">
-  <textarea name="myTextarea" rows="2">wow</textarea>
-  <input type=text name="myText1" id="myText2" size=50 value=""><br>
+<textarea name="myTextarea" rows="2">wow</textarea>
+<input type=text name="myText1" id="myText2" size=50 value=""><br>
 </form>
 
 <h3>Click the buttons to see all useable properties and methods of the object. Click refresh to reset Browser</h3>
+
 <form name="myForm">
 
 <audio id="myFred3" src=""></audio>
+
 <input type=text name="myText1" size=50 value="">
 
 <div class="grid">
+
 <input type=button value="1 window" onclick="{myObjectData(window)}">
 <input type=button value="2 document" onclick="{myObjectData(document)}">
 <input type=button value="3 document.myForm2" onclick="{myObjectData(document.myForm2)}">
@@ -239,30 +354,43 @@ Objects will not work until a real instance of the object is on the web page!
 <input type=button value="18 performance" onclick="{myObjectData(window.performance)}">
 <input type=button value="19 document.body" onclick="{myObjectData(document.body)}">
 <input type=button value="20 Image prototype" onclick="{myObjectData(window.Image.prototype)}">
+
 </div>
+
 <div class="bar" style="margin-top:8px">
-  <input type=button value="Sort A-Z" onclick="sorttext()">
-  <input type=button value="Copy" onclick="copyOut()">
-  <input type=text placeholder="Filter results..." style="width:220px" oninput="filterOut(this.value)" onfocus="window._full=document.myForm.myTextarea.value">
-  <span class="stat" id="count">0 members</span>
+
+<input type=button value="Sort A-Z" onclick="sorttext()">
+<input type=button value="Copy" onclick="copyOut()">
+
+<input type=text placeholder="Filter results..." style="width:220px"
+oninput="filterOut(this.value)"
+onfocus="window._full=document.myForm.myTextarea.value">
+
+<span class="stat" id="count">0 members</span>
+
 </div>
+
 <textarea name="myTextarea" rows=20 cols=70 wrap></textarea>
+
 </form>
 
-<br>At the bottom of every page make sure you include the following button:<br>
+<br>
 
-<input class="back" type=button value="Back" onclick="{window.history.back()}"><br><br>
+At the bottom of every page make sure you include the following button:
+
+<br>
+
+<input class="back" type=button value="Back" onclick="{window.history.back()}">
+
+<br><br>
 
 </div>
-<script>
 
-(function(){var c=document.getElementById('fx'),x=c.getContext('2d'),P=[],W,H;
-function rs(){W=c.width=innerWidth;H=c.height=innerHeight}rs();addEventListener('resize',rs);
-for(var i=0;i<70;i++)P.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2+.5,v:Math.random()*.6+.2,g:Math.random()<.6});
-(function t(){x.clearRect(0,0,W,H);P.forEach(function(p){p.y-=p.v;p.x+=Math.sin(p.y/40)*.3;if(p.y<-5){p.y=H+5;p.x=Math.random()*W}
-x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fillStyle=p.g?'rgba(223,193,132,.8)':'rgba(255,32,64,.8)';x.shadowBlur=12;x.shadowColor=x.fillStyle;x.fill()});
-requestAnimationFrame(t)})()})();
-document.addEventListener('click',function(e){if(e.target.type==='button')beep(500+Math.random()*300,.08)});
+<script>
+document.addEventListener('click',function(e){
+if(e.target.type==='button')beep(500+Math.random()*300,.08)
+});
 </script>
+
 </body>
 </html>
