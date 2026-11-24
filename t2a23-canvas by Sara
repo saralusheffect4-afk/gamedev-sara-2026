@@ -1,34 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>t2a23-canvas by Sara</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: #02030a;
+    background-image:
+      radial-gradient(1.5px 1.5px at 8% 14%, #ffffff, transparent),
+      radial-gradient(1px 1px at 19% 68%, #9be7ff, transparent),
+      radial-gradient(2px 2px at 31% 27%, #ff8ef0, transparent),
+      radial-gradient(1px 1px at 44% 84%, #ffffff, transparent),
+      radial-gradient(1.5px 1.5px at 57% 19%, #7df9ff, transparent),
+      radial-gradient(1px 1px at 68% 53%, #ffe699, transparent),
+      radial-gradient(2px 2px at 79% 12%, #c77dff, transparent),
+      radial-gradient(1px 1px at 86% 76%, #ffffff, transparent),
+      radial-gradient(1.5px 1.5px at 93% 38%, #4cc9f0, transparent),
+      radial-gradient(1px 1px at 14% 91%, #f72585, transparent),
+      radial-gradient(1px 1px at 38% 46%, #ffffff, transparent),
+      radial-gradient(1.5px 1.5px at 63% 90%, #72efdd, transparent),
+      radial-gradient(1px 1px at 74% 31%, #ffffff, transparent),
+      radial-gradient(2px 2px at 51% 62%, #b5179e, transparent),
+      radial-gradient(1px 1px at 26% 11%, #4895ef, transparent);
+    background-size: 420px 420px;
+    color: #e0f7ff;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 16px;
+    text-align: center;
+  }
+
+  h2 {
+    margin: 0 0 12px 0;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    color: #ffffff;
+    text-shadow:
+      0 0 6px #00f5d4,
+      0 0 16px #00bbf9,
+      0 0 32px #9b5de5;
+  }
+
+  .subtitle {
+    margin: 0 0 22px 0;
+    color: #b8e1ff;
+    font-size: 1rem;
+    text-shadow: 0 0 8px rgba(0, 245, 212, 0.35);
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  input[type="button"] {
+    background: rgba(10, 14, 34, 0.9);
+    color: #00f5d4;
+    border: 2px solid #00f5d4;
+    border-radius: 10px;
+    padding: 11px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    cursor: pointer;
+    box-shadow:
+      0 0 10px rgba(0, 245, 212, 0.45),
+      inset 0 0 10px rgba(0, 245, 212, 0.2);
+    transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+
+  input[type="button"]:nth-child(2) {
+    color: #ff4ecd;
+    border-color: #ff4ecd;
+    box-shadow:
+      0 0 10px rgba(255, 78, 205, 0.45),
+      inset 0 0 10px rgba(255, 78, 205, 0.2);
+  }
+
+  input[type="button"]:nth-child(3) {
+    color: #9d4edd;
+    border-color: #9d4edd;
+    box-shadow:
+      0 0 10px rgba(157, 78, 221, 0.45),
+      inset 0 0 10px rgba(157, 78, 221, 0.2);
+  }
+
+  input[type="button"]:hover {
+    transform: translateY(-2px);
+    background: #00f5d4;
+    color: #040612;
+    box-shadow:
+      0 0 16px #00f5d4,
+      0 0 32px rgba(0, 245, 212, 0.7);
+  }
+
+  input[type="button"]:nth-child(2):hover {
+    background: #ff4ecd;
+    color: #040612;
+    box-shadow:
+      0 0 16px #ff4ecd,
+      0 0 32px rgba(255, 78, 205, 0.7);
+  }
+
+  input[type="button"]:nth-child(3):hover {
+    background: #9d4edd;
+    color: #ffffff;
+    box-shadow:
+      0 0 16px #9d4edd,
+      0 0 32px rgba(157, 78, 221, 0.75);
+  }
+
+  input[type="button"]:active {
+    transform: translateY(0);
+  }
+
+  canvas#mycooltag {
+    display: block;
+    margin: 0 auto;
+    border-radius: 14px;
+    border: 2px solid #00bbf9;
+    box-shadow:
+      0 0 14px rgba(0, 187, 249, 0.7),
+      0 0 36px rgba(155, 93, 229, 0.55),
+      inset 0 0 24px rgba(0, 245, 212, 0.18);
+  }
+</style>
+</head>
+<body>
 <h2 align="center">t2a23-canvas by Sara</h2>
-Click the button to draw basic shapes, then ask AI to help you add more!<br><br> 
-<input type="button" value="Draw Basic Shapes" onclick="{ 
-  // 1. clear the canvas first so shapes dont overlap when clicked twice 
-  mycontext.clearRect(0,0, mycanvas.width, mycanvas.height);
-  //2. draw a simple line 
-  mycontext.beginPath(); 
-  mycontext.lineWidth = 3; 
-  mycontext.strokeStyle = 'black';
-  mycontext.moveTo(20,20); //Start point (x,y)
-  mycontext.lineTo(150,20); //End point (x,y)
-  mycontext.stroke(); 
-  //3. Draw a solid rectangle 
-  mycontext.fillStyle ='blue'; 
-  mycontext.fillRect(30,50,100,60); // (x,y, width, height) 
-  //4. draw a circle 
-  mycontext.beginPath(); 
-  mycontext.lineWidth=5; 
-  mycontext.strokeStyle='red';
-  mycontext.arc(220,80,40,0,2 *Math.PI); // (x,y, radius, start. end )
-  mycontext.stroke(); 
-  //5. write some text 
-  mycontext.fillStyle = 'red';
-  mycontext.font = '24px Arial'; 
-  mycontext.fillText('Hello World!', 30,180); //('text', x, y) 
-}"><br><br> 
-<!--smaller canvas so everything fits on 3/4 of a page --> 
-<canvas id="mycooltag" width="500" height="300" style="border:1px solid #000000;"></canvas>
-<script> 
-//set up global variables 
-let mycanvas = document.getElementById('mycooltag'); 
-let mycontext = mycanvas.getContext('2d'); 
+<p class="subtitle">Click the button to draw basic shapes, then ask AI to help you add more!</p>
+
+<div class="controls">
+  <input type="button" value="Draw Basic Shapes" onclick="{
+    mycontext.clearRect(0, 0, mycanvas.width, mycanvas.height);
+    drawGalaxyBackdrop();
+
+    mycontext.save();
+    mycontext.beginPath();
+    mycontext.lineWidth = 3;
+    mycontext.strokeStyle = '#00f5d4';
+    mycontext.shadowColor = '#00f5d4';
+    mycontext.shadowBlur = 14;
+    mycontext.moveTo(20, 20);
+    mycontext.lineTo(150, 20);
+    mycontext.stroke();
+    mycontext.restore();
+
+    mycontext.save();
+    mycontext.fillStyle = 'rgba(0, 187, 249, 0.45)';
+    mycontext.strokeStyle = '#4cc9f0';
+    mycontext.lineWidth = 2.5;
+    mycontext.shadowColor = '#00bbf9';
+    mycontext.shadowBlur = 16;
+    mycontext.fillRect(30, 50, 100, 60);
+    mycontext.strokeRect(30, 50, 100, 60);
+    mycontext.restore();
+
+    mycontext.save();
+    mycontext.beginPath();
+    mycontext.lineWidth = 5;
+    mycontext.strokeStyle = '#ff2a85';
+    mycontext.shadowColor = '#ff2a85';
+    mycontext.shadowBlur = 18;
+    mycontext.arc(220, 80, 40, 0, 2 * Math.PI);
+    mycontext.stroke();
+    mycontext.restore();
+
+    mycontext.save();
+    mycontext.fillStyle = '#ff5ca8';
+    mycontext.font = 'bold 24px Arial';
+    mycontext.shadowColor = '#ff2a85';
+    mycontext.shadowBlur = 15;
+    mycontext.fillText('Hello World!', 30, 180);
+    mycontext.restore();
+  }">
+
+  <input type="button" value="Draw Spiral Galaxy" onclick="{
+    mycontext.clearRect(0, 0, mycanvas.width, mycanvas.height);
+    drawGalaxyBackdrop();
+
+    const cx = mycanvas.width / 2;
+    const cy = mycanvas.height / 2;
+
+    const coreGrad = mycontext.createRadialGradient(cx, cy, 4, cx, cy, 65);
+    coreGrad.addColorStop(0, '#ffffff');
+    coreGrad.addColorStop(0.35, '#ff8ef0');
+    coreGrad.addColorStop(0.7, '#7209b7');
+    coreGrad.addColorStop(1, 'rgba(114, 9, 183, 0)');
+    mycontext.fillStyle = coreGrad;
+    mycontext.beginPath();
+    mycontext.arc(cx, cy, 65, 0, Math.PI * 2);
+    mycontext.fill();
+
+    const armColors = ['#00f5d4', '#ff4ecd', '#4cc9f0', '#c77dff'];
+    for (let arm = 0; arm < 4; arm++) {
+      mycontext.save();
+      mycontext.beginPath();
+      mycontext.strokeStyle = armColors[arm];
+      mycontext.shadowColor = armColors[arm];
+      mycontext.shadowBlur = 14;
+      mycontext.lineWidth = 2.5;
+
+      for (let i = 0; i <= 120; i++) {
+        const t = i / 120;
+        const angle = t * Math.PI * 3.2 + (arm * Math.PI) / 2;
+        const radius = 8 + t * 115;
+        const x = cx + Math.cos(angle) * radius;
+        const y = cy + Math.sin(angle) * radius * 0.65;
+        if (i === 0) {
+          mycontext.moveTo(x, y);
+        } else {
+          mycontext.lineTo(x, y);
+        }
+      }
+      mycontext.stroke();
+      mycontext.restore();
+    }
+
+    for (let s = 0; s < 70; s++) {
+      const angle = s * 2.39996;
+      const dist = Math.sqrt(s / 70) * 125;
+      const sx = cx + Math.cos(angle) * dist;
+      const sy = cy + Math.sin(angle) * dist * 0.65;
+      const r = (s % 3) * 0.7 + 0.8;
+      const col = armColors[s % armColors.length];
+
+      mycontext.save();
+      mycontext.fillStyle = col;
+      mycontext.shadowColor = col;
+      mycontext.shadowBlur = 10;
+      mycontext.beginPath();
+      mycontext.arc(sx, sy, r, 0, Math.PI * 2);
+      mycontext.fill();
+      mycontext.restore();
+    }
+  }">
+
+  <input type="button" value="Draw Neon Ringed Planet" onclick="{
+    mycontext.clearRect(0, 0, mycanvas.width, mycanvas.height);
+    drawGalaxyBackdrop();
+
+    const px = 250;
+    const py = 152;
+    const pr = 56;
+
+    mycontext.save();
+    mycontext.strokeStyle = '#ff4ecd';
+    mycontext.shadowColor = '#ff4ecd';
+    mycontext.shadowBlur = 16;
+    mycontext.lineWidth = 4;
+    mycontext.beginPath();
+    mycontext.ellipse(px, py, 128, 30, -0.24, Math.PI, Math.PI * 2);
+    mycontext.stroke();
+    mycontext.restore();
+
+    const planetGrad = mycontext.createRadialGradient(px - 18, py - 18, 8, px, py, pr);
+    planetGrad.addColorStop(0, '#72efdd');
+    planetGrad.addColorStop(0.45, '#4361ee');
+    planetGrad.addColorStop(0.85, '#3a0ca3');
+    planetGrad.addColorStop(1, '#12052e');
+
+    mycontext.save();
+    mycontext.fillStyle = planetGrad;
+    mycontext.shadowColor = '#4cc9f0';
+    mycontext.shadowBlur = 22;
+    mycontext.beginPath();
+    mycontext.arc(px, py, pr, 0, Math.PI * 2);
+    mycontext.fill();
+    mycontext.restore();
+
+    mycontext.save();
+    mycontext.strokeStyle = '#00f5d4';
+    mycontext.shadowColor = '#00f5d4';
+    mycontext.shadowBlur = 18;
+    mycontext.lineWidth = 5;
+    mycontext.beginPath();
+    mycontext.ellipse(px, py, 128, 30, -0.24, 0, Math.PI);
+    mycontext.stroke();
+    mycontext.restore();
+
+    mycontext.save();
+    mycontext.strokeStyle = 'rgba(199, 125, 255, 0.75)';
+    mycontext.shadowColor = '#c77dff';
+    mycontext.shadowBlur = 10;
+    mycontext.lineWidth = 2;
+    mycontext.beginPath();
+    mycontext.ellipse(px, py, 148, 36, -0.24, 0, Math.PI * 2);
+    mycontext.stroke();
+    mycontext.restore();
+
+    mycontext.save();
+    mycontext.fillStyle = '#ffe66d';
+    mycontext.shadowColor = '#ffe66d';
+    mycontext.shadowBlur = 14;
+    mycontext.beginPath();
+    mycontext.arc(415, 72, 11, 0, Math.PI * 2);
+    mycontext.fill();
+    mycontext.restore();
+  }">
+</div>
+
+<canvas id="mycooltag" width="500" height="300" style="border:1px solid #00bbf9;"></canvas>
+
+<script>
+let mycanvas = document.getElementById('mycooltag');
+let mycontext = mycanvas.getContext('2d');
+
+function drawGalaxyBackdrop() {
+  const spaceGrad = mycontext.createLinearGradient(0, 0, mycanvas.width, mycanvas.height);
+  spaceGrad.addColorStop(0, '#050414');
+  spaceGrad.addColorStop(0.5, '#12072b');
+  spaceGrad.addColorStop(1, '#040b1c');
+  mycontext.fillStyle = spaceGrad;
+  mycontext.fillRect(0, 0, mycanvas.width, mycanvas.height);
+
+  const nebula1 = mycontext.createRadialGradient(140, 110, 10, 140, 110, 150);
+  nebula1.addColorStop(0, 'rgba(255, 42, 133, 0.32)');
+  nebula1.addColorStop(0.5, 'rgba(157, 78, 221, 0.18)');
+  nebula1.addColorStop(1, 'rgba(157, 78, 221, 0)');
+  mycontext.fillStyle = nebula1;
+  mycontext.fillRect(0, 0, mycanvas.width, mycanvas.height);
+
+  const nebula2 = mycontext.createRadialGradient(360, 195, 10, 360, 195, 160);
+  nebula2.addColorStop(0, 'rgba(0, 245, 212, 0.28)');
+  nebula2.addColorStop(0.5, 'rgba(0, 187, 249, 0.15)');
+  nebula2.addColorStop(1, 'rgba(0, 187, 249, 0)');
+  mycontext.fillStyle = nebula2;
+  mycontext.fillRect(0, 0, mycanvas.width, mycanvas.height);
+
+  for (let i = 0; i < 95; i++) {
+    const x = ((i * 97 + 23) % (mycanvas.width - 10)) + 5;
+    const y = ((i * 53 + 17) % (mycanvas.height - 10)) + 5;
+    const radius = (i % 3 === 0) ? 1.8 : 1;
+    const colors = ['#ffffff', '#00f5d4', '#ff8ef0', '#90e0ef'];
+    const color = colors[i % colors.length];
+
+    mycontext.save();
+    mycontext.fillStyle = color;
+    mycontext.shadowColor = color;
+    mycontext.shadowBlur = (i % 4 === 0) ? 8 : 3;
+    mycontext.beginPath();
+    mycontext.arc(x, y, radius, 0, Math.PI * 2);
+    mycontext.fill();
+    mycontext.restore();
+  }
+}
+
+drawGalaxyBackdrop();
 </script>
- 
+</body>
+</html>
