@@ -10,11 +10,11 @@
 
 <style>
 :root {
-  --bg: #14100d;
+  --bg: #0d1a14;
   --text: #fff;
-  --muted: #c9b79c;
-  --accent: #61caff;
-  --neon: #61caff;
+  --muted: #9cc9b7;
+  --accent: #2ee6a8;
+  --neon: #2ee6a8;
   --card-radius: 22px;
   --serif: "Cormorant Garamond", Georgia, serif;
   --sans: "Montserrat", "Segoe UI", Arial, sans-serif;
@@ -28,19 +28,19 @@ body {
   font-family: var(--sans);
   background:
     linear-gradient(180deg, rgba(0,0,0,.55), transparent 30%),
-    repeating-linear-gradient(90deg, #1b1510 0 118px, #120d0a 118px 120px, #1b1510 120px 238px, rgba(201,160,80,.25) 238px 239px),
+    repeating-linear-gradient(90deg, #111b15 0 118px, #0a120e 118px 120px, #111b15 120px 238px, rgba(80,201,130,.25) 238px 239px),
     var(--bg);
 }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
 .boutique { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
 
-.track { position: absolute; top: 0; left: 0; right: 0; height: 10px; background: linear-gradient(#3a2e22, #17110c); border-bottom: 1px solid #c9a050; }
-.pendant { position: absolute; top: 0; width: 2px; background: #c9a050; }
+.track { position: absolute; top: 0; left: 0; right: 0; height: 10px; background: linear-gradient(#223a2e, #0d1711); border-bottom: 1px solid #50c990; }
+.pendant { position: absolute; top: 0; width: 2px; background: #50c990; }
 .pendant::after {
   content: ""; position: absolute; bottom: -2px; left: 50%; width: 64px; height: 34px; transform: translateX(-50%);
-  border-radius: 64px 64px 6px 6px; background: linear-gradient(#e7c36d, #8a6a26);
-  box-shadow: 0 18px 40px 6px var(--neon), 0 0 70px 14px rgba(255,214,140,.25);
+  border-radius: 64px 64px 6px 6px; background: linear-gradient(#6de7af, #268a57);
+  box-shadow: 0 18px 40px 6px var(--neon), 0 0 70px 14px rgba(140,255,190,.25);
   transition: box-shadow .6s ease;
 }
 .pendant:nth-child(2) { left: 14%; height: 70px; }
@@ -48,12 +48,12 @@ body {
 .pendant:nth-child(4) { left: 86%; height: 80px; }
 
 .cone { position: absolute; top: 10px; width: 320px; height: 70vh; clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
-  background: linear-gradient(180deg, rgba(255,235,190,.22), transparent 85%); opacity: .7; }
+  background: linear-gradient(180deg, rgba(190,255,220,.22), transparent 85%); opacity: .7; }
 .cone.c1 { left: 6%; } .cone.c2 { left: calc(50% - 160px); } .cone.c3 { right: 6%; }
 
-.frame { position: absolute; top: 24%; width: 110px; height: 150px; border: 6px solid #b8902f; outline: 2px solid var(--neon);
+.frame { position: absolute; top: 24%; width: 110px; height: 150px; border: 6px solid #2fb870; outline: 2px solid var(--neon);
   outline-offset: 6px; box-shadow: 0 0 22px var(--neon), inset 0 0 30px rgba(0,0,0,.8);
-  background: radial-gradient(circle at 50% 35%, rgba(255,255,255,.12), #0b0806 70%); transition: all .6s ease; }
+  background: radial-gradient(circle at 50% 35%, rgba(255,255,255,.12), #060b08 70%); transition: all .6s ease; }
 .frame::after { content: ""; position: absolute; left: 22%; right: 22%; bottom: 22%; height: 38%; border: 2px solid var(--neon); border-radius: 50% 50% 8px 8px; opacity: .6; }
 .frame.f1 { left: 2.5%; } .frame.f2 { right: 2.5%; }
 
@@ -61,8 +61,8 @@ body {
   background:
     linear-gradient(180deg, rgba(0,0,0,.7), transparent 40%),
     repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 2px, transparent 2px 140px),
-    linear-gradient(180deg, #2a2119, #0d0906);
-  border-top: 2px solid #b8902f; box-shadow: 0 -20px 60px -20px var(--neon); }
+    linear-gradient(180deg, #1d2a21, #060d09);
+  border-top: 2px solid #2fb870; box-shadow: 0 -20px 60px -20px var(--neon); }
 
 header { padding: 80px 20px 10px; text-align: center; position: relative; z-index: 2; }
 .neon-sign { display: inline-block; padding: 14px 38px; border: 3px solid var(--neon); border-radius: 18px;
@@ -75,65 +75,12 @@ header p { margin-top: 18px; color: var(--muted); letter-spacing: 4px; font-size
 
 .container { width: min(90%, 1100px); margin-inline: auto; padding-bottom: 80px; position: relative; z-index: 2; }
 
-
-.original-api-box {
-  width: 100%;
-  max-width: 850px;
-  margin: 35px auto;
-  padding: 28px 32px;
-  border-radius: var(--card-radius);
-  background: rgba(12, 8, 5, 0.9);
-  border: 2px solid var(--neon);
-  box-shadow: 0 0 20px var(--neon), inset 0 0 18px rgba(0, 0, 0, 0.7);
-  text-align: center;
-}
-.original-api-box h2 {
-  font: 700 24px var(--serif);
-  color: var(--theme-accent, var(--accent));
-  margin-bottom: 14px;
-  letter-spacing: 2px;
-}
-#mySelect {
-  width: min(100%, 320px);
-  padding: 10px 18px;
-  border-radius: 50px;
-  border: 2px solid var(--neon);
-  background: rgba(18, 13, 10, 0.95);
-  color: #fff;
-  font: 600 15px var(--sans);
-  box-shadow: 0 0 14px var(--neon);
-}
-#myDiv1 {
-  margin-top: 16px;
-  padding: 18px;
-  border-radius: 14px;
-  background: rgba(0, 0, 0, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  text-align: left;
-  color: #e7dccb;
-}
-#myDiv1 img {
-  display: block;
-  margin: 16px auto 0;
-  border-radius: 12px;
-  border: 2px solid var(--neon);
-  box-shadow: 0 0 20px var(--neon);
-}
-.research-divider {
-  margin: 22px 0 8px;
-  padding: 12px 18px;
-  border-top: 1px dashed var(--neon);
-  color: var(--muted);
-  font-size: 14px;
-  letter-spacing: 1px;
-}
-
 .select-area { display: flex; justify-content: center; margin: 40px auto; }
-.select-wrapper { width: min(100%, 360px); padding: 10px; background: rgba(10,7,5,.8); border: 2px solid var(--neon); border-radius: 50px;
+.select-wrapper { width: min(100%, 360px); padding: 10px; background: rgba(7,10,8,.8); border: 2px solid var(--neon); border-radius: 50px;
   box-shadow: 0 0 20px var(--neon), inset 0 0 14px rgba(255,255,255,.06); backdrop-filter: blur(8px); transition: all .5s ease; }
 .select-wrapper:hover, .select-wrapper:focus-within { box-shadow: 0 0 40px var(--neon), inset 0 0 20px var(--neon); }
 select { width: 100%; padding: 10px 15px; color: #fff; background: transparent; border: none; font: 600 15px var(--sans); text-align: center; cursor: pointer; outline: none; }
-select option { background: #120d0a; color: #fff; }
+select option { background: #0d120f; color: #fff; }
 
 #product-display { display: flex; flex-direction: column; align-items: center; gap: 30px; min-height: 400px; }
 .product-card { width: 100%; max-width: 850px; border-radius: var(--card-radius); overflow: hidden; position: relative;
@@ -150,7 +97,7 @@ select option { background: #120d0a; color: #fff; }
 .image-container::before { content: ""; position: absolute; top: 0; left: 18%; right: 18%; height: 100%;
   clip-path: polygon(35% 0, 65% 0, 100% 100%, 0 100%); background: linear-gradient(180deg, rgba(255,255,255,.2), transparent 80%); }
 .image-container::after { content: ""; position: absolute; left: 12%; right: 12%; bottom: 14px; height: 22px; border-radius: 6px;
-  background: linear-gradient(#e8d9b5, #8b7240); border-bottom: 3px solid var(--theme-accent); box-shadow: 0 8px 22px var(--theme-accent); }
+  background: linear-gradient(#b5e8d2, #408b63); border-bottom: 3px solid var(--theme-accent); box-shadow: 0 8px 22px var(--theme-accent); }
 .art.photo { max-width: 100%; max-height: 330px; object-fit: contain; border-radius: 12px; transition: transform .4s ease; }
 .art.photo:hover { transform: scale(1.05); }
 .art { position: relative; width: 100%; max-width: 280px; filter: drop-shadow(0 0 10px var(--theme-accent)); animation: float 5s ease-in-out infinite; z-index: 1; }
@@ -168,20 +115,20 @@ select option { background: #120d0a; color: #fff; }
 .json-explanation { margin-top: 10px; font-size: 12px; line-height: 1.6; color: var(--theme-description, #a9bfd7); }
 pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13px; line-height: 1.7; color: var(--theme-json-text, #cbd5e1); }
 
-.why-json { width: 100%; max-width: 850px; padding: 26px 32px; border-radius: 18px; background: rgba(12,8,5,.88);
+.why-json { width: 100%; max-width: 850px; padding: 26px 32px; border-radius: 18px; background: rgba(10,12,8,.88);
   border: 2px dashed var(--theme-border); box-shadow: 0 0 22px var(--theme-glow); }
 .why-json h3 { font: 700 26px var(--serif); margin-bottom: 10px; color: var(--theme-accent); text-shadow: 0 0 12px var(--theme-accent); }
-.why-json p { line-height: 1.8; font-size: 14px; color: #e7dccb; margin-bottom: 10px; }
+.why-json p { line-height: 1.8; font-size: 14px; color: #ccede0; margin-bottom: 10px; }
 .why-json strong { color: var(--theme-accent); }
 
-footer { padding: 30px; text-align: center; color: #8d7a5e; font-size: 12px; letter-spacing: 2px; position: relative; z-index: 2; }
+footer { padding: 30px; text-align: center; color: #5e8d77; font-size: 12px; letter-spacing: 2px; position: relative; z-index: 2; }
 
 @media (max-width: 1000px) { .frame, .cone.c1, .cone.c3 { display: none; } }
 @media (max-width: 700px) {
   .product-content { grid-template-columns: 1fr; padding: 20px; }
   .details h2 { font-size: 28px; }
   .image-container { min-height: 280px; }
-  .json-section, .why-json, .original-api-box { padding: 20px; }
+  .json-section, .why-json { padding: 20px; }
   .neon-sign { padding: 10px 18px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; } }
@@ -201,37 +148,10 @@ footer { padding: 30px; text-align: center; color: #8d7a5e; font-size: 12px; let
     <div class="neon-sign">
       <h1 align="center">t2a19-Sara-fred.html</h1>
     </div>
-    <p>THE ART OF EXCLUSIVE MASTERPIECES &amp; LIVE JSON FETCH</p>
+    <p>THE ART OF EXCLUSIVE MASTERPIECES</p>
   </header>
 
   <main class="container">
-    
-    <section class="original-api-box">
-      <h2>Live API JSON Fetch</h2>
-      <script>
-        async function fetchData(url){
-          const response = await fetch(url);
-          const data = await response.json();
-          console.log(data);
-          const myJson = JSON.stringify(data, null, 2);
-          document.getElementById('myDiv1').innerHTML = `<pre>${myJson}</pre>`;
-          document.getElementById('myDiv1').innerHTML += `<img src="${data.image}" alt="Random Image" style="max-width: 100%; height: auto;">`;
-        }
-      </script>
-
-      <select id="mySelect" size="1" onchange="fetchData(this.value)">
-        <option ></option>
-        <option value="https://randomfox.ca/floof/">randomfox</option>
-      </select><br><br>
-      <div id="myDiv1">...</div>
-
-      <div class="research-divider">
-        Put your JSON research below this part.
-      </div>
-    </section>
-  
-
-   
     <div class="select-area">
       <label class="visually-hidden" for="product-select">Choose a luxury item</label>
       <div class="select-wrapper">
